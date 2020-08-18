@@ -1,15 +1,15 @@
 import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 
-const NotificationCard = (props) => {
+const ProfileCard = (props) => {
     return (
         <View style= {styles.container}>
             <View style= {styles.flexContainer}>
                 {props.children}
             </View>
-            <Text style= {styles.textStyle}>
+            {/* <Text style= {styles.textStyle}>
                 {props.textDes}
-            </Text>
+            </Text> */}
         </View>
     )
 }
@@ -17,19 +17,9 @@ const styles = StyleSheet.create({
     container : {
         marginBottom: 15,
         backgroundColor: 'white',
-        minHeight: 50,
-        padding: 20,
+        minHeight: 54,
         borderWidth: 1,
         borderColor: '#E8E8E8',
-        // shadowColor: "black",
-        // shadowOffset: {
-        //     width: 3,
-        //     height: 3,
-        // },
-        // shadowOpacity: 0.15,
-        // shadowRadius: 3.84,
-
-        // elevation: 5,
         borderRadius: 5
     },
     flexContainer: {
@@ -37,6 +27,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
+        padding: 15
       
     },
     textStyle: {
@@ -45,4 +36,4 @@ const styles = StyleSheet.create({
     
 });
 
-export default NotificationCard
+export default ProfileCard;

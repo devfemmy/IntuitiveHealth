@@ -69,17 +69,13 @@ const HomeNavigator = (props) => {
             //   color="red"
             // />
           ), 
-          headerLeft: () => (
-            <TouchableOpacity onPress= {() => props.navigation.goBack()}>
-              <Image style= {{width: 35, height: 35, marginLeft: 10}} source= {require('../../assets/sliders/images/back.png')} />
-            </TouchableOpacity>
+          // headerLeft: () => (
+          //   <TouchableOpacity onPress= {() => props.navigation.goBack()}>
+          //     <Image style= {{width: 35, height: 35, marginLeft: 10}} source= {require('../../assets/sliders/images/back.png')} />
+          //   </TouchableOpacity>
 
-            // <Button
-            //   onPress={() => alert('This is a button!')}
-            //   title="Info"
-            //   color="red"
-            // />
-          ), 
+    
+          // ), 
           headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
         }}
           />

@@ -7,7 +7,8 @@ const DescriptionCard = (props) => {
         container: {
             backgroundColor: 'white',
             minHeight: 200,
-            maxHeight: 200,
+            maxHeight: 220,
+            paddingBottom: 20,
             minWidth: 150,
             maxWidth: 170,
             marginVertical: 20,

@@ -22,6 +22,7 @@ import LoginScreen from './Screens/LoginScreen';
 import HmoScreen from './Screens/HmoScreen';
 import FlatListDemo from './Screens/HmoScreen';
 import DrawerNav from './Navigations/DrawerNav';
+import StackNav from './Navigations/StackNav';
 
 export default function App() {
 
@@ -35,6 +36,7 @@ export default function App() {
     <>
   
       <DrawerNav/>
+      {/* <StackNav /> */}
      
    
    

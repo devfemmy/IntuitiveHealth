@@ -11,39 +11,37 @@ const WelcomeScreen = (props) => {
                 <ImageBackground source= {require('../assets/sliders/sliders/slider.png')}
                 style= {styles.sliderImg}
                 >
-                  <View style= {styles.lowerContainer}>
-                        <Text style= {styles.textStyle}>Book an appointment with the right doctor</Text>
                         <View style= {styles.btnOuterContainer}>
                             <TouchableOpacity style= {styles.btnContainer}>
                             <Text>GET STARTED</Text>
                             </TouchableOpacity>
                         </View>
-
+                  <View style= {styles.lowerContainer}>
+                        <Text style= {styles.textStyle}>Book an appointment with the right doctor</Text>
                   </View>
                 </ImageBackground>
                 <ImageBackground source= {require('../assets/sliders/sliders/slider2.png')}
                 style= {styles.sliderImg}
                 >
-                        <View style= {styles.lowerContainer}>
-                        <Text style= {styles.textStyle}>Get virtual consultation online with doctors on the go.</Text>
                         <View style= {styles.btnOuterContainer}>
                             <TouchableOpacity style= {styles.btnContainer}>
                             <Text>GET STARTED</Text>
                             </TouchableOpacity>
                         </View>
-
+                        <View style= {styles.lowerContainer}>
+                        <Text style= {styles.textStyle}>Get virtual consultation online with doctors on the go.</Text>
                   </View>
                 </ImageBackground>
                 <ImageBackground source= {require('../assets/sliders/sliders/slider3.png')}
                 style= {styles.sliderImg}
                 >
-                        <View style= {styles.lowerContainer}>
-                        <Text style= {styles.textStyle}>Keep you medical record history handy.</Text>
                         <View style= {styles.btnOuterContainer}>
                             <TouchableOpacity style= {styles.btnContainer}>
                             <Text>GET STARTED</Text>
                             </TouchableOpacity>
                         </View>
+                        <View style= {styles.lowerContainer}>
+                        <Text style= {styles.textStyle}>Keep you medical record history handy.</Text>
 
                   </View>
                 </ImageBackground>
@@ -55,7 +53,7 @@ const WelcomeScreen = (props) => {
                     <Text style= {styles.textStyle2}>Kindly select from the login option below to continue</Text>
                 </View>
                 <View style= {styles.cardContainer}>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress= {() => alert('This option is not yet available')}>
                     <View style= {styles.card}>
                         <View style= {styles.imgCont}>
                         <Image style= {styles.imageStyle} source= {require('../assets/sliders/images/imageicon2.png')} />
@@ -66,7 +64,7 @@ const WelcomeScreen = (props) => {
                         </View>
                     </View>
                     </TouchableOpacity>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress= {() => props.navigation.navigate('Hmo')}>
                     <View style= {styles.card}>
                         <View style= {styles.imgCont}>
                         <Image style= {styles.imageStyle} source= {require('../assets/sliders/images/imageicon.png')} />
@@ -113,7 +111,7 @@ const styles = StyleSheet.create({
     },
     imageStyle: {
         width: 100,
-        height: 120
+        height: 110
     },
     card: {
         backgroundColor: 'white',
@@ -145,6 +143,7 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-end',
         width: Dimensions.get('window').width,
         height: Dimensions.get('window').height,
+        // resizeMode: 'contain'
       
     },
     sliderImg2: {

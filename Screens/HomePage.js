@@ -2,11 +2,12 @@ import React from 'react';
 import { View, StyleSheet, Text, Image, Dimensions } from 'react-native';
 import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
 import DescriptionCard from '../Components/DescpCard';
+import Logo from '../assets/sliders/images/home.svg';
 
-const HomeScreen = () => {
+const HomeScreen = (props) => {
     return (
         <ScrollView style= {styles.container}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress= {()=> props.navigation.navigate('Profile')}>
         <View style= {styles.firstCont}>
                 <Image
                 style= {styles.imageStyle} 
@@ -25,7 +26,7 @@ const HomeScreen = () => {
             <TouchableOpacity>
                     <View style= {styles.card}>
                         <View style= {styles.imgCont}>
-                        <Image style= {styles.imageStyle3} source= {require('../assets/sliders/images/imageicon2.png')} />
+                            <Logo width= {100} height= {120} />
                         </View>
                         <View style= {styles.textContainer}>
                             <Text style= {styles.boldText}>Find a doctor</Text>

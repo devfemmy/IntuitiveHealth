@@ -94,9 +94,9 @@ class FlatListDemo extends Component {
           data={this.state.data}
           renderItem={({ item }) => (
             <ListItem
+            onPress= {() => this.props.navigation.navigate('Login')}
               leftAvatar={{ source: { uri: item.picture.thumbnail } }}
               title={`${item.name.first} ${item.name.last}`}
-              subtitle={item.email}
             />
           )}
           keyExtractor={item => item.email}

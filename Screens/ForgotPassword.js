@@ -12,14 +12,14 @@ const ForgotPassword = (props) => {
 
   return (
     <ScrollView style= {styles.container}>
-                <View style= {styles.backContainer}>
+                {/* <View style= {styles.backContainer}>
                     <TouchableOpacity onPress= {() => props.navigation.goBack()}>
                         <Image 
                         style= {{width: 50, height: 50}}
                         source= {require('../assets/sliders/images/back.png')} />
                     </TouchableOpacity>
 
-                </View>
+                </View> */}
                   <View style= {styles.inputContainer}>
                     <View style= {styles.formContainer}>
                         <Text style= {styles.forgotText}>Forgot your Password?</Text>

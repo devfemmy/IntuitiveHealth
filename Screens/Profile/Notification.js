@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, ScrollView, Image } from 'react-native';
 import NotificationCard from '../../Components/NotificationCard';
 
-const Notification = () => {
+const Notification = (props) => {
     return (
         <ScrollView style= {styles.container}>
             <NotificationCard textDes = "Dr John Doe just confirmed your appointment. Kindly go check you appointment page to follow up.">
@@ -29,6 +29,11 @@ const styles = StyleSheet.create({
     },
     textStyle: {
         color: '#9B9B9B'
+    },
+    backText: {
+        fontWeight: 'bold',
+        marginBottom: 15,
+        fontSize: 17
     }
 });
 

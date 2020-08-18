@@ -61,7 +61,7 @@ const LoginScreen = (props) => {
                       <Text style= {{textAlign: 'center', fontSize: 16, color: '#A884BF'}}>
                         Trouble signing in?
                       </Text>
-                      <Text style= {{textAlign: 'center', fontSize: 16, color: '#fff'}}>
+                      <Text onPress={() => props.navigation.navigate('Faq')} style= {{textAlign: 'center', fontSize: 16, color: '#fff'}}>
                         Contact Customer Support
                       </Text>
                       </View>

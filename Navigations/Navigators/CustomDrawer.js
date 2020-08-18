@@ -7,34 +7,61 @@ import {
 //   import {Avatar, Title, Caption, Paragraph,
 //   Drawer, TouchableRipple, Switch} from 'react-native-paper'
 
-import { Text, StyleSheet, View, Image } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import { Text, StyleSheet, View, Image,Platform, TouchableOpacity } from 'react-native';
+// import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon from 'react-native-vector-icons/Ionicons';
 import { AuthContext } from '../DrawerNav';
+import Logo from '../../assets/sliders/images/logo.svg'
 
   const CustomDrawerContent = (props) => {
     const { signOut} = React.useContext(AuthContext);
     return (
         <DrawerContentScrollView {...props}>
-                <View style={{height: 90,alignItems: 'center', justifyContent: 'center'}}>
-                  <Image style= {styles.imageHeight} source= {require('./../../assets/sliders/images/logo.png')} />
+                <View style={{...styles.container, minHeight: 140,alignItems: 'center', justifyContent: 'center'}}>
+                <Logo width= {150} height= {80} />
+                <View>
+                  <TouchableOpacity style= {styles.btnStyle}>
+                    <Text style= {styles.colorText}>PLANINUM PLAN</Text>
+                  </TouchableOpacity>
+                </View>
+                <Text>Manage Your Subscriptions</Text>
                   {/* <Text style={{fontSize: 32}}>LO</Text> */}
                   </View>
             <DrawerItemList {...props} />
-            <DrawerItem
+         
+                {/* <View style={{...styles.containerHeight, minHeight: 140}}>
+                <DrawerItem
               icon= {({color, size}) => (
-                <Icon name= "exit-to-app"
-                color= "white"
+                <Icon  name={Platform.OS === 'android' ? 'md-help' : 'ios-help'}
+                color= "#9B9B9B"
                 size= {22}
                 />
               )}
-              label="Log Out"
-              labelStyle={styles.textColor}
+              label="Help Center"
+              labelStyle={styles.textColor2}
               
               
             
               
               onPress={() => signOut(props)}
             />
+              <DrawerItem
+              icon= {({color, size}) => (
+                <Icon  name={Platform.OS === 'android' ? 'md-settings' : 'ios-settings'}
+                color= "#9B9B9B"
+                size= {22}
+                />
+              )}
+              label="Settings"
+              labelStyle={styles.textColor2}
+              
+              
+            
+              
+              onPress={() => signOut(props)}
+            />
+                 
+                  </View> */}
           </DrawerContentScrollView>
 
 
@@ -42,14 +69,43 @@ import { AuthContext } from '../DrawerNav';
   }
   const styles = StyleSheet.create({
       textColor : {
-          color: 'white',
-          fontWeight: 'bold',
+          color: 'black',
           fontSize: 18
+      },
+      textColor2 : {
+        color: 'black',
+        fontSize: 16
+    },
+      container: {
+        borderBottomWidth: 1,
+        borderBottomColor: '#F7F7FA',
+        marginBottom: 10
+      },
+      containerHeight: {
+        borderTopWidth: 3,
+        borderTopColor: '#F7F7FA',
+        marginTop: 15,
+      },
+      btnStyle: {
+        color: '#6C0BA9',
+        backgroundColor: '#F7EAFF',
+        height: 30,
+        minWidth: '70%',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginBottom: 5,
+        borderWidth: 1,
+        borderColor: '#6C0BA9',
+        borderRadius: 5
+      },
+      colorText: {
+        color: '#6C0BA9',
       },
       imageHeight: {
         width: '80%',
         height: 40
-      }
+      },
+
   })
 
   export default CustomDrawerContent;

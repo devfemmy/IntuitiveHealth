@@ -9,6 +9,8 @@ import LoginNavigator from './Navigators/LoginNavigator';
 import HomeNavigator from './Navigators/HomeNavigator';
 import CustomDrawerContent from './Navigators/CustomDrawer';
 import ProfileNavigator from './Navigators/ProfileNavigator';
+import ConfigureNavigator from './Navigators/ConfigureNavigator';
+import SettingsNavigator from './Navigators/SettingNavigator';
 
 
 
@@ -88,8 +90,6 @@ const DrawerNav = (props) => {
           signOut: async (data) => {
             await AsyncStorage.setItem('LoggedIn', '1');
             const logout = AsyncStorage.getItem('LoggedIn')
-            console.log('34', logout)
-            console.log('343', data.navigation.closeDrawer())
           dispatch({ type: 'SIGN_OUT' });
           data.navigation.closeDrawer()
           
@@ -114,9 +114,9 @@ const DrawerNav = (props) => {
            drawerContent={props => <CustomDrawerContent {...props} />}
             drawerContentOptions= {
                 {
-                    activeTintColor: 'white',
+                    activeTintColor: '#1F1F1F',
                     labelStyle: {
-                        color: 'white',
+                        color: '#1F1F1F',
                         fontSize: 16,
                         fontWeight: 'bold'
                     },
@@ -126,10 +126,10 @@ const DrawerNav = (props) => {
                 }
             }
             drawerStyle= {{
-                backgroundColor: '#000075',
-                paddingVertical: 20
+                backgroundColor: 'white',
+                paddingVertical: 10
             }} 
-            drawerType= 'slide' initialRouteName="Profile">
+            drawerType= 'slide' initialRouteName="Home">
                         {state.userToken == null ? (
           <Drawer.Screen name="Log In" component={LoginNavigator}
           />
@@ -138,15 +138,31 @@ const DrawerNav = (props) => {
          <Drawer.Screen name="Home" component={HomeNavigator} options= {{
                        drawerIcon: config => <Icon
                        size={22}
-                       color= "white"
+                       color= "#6C0BA9"
                        name={Platform.OS === 'android' ? 'md-home' : 'ios-home'}></Icon>
                     }} />
                     <Drawer.Screen name="Profile" component={ProfileNavigator}
                      options= {{
                       drawerIcon: config => <Icon
                       size={22}
-                      color= "white"
+                      color= "#6C0BA9"
                       name={Platform.OS === 'android' ? 'md-person' : 'ios-person'}></Icon>
+                    }}
+                    />
+                    <Drawer.Screen name="Help Center" component={ConfigureNavigator}
+                     options= {{
+                      drawerIcon: config => <Icon
+                      size={22}
+                      color= "#9B9B9B"
+                      name={Platform.OS === 'android' ? 'md-help' : 'ios-help'}></Icon>
+                    }}
+                    />
+                    <Drawer.Screen name="Settings" component={SettingsNavigator}
+                     options= {{
+                      drawerIcon: config => <Icon
+                      size={22}
+                      color= "#9B9B9B"
+                      name={Platform.OS === 'android' ? 'md-settings' : 'ios-settings'}></Icon>
                     }}
                     />
                     {/* <Drawer.Screen name="Log Out" component={LoginPage} /> */}
