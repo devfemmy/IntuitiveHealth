@@ -11,6 +11,11 @@ import CustomDrawerContent from './Navigators/CustomDrawer';
 import ProfileNavigator from './Navigators/ProfileNavigator';
 import ConfigureNavigator from './Navigators/ConfigureNavigator';
 import SettingsNavigator from './Navigators/SettingNavigator';
+import VideoNavigator from './Navigators/VideoNavigator';
+import AppointmentNavigator from './Navigators/AppointmentNavigator';
+import MyDoctorNavigator from './Navigators/MyDoctorNavigator';
+import MedicalsNavigator from './Navigators/MedicalsNavigator';
+import VitalsNavigator from './Navigators/VitalsNavigator';
 
 
 
@@ -118,10 +123,11 @@ const DrawerNav = (props) => {
                     labelStyle: {
                         color: '#1F1F1F',
                         fontSize: 16,
+                        fontFamily: 'HammersmithOne-Regular',
                         fontWeight: 'bold'
                     },
                     itemStyle: {
-                        
+                      fontFamily: 'HammersmithOne-Regular',
                     }
                 }
             }
@@ -147,6 +153,46 @@ const DrawerNav = (props) => {
                       size={22}
                       color= "#6C0BA9"
                       name={Platform.OS === 'android' ? 'md-person' : 'ios-person'}></Icon>
+                    }}
+                    />
+                    <Drawer.Screen name="Vitals" component={VitalsNavigator}
+                     options= {{
+                      drawerIcon: config => <Icon
+                      size={22}
+                      color= "#6C0BA9"
+                      name={Platform.OS === 'android' ? 'md-archive' : 'ios-archive'}></Icon>
+                    }}
+                    />
+                    <Drawer.Screen name="Video Consultation" component={VideoNavigator}
+                     options= {{
+                      drawerIcon: config => <Icon
+                      size={22}
+                      color= "#6C0BA9"
+                      name={Platform.OS === 'android' ? 'md-videocam' : 'ios-videocam'}></Icon>
+                    }}
+                    />
+                      <Drawer.Screen name="My Appointments" component= {AppointmentNavigator}
+                     options= {{
+                      drawerIcon: config => <Icon
+                      size={22}
+                      color= "#6C0BA9"
+                      name={Platform.OS === 'android' ? 'md-calendar' : 'ios-calendar'}></Icon>
+                    }}
+                    />
+                    <Drawer.Screen name="My Doctors" component= {MyDoctorNavigator}
+                     options= {{
+                      drawerIcon: config => <Icon
+                      size={22}
+                      color= "#6C0BA9"
+                      name={Platform.OS === 'android' ? 'md-medical' : 'ios-medical'}></Icon>
+                    }}
+                    />
+                      <Drawer.Screen name="Medical Records" component= {MedicalsNavigator}
+                     options= {{
+                      drawerIcon: config => <Icon
+                      size={22}
+                      color= "#6C0BA9"
+                      name={Platform.OS === 'android' ? 'md-medkit' : 'ios-medkit'}></Icon>
                     }}
                     />
                     <Drawer.Screen name="Help Center" component={ConfigureNavigator}

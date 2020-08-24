@@ -3,6 +3,7 @@ import { View, StyleSheet, Text, Image, Dimensions } from 'react-native';
 import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
 import DescriptionCard from '../Components/DescpCard';
 import Logo from '../assets/sliders/images/home.svg';
+import MyAppText from '../Components/MyAppText';
 
 const HomeScreen = (props) => {
     return (
@@ -13,9 +14,9 @@ const HomeScreen = (props) => {
                 style= {styles.imageStyle} 
                 source= {require('../assets/sliders/images/thumb1.png')} />
                 <View>
-                    <Text style= {styles.textStyle1}>Johnathan Doe</Text>
-                    <Text style= {styles.textStyle2}>View and edit profile</Text>
-                    <Text style= {styles.textStyle3}>100% complete</Text>
+                    <MyAppText style= {styles.textStyle1}>Johnathan Doe</MyAppText>
+                    <MyAppText style= {styles.textStyle2}>View and edit profile</MyAppText>
+                    <MyAppText style= {styles.textStyle3}>100% complete</MyAppText>
                 </View>
                 <Image
                 style= {styles.imageStyle2} 
@@ -29,17 +30,17 @@ const HomeScreen = (props) => {
                             <Logo width= {100} height= {120} />
                         </View>
                         <View style= {styles.textContainer}>
-                            <Text style= {styles.boldText}>Find a doctor</Text>
-                            <Text style= {styles.textStyle4}>Get virtual consultation online with doctors on the go.</Text>
-                            <Text style= {styles.textStyle2}>Find Doctor</Text>
+                            <MyAppText style= {styles.boldText}>Find a doctor</MyAppText>
+                            <MyAppText style= {styles.textStyle4}>Get virtual consultation online with doctors on the go.</MyAppText>
+                            <MyAppText style= {styles.textStyle2}>Find Doctor</MyAppText>
                         </View>
                     </View>
             </TouchableOpacity>
         </View>
         <View style= {styles.lowerContainer}>
             <View style= {styles.pageDesc}>
-                <Text style= {{...styles.bolderText, ...styles.textColor}}>Doctors You Have Contacted</Text>
-                <Text style= {{...styles.bolderText, ...styles.textStyle2}}>View All</Text>
+                <MyAppText style= {{...styles.bolderText, ...styles.textColor}}>Doctors You Have Contacted</MyAppText>
+                <MyAppText style= {{...styles.bolderText, ...styles.textStyle2}}>View All</MyAppText>
             </View>
             <ScrollView showsHorizontalScrollIndicator= {false}  horizontal>
                 <DescriptionCard source={require('../assets/sliders/images/doctor.png')}
@@ -61,8 +62,8 @@ const HomeScreen = (props) => {
         </View>
         <View style= {styles.lowerContainer}>
             <View style= {styles.pageDesc}>
-                <Text style= {{...styles.bolderText, ...styles.textColor}}>Find doctors by specialities</Text>
-                <Text style= {{...styles.bolderText, ...styles.textStyle2}}>View All</Text>
+                <MyAppText style= {{...styles.bolderText, ...styles.textColor}}>Find doctors by specialities</MyAppText>
+                <MyAppText style= {{...styles.bolderText, ...styles.textStyle2}}>View All</MyAppText>
             </View>
             <ScrollView showsHorizontalScrollIndicator= {false}  horizontal>
                 <DescriptionCard source={require('../assets/sliders/images/thumb2.png')}
@@ -89,7 +90,7 @@ const HomeScreen = (props) => {
         </View>
         <View style= {styles.lowerContainer}>
             <View style= {styles.pageDesc}>
-                <Text style= {{...styles.bolderText, ...styles.textColor}}>Chat with Top Doctors</Text>
+                <MyAppText style= {{...styles.bolderText, ...styles.textColor}}>Chat with Top Doctors</MyAppText>
             </View>
             <ScrollView showsHorizontalScrollIndicator= {false}  horizontal>
                 <DescriptionCard source={require('../assets/sliders/images/thumbs6.png')}
@@ -217,7 +218,8 @@ const styles = StyleSheet.create({
     },
     textStyle4: {
         color: '#9B9B9B',
-        marginVertical: 2
+        marginVertical: 2,
+        fontSize: 15
     }
 })
 export default HomeScreen

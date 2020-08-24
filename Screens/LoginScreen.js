@@ -3,6 +3,7 @@ import { View, StyleSheet,Text, TouchableOpacity, Image, TextInput, ScrollView }
 import FormInput from '../Components/FormInput';
 import MyBtn from '../Components/MyBtn';
 import { AuthContext } from '../Navigations/DrawerNav';
+import MyAppText from '../Components/MyAppText';
 
 const LoginScreen = (props) => {
   const {signIn} = useContext(AuthContext);
@@ -27,10 +28,12 @@ const LoginScreen = (props) => {
                         source= {require('./../assets/sliders/images/logo.png')} />
                     </View>
                     <View>
-                    <Text style= {styles.label}>Email Address</Text>
+                    <MyAppText style= {styles.label}>Email Address</MyAppText>
                     <FormInput 
                     placeholder= "Member Id/Email Address" 
-                    placeholderTextColor= "grey"
+                    color= "#1F1F1F"
+                    selectionColor= "#1F1F1F"
+                    placeholderTextColor= "#E8E8E8"
                     secureTextEntry = {false}
                     value={email}
                     onChangeText={setUsername}
@@ -38,11 +41,13 @@ const LoginScreen = (props) => {
                     </View>
 
                     <View style= {styles.textboxContainer}>
-                    <Text style= {styles.label}>Password</Text>
+                    <MyAppText style= {styles.label}>Password</MyAppText>
                     <FormInput 
                     placeholder= "Password" 
                     style= {styles.passwordInput}
-                    placeholderTextColor= "grey"
+                    color= "#1F1F1F"
+                    selectionColor= "#1F1F1F"
+                    placeholderTextColor= "#E8E8E8"
                     secureTextEntry = {hidePassword}
                     value={password}
                     onChangeText={setPassword}
@@ -52,22 +57,22 @@ const LoginScreen = (props) => {
                     </TouchableOpacity>
                     </View>
                     <View style= {styles.lowerContainer}>
-                      <Text onPress={() => props.navigation.navigate('ForgotPass')} style= {styles.passText}>Forgot Password?</Text>
+                      <MyAppText onPress={() => props.navigation.navigate('ForgotPass')} style= {styles.passText}>Forgot Password?</MyAppText>
                       <MyBtn onPress= {logInUser} btnText = "Sign In" />
-                      <Text style= {{textAlign: 'center', fontSize: 16, color: '#A884BF'}}>Dont have an account? 
-                       <Text style= {{color: 'white', fontWeight: 'bold'}}> Registor Now</Text>
-                         </Text>
+                      <MyAppText style= {{textAlign: 'center', fontSize: 16, color: '#9B9B9B'}}>Dont have an account? 
+                       <MyAppText style= {{color: '#51087E', fontWeight: 'bold'}}> Registor Now</MyAppText>
+                         </MyAppText>
                       <View style= {styles.lowerText}>
-                      <Text style= {{textAlign: 'center', fontSize: 16, color: '#A884BF'}}>
+                      <MyAppText style= {{textAlign: 'center', fontSize: 16, color: '#9B9B9B'}}>
                         Trouble signing in?
-                      </Text>
-                      <Text onPress={() => props.navigation.navigate('Faq')} style= {{textAlign: 'center', fontSize: 16, color: '#fff'}}>
+                      </MyAppText>
+                      <MyAppText onPress={() => props.navigation.navigate('Faq')} style= {{textAlign: 'center', fontSize: 16, color: '#51087E'}}>
                         Contact Customer Support
-                      </Text>
+                      </MyAppText>
                       </View>
-                      <Text style= {{textAlign: 'center', fontSize: 16, color: '#A884BF'}}>By continuing, you agree to
-                       <Text style= {{color: 'white', fontWeight: 'bold'}}> Terms & Conditions</Text>
-                        </Text>
+                      <MyAppText style= {{textAlign: 'center', fontSize: 16, color: '#9B9B9B'}}>By continuing, you agree to
+                       <MyAppText style= {{color: '#51087E', fontWeight: 'bold'}}> Terms & Conditions</MyAppText>
+                        </MyAppText>
                     </View>
                  
                
@@ -83,7 +88,7 @@ const styles = StyleSheet.create({
     marginVertical: 35
   },
   passText: {
-    color: 'white',
+    color: '#464646',
     fontWeight: 'bold'
   },
   formContainer:{
@@ -91,7 +96,7 @@ const styles = StyleSheet.create({
     marginVertical: 50
   },
   label: {
-    color: '#A884BF',
+    color: '#9B9B9B',
     fontSize: 13
   },
   touachableButton: {
@@ -123,7 +128,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   container: {
-    backgroundColor: '#51087E',
+    backgroundColor: '#fff',
     color: 'white',
     flex: 1,
     paddingHorizontal: 30,

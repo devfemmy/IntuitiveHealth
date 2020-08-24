@@ -20,6 +20,10 @@ const HomeNavigator = (props) => {
               backgroundColor: Platform.OS === 'android' ? 'white' : 'white',
 
           },
+          headerTitleStyle: {
+            fontFamily: 'HammersmithOne-Regular',
+            fontSize: 20
+          },
           headerRight: () => (
             <TouchableOpacity onPress= {() => props.navigation.navigate('Notification')}>
               <Image 
@@ -57,6 +61,10 @@ const HomeNavigator = (props) => {
               
               
 
+          },
+          headerTitleStyle: {
+            fontFamily: 'HammersmithOne-Regular',
+            fontSize: 20
           },
           headerRight: () => (
             <TouchableOpacity onPress= {() => console.log('pressed')}>

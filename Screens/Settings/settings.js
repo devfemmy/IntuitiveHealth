@@ -3,6 +3,7 @@ import { View, StyleSheet, ScrollView, Text, TouchableOpacity } from 'react-nati
 import ProfileCard from '../../Components/ProfileCard';
 import Icon from '../../assets/sliders/images/save.svg';
 import { AuthContext } from '../../Navigations/DrawerNav';
+import MyAppText from '../../Components/MyAppText';
 
 const SettingPage = (props) => {
     const { signOut} = React.useContext(AuthContext);
@@ -11,22 +12,22 @@ const SettingPage = (props) => {
            <View>
                <TouchableOpacity>
                 <ProfileCard>
-                        <Text style= {styles.textStyle}>About Conduit Telehealth</Text>
+                        <MyAppText style= {styles.textStyle}>About Conduit Telehealth</MyAppText>
                     </ProfileCard>
                </TouchableOpacity>
                <TouchableOpacity>
                 <ProfileCard>
-                        <Text style= {styles.textStyle}>Privacy Policy</Text>
+                        <MyAppText style= {styles.textStyle}>Privacy Policy</MyAppText>
                     </ProfileCard>
                </TouchableOpacity>
                <TouchableOpacity>
                 <ProfileCard>
-                        <Text style= {styles.textStyle}>Rate Conduit Telehealth App</Text>
+                        <MyAppText style= {styles.textStyle}>Rate Conduit Telehealth App</MyAppText>
                     </ProfileCard>
                </TouchableOpacity>
                <TouchableOpacity   onPress={() => signOut(props)}>
                 <ProfileCard>
-                        <Text style= {styles.textStyle2}>Logout</Text>
+                        <MyAppText style= {styles.textStyle2}>Logout</MyAppText>
                         <Icon width= {25} height= {25} />
 
                     </ProfileCard>

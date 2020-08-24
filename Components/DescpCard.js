@@ -1,13 +1,14 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import MyAppText from './MyAppText';
 
 const DescriptionCard = (props) => {
     const styles = StyleSheet.create({
         container: {
             backgroundColor: 'white',
-            minHeight: 200,
-            maxHeight: 220,
+            minHeight: 235,
+            maxHeight: 235,
             paddingBottom: 20,
             minWidth: 150,
             maxWidth: 170,
@@ -54,9 +55,9 @@ const DescriptionCard = (props) => {
                     <Image style= {props.thumbimg} source= {props.source} />
             </View>
             <View style= {styles.textContainer}>
-            <Text style= {styles.textStyle}>{props.name}</Text>
-            <Text  style= {styles.textStyle2}>{props.title}</Text>
-            <Text  style= {styles.textStyle3}>{props.consult}</Text>
+            <MyAppText style= {styles.textStyle}>{props.name}</MyAppText>
+            <MyAppText  style= {styles.textStyle2}>{props.title}</MyAppText>
+            <MyAppText  style= {styles.textStyle3}>{props.consult}</MyAppText>
             </View>
             
             </View>

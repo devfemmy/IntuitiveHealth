@@ -34,6 +34,10 @@ const ConfigureNavigator = (props) => {
             //   color="red"
             // />
           ), 
+          headerTitleStyle: {
+            fontFamily: 'HammersmithOne-Regular',
+            fontSize: 20
+          },
           headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
         }}
           />

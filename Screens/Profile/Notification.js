@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView, Image } from 'react-native';
 import NotificationCard from '../../Components/NotificationCard';
+import MyAppText from '../../Components/MyAppText';
 
 const Notification = (props) => {
     return (
@@ -9,13 +10,13 @@ const Notification = (props) => {
               <Image
                style= {{width: 20, height: 20, resizeMode: 'contain'}} 
                source= {require('../../assets/sliders/images/notification.png')} />
-               <Text style= {styles.textStyle}>26/12/2019 | 13:01 pm</Text>
+               <MyAppText style= {styles.textStyle}>26/12/2019 | 13:01 pm</MyAppText>
             </NotificationCard>
             <NotificationCard textDes = "Your appointment with Dr. John Doe has been cancelled, kindly re-schedule or make a new appointment">
               <Image
                style= {{width: 20, height: 20, resizeMode: 'contain'}} 
                source= {require('../../assets/sliders/images/notification.png')} />
-               <Text style= {styles.textStyle}>26/12/2019 | 13:01 pm</Text>
+               <MyAppText style= {styles.textStyle}>26/12/2019 | 13:01 pm</MyAppText>
             </NotificationCard>
         </ScrollView>
     )

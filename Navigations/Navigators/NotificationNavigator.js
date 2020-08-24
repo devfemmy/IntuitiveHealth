@@ -23,6 +23,10 @@ const NotificationNavigator = (props) => {
               
 
           },
+          headerTitleStyle: {
+            fontFamily: 'HammersmithOne-Regular',
+            fontSize: 20
+          },
           headerLeft: () => (
             <TouchableOpacity>
               <Image source= {require('../../assets/sliders/images/back.png')} />

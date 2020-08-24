@@ -26,6 +26,10 @@ const ProfileNavigator = (props) => {
               
 
           },
+          headerTitleStyle: {
+            fontFamily: 'HammersmithOne-Regular',
+            fontSize: 20
+          },
           headerLeft: () => (
             <HeaderButtons HeaderButtonComponent= {ProfileButton}>
               <Item title= "Menu"
@@ -50,6 +54,10 @@ const ProfileNavigator = (props) => {
               
               
 
+          },
+          headerTitleStyle: {
+            fontFamily: 'HammersmithOne-Regular',
+            fontSize: 20
           },
           headerLeft: () => (
             <HeaderButtons HeaderButtonComponent= {ProfileButton}>

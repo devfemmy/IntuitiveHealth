@@ -35,7 +35,7 @@ export default function App() {
   return (
     <>
   
-      <DrawerNav/>
+      <DrawerNav />
       {/* <StackNav /> */}
      
    

@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, StyleSheet,Text, TouchableOpacity } from 'react-native';
+import MyAppText from './MyAppText';
 
 const InnerBtn = (props) => {
     const styles = StyleSheet.create({
@@ -18,13 +19,24 @@ const InnerBtn = (props) => {
         textStyle: {
             color: props.color,
             fontWeight: 'bold',
-            fontSize: 15
+            fontSize: 15,
+            fontFamily: 'HammersmithOne-Regular',
+        },
+        iconStyle: {
+            marginLeft: 4,
+            marginTop: 4
         }
     });
     return (
         <View>
             <TouchableOpacity onPress= {props.onPress} style= {styles.btnStyle}>
-                <Text style= {styles.textStyle}>{props.text}</Text>
+                <MyAppText>
+                <MyAppText style= {styles.textStyle}>{props.text}
+                </MyAppText> 
+                <MyAppText style= {styles.iconStyle}>
+                {props.icon}
+                </MyAppText>
+                </MyAppText>
             </TouchableOpacity>
         </View>
     )

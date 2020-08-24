@@ -12,7 +12,7 @@ const WelcomeScreen = (props) => {
                 style= {styles.sliderImg}
                 >
                         <View style= {styles.btnOuterContainer}>
-                            <TouchableOpacity style= {styles.btnContainer}>
+                            <TouchableOpacity onPress= {()=> props.navigation.navigate('Intro')} style= {styles.btnContainer}>
                             <Text>GET STARTED</Text>
                             </TouchableOpacity>
                         </View>
@@ -24,7 +24,7 @@ const WelcomeScreen = (props) => {
                 style= {styles.sliderImg}
                 >
                         <View style= {styles.btnOuterContainer}>
-                            <TouchableOpacity style= {styles.btnContainer}>
+                            <TouchableOpacity onPress= {()=> props.navigation.navigate('Intro')} style= {styles.btnContainer}>
                             <Text>GET STARTED</Text>
                             </TouchableOpacity>
                         </View>
@@ -36,7 +36,7 @@ const WelcomeScreen = (props) => {
                 style= {styles.sliderImg}
                 >
                         <View style= {styles.btnOuterContainer}>
-                            <TouchableOpacity style= {styles.btnContainer}>
+                            <TouchableOpacity onPress= {()=> props.navigation.navigate('Intro')} style= {styles.btnContainer}>
                             <Text>GET STARTED</Text>
                             </TouchableOpacity>
                         </View>
@@ -44,42 +44,6 @@ const WelcomeScreen = (props) => {
                         <Text style= {styles.textStyle}>Keep you medical record history handy.</Text>
 
                   </View>
-                </ImageBackground>
-                <ImageBackground source= {require('../assets/sliders/sliders/slider4.png')}
-                style= {styles.sliderImg2}
-                >
-                <View>
-                    <Text style= {styles.headerStyle}>How would you like to login?</Text>
-                    <Text style= {styles.textStyle2}>Kindly select from the login option below to continue</Text>
-                </View>
-                <View style= {styles.cardContainer}>
-                    <TouchableOpacity onPress= {() => alert('This option is not yet available')}>
-                    <View style= {styles.card}>
-                        <View style= {styles.imgCont}>
-                        <Image style= {styles.imageStyle} source= {require('../assets/sliders/images/imageicon2.png')} />
-                        </View>
-                        <View style= {styles.textCont}>
-                            <Text style= {styles.boldText}>As an Individual</Text>
-                            <Text style= {styles.colorText}>Continue</Text>
-                        </View>
-                    </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress= {() => props.navigation.navigate('Hmo')}>
-                    <View style= {styles.card}>
-                        <View style= {styles.imgCont}>
-                        <Image style= {styles.imageStyle} source= {require('../assets/sliders/images/imageicon.png')} />
-                        </View>
-                        <View style= {styles.textCont}>
-                            <Text style= {styles.boldText}>As An 
-                            HMO Customer
-                            </Text>
-                            <Text style= {styles.colorText}>Continue</Text>
-                        </View>
-                    </View>
-                    </TouchableOpacity>
-
-                </View>
-                   
                 </ImageBackground>
             </ScrollView>
         </View>

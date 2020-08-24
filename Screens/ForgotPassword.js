@@ -4,6 +4,7 @@ import FormInput from '../Components/FormInput';
 import MyBtn from '../Components/MyBtn';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import CustomHeaderButton from '../Components/HeaderButton';
+import InnerBtn from '../Components/InnerBtn';
 
 const ForgotPassword = (props) => {
   const [email, setUsername] = useState('');
@@ -26,14 +27,17 @@ const ForgotPassword = (props) => {
                     </View>
                     <View style= {styles.textContainer}>
                     <Text style= {styles.label}>Enter your registered Email Address</Text>
-                    <FormInput 
+                    <FormInput
+
                     placeholder= "Member Id/Email Address" 
-                    placeholderTextColor= "grey"
+                    color= "white"
+                    selectionColor= "white"
+                    placeholderTextColor= "#9B9B9B"
                     secureTextEntry = {false}
                     value={email}
                     onChangeText={setUsername}
                     />
-                    <MyBtn btnText= "Reset Password" />
+                   <InnerBtn text= "Reset Password" bg= "white" color= "#51087E" />
                     </View>               
                
                 </View>

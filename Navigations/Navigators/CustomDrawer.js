@@ -12,6 +12,7 @@ import { Text, StyleSheet, View, Image,Platform, TouchableOpacity } from 'react-
 import Icon from 'react-native-vector-icons/Ionicons';
 import { AuthContext } from '../DrawerNav';
 import Logo from '../../assets/sliders/images/logo.svg'
+import MyAppText from '../../Components/MyAppText';
 
   const CustomDrawerContent = (props) => {
     const { signOut} = React.useContext(AuthContext);
@@ -21,10 +22,10 @@ import Logo from '../../assets/sliders/images/logo.svg'
                 <Logo width= {150} height= {80} />
                 <View>
                   <TouchableOpacity style= {styles.btnStyle}>
-                    <Text style= {styles.colorText}>PLANINUM PLAN</Text>
+                    <MyAppText style= {styles.colorText}>PLANINUM PLAN</MyAppText>
                   </TouchableOpacity>
                 </View>
-                <Text>Manage Your Subscriptions</Text>
+                <MyAppText>Manage Your Subscriptions</MyAppText>
                   {/* <Text style={{fontSize: 32}}>LO</Text> */}
                   </View>
             <DrawerItemList {...props} />
@@ -100,6 +101,7 @@ import Logo from '../../assets/sliders/images/logo.svg'
       },
       colorText: {
         color: '#6C0BA9',
+
       },
       imageHeight: {
         width: '80%',

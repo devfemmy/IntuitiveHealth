@@ -26,6 +26,10 @@ const SettingsNavigator = (props) => {
               
 
           },
+          headerTitleStyle: {
+            fontFamily: 'HammersmithOne-Regular',
+            fontSize: 20
+          },
           headerLeft: () => (
             <HeaderButtons HeaderButtonComponent= {ProfileButton}>
               <Item title= "Menu"
@@ -42,6 +46,7 @@ const SettingsNavigator = (props) => {
           headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
         }}
           />
+          
           
         </Stack.Navigator>
       </>

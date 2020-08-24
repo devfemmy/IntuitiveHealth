@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
+import MyAppText from './MyAppText';
 
 const NotificationCard = (props) => {
     return (
@@ -7,9 +8,9 @@ const NotificationCard = (props) => {
             <View style= {styles.flexContainer}>
                 {props.children}
             </View>
-            <Text style= {styles.textStyle}>
+            <MyAppText style= {styles.textStyle}>
                 {props.textDes}
-            </Text>
+            </MyAppText>
         </View>
     )
 }
