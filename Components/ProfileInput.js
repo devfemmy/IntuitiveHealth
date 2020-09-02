@@ -34,12 +34,13 @@ const ProfileInput = (props) => {
             placeholder= {props.placeholder} 
             placeholderTextColor= {props.placeholderTextColor}
             selectionColor = 'black'
+            editable= {props.editable}
             autoCorrect= {false}
             defaultValue= {props.defaultValue}
             keyboardType= {props.keyboardType}
             autoCapitalize= 'none'
             secureTextEntry = {props.secureTextEntry}
-            onChangeText={props.onChangeText}
+            onChangeText={(event)=>props.onChangeText(event)}
             value={props.value} />
             
         </View>

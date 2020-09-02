@@ -21,7 +21,7 @@ const LoginNavigator = (props) => {
         <Stack.Navigator screenOptions={{
                 headerShown: true
             }}>
-          {/* <Stack.Screen name="Welcome" component={WelcomeScreen}
+          <Stack.Screen name="Welcome" component={WelcomeScreen}
           options={{ title: 'Conduit Telehealth', headerStyle: {
               backgroundColor: Platform.OS === 'android' ? '#51087E' : '#51087E',
 
@@ -29,7 +29,7 @@ const LoginNavigator = (props) => {
     
           headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
         }}
-          /> */}
+          />
           <Stack.Screen name="Login" component={LoginScreen}
           options={{ title: 'Login', headerStyle: {
               backgroundColor: Platform.OS === 'android' ? 'white' : 'white',

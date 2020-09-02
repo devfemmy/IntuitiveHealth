@@ -8,6 +8,8 @@ const InnerBtn = (props) => {
             width: '100%',
             backgroundColor: props.bg,
             color: props.color,
+            borderColor: props.border,
+            borderWidth: 1,
             fontWeight: 'bold',
             fontSize: 35,
             height: 50,

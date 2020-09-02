@@ -16,13 +16,20 @@ const SlotBtn = (props) => {
             borderRadius: 7,
             alignItems: 'center',
             justifyContent: 'center'
+        },
+        dateStyle: {
+            // backgroundColor: 'red',
+            marginHorizontal: 10
+        },
+        slotStyle: {
+            color: '#51087E'
         }
     });
     return (
         <View style= {styles.container}>
-            <TouchableOpacity style= {styles.btnContainer}>
-                <MyAppText style= {props.style1}>{props.date}</MyAppText>
-                <MyAppText  style= {props.style2}>
+            <TouchableOpacity onPress= {props.onPress} style= {styles.btnContainer}>
+                <MyAppText style= {styles.dateStyle}>{props.date}</MyAppText>
+                <MyAppText  style= {styles.slotStyle}>
                     {props.name}
                 </MyAppText>
             </TouchableOpacity>

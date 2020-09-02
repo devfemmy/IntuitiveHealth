@@ -26,6 +26,7 @@ const FormInput = (props) => {
             autoCapitalize= 'none'
             secureTextEntry = {props.secureTextEntry}
             onChangeText={props.onChangeText}
+            defaultValue= {props.defaultValue}
             value={props.value} />
             
         </View>

@@ -7,7 +7,7 @@ const MyDoctors = (props) => {
         <ScrollView style= {styles.container}>
             <View>
                 <MyDoctorsCard
-                pressed= {()=> props.navigation.navigate('Consult')}
+                pressed= {()=> props.navigation.navigate('Practise')}
                 language= "English, Yoruba, Hausa"
                 section= "Obstetricians/Gynecologists" 
                 name= "Dr. Jonathan Emmanuel" />

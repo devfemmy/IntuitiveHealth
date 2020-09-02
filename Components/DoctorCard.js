@@ -27,6 +27,7 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between',
+        alignItems: 'center',
         width: '80%',
         minHeight: 90
     },
@@ -45,6 +46,7 @@ const styles = StyleSheet.create({
     imageStyle: {
         height: 70,
         width: 70,
+        borderRadius: 60,
         resizeMode: 'cover'
     }
 });

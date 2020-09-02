@@ -14,6 +14,7 @@ import AppointmentDetails from '../../Screens/Appointments/AppointmentDetails';
 import VirtualCall from '../../Screens/Appointments/VirtualCall';
 import VoiceCall from '../../Screens/Appointments/VoiceCall';
 import MyDoctors from '../../Screens/Records/MyDoctors';
+import TimeSlot from '../../Screens/Media/VideoScreen/TimeSlot';
 
 
 const Stack = createStackNavigator();
@@ -64,6 +65,19 @@ const MyDoctorNavigator = (props) => {
             fontFamily: 'HammersmithOne-Regular',
             fontSize: 20
           },
+          headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
+        }}
+          />  
+          <Stack.Screen name="Slot" component={TimeSlot}
+          options={{ title: 'Select Time Slot', headerStyle: {
+              
+              backgroundColor: '#51087E',
+          
+              },
+              headerTitleStyle: {
+                fontFamily: 'HammersmithOne-Regular',
+                fontSize: 18
+              },
           headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
         }}
           />          

@@ -7,8 +7,8 @@ const DescriptionCard = (props) => {
     const styles = StyleSheet.create({
         container: {
             backgroundColor: 'white',
-            minHeight: 235,
-            maxHeight: 235,
+            minHeight: 220,
+            maxHeight: 220,
             paddingBottom: 20,
             minWidth: 150,
             maxWidth: 170,
@@ -34,7 +34,8 @@ const DescriptionCard = (props) => {
         },
         textStyle: {
             color: 'black',
-            fontWeight: 'bold'
+            fontWeight: 'bold',
+            textAlign: 'center'
         },
         textStyle2: {
            color: '#9B9B9B',

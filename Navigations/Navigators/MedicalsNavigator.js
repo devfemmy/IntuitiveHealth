@@ -15,6 +15,13 @@ import VirtualCall from '../../Screens/Appointments/VirtualCall';
 import VoiceCall from '../../Screens/Appointments/VoiceCall';
 import MyDoctors from '../../Screens/Records/MyDoctors';
 import MedicalRecords from '../../Screens/Records/Medicals/MedicalRecords';
+import MedicalHistory from '../../Screens/Records/Medicals/MedicalHistory';
+import MedicalHistoryDetails from '../../Screens/Records/Medicals/MedicalHistoryDetails';
+import DoctorsNote from '../../Screens/Records/Medicals/DoctorsNote';
+import Medications from '../../Screens/Records/Medicals/Medications';
+import DoctorsVitals from '../../Screens/Records/Medicals/DoctorVitals';
+import ViewDocument from '../../Screens/Records/Medicals/ViewDocument';
+import UploadDocument from '../../Screens/Records/Document/UploadDocument';
 
 
 const Stack = createStackNavigator();
@@ -52,8 +59,8 @@ const MedicalsNavigator = (props) => {
           headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
         }}
           />
-          <Stack.Screen name="Details" component={AppointmentDetails}
-          options={{ title: 'Appointment Details', headerStyle: {
+          <Stack.Screen name="History" component={MedicalHistory}
+          options={{ title: 'Medical History', headerStyle: {
               
               backgroundColor: '#51087E',
           
@@ -67,7 +74,103 @@ const MedicalsNavigator = (props) => {
           },
           headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
         }}
-          />          
+          />  
+          <Stack.Screen name="HistoryDetails" component={MedicalHistoryDetails}
+          options={{ title: 'Medical History Details', headerStyle: {
+              
+              backgroundColor: '#51087E',
+          
+              
+              
+
+          },
+          headerTitleStyle: {
+            fontFamily: 'HammersmithOne-Regular',
+            fontSize: 20
+          },
+          headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
+        }}
+          />   
+          <Stack.Screen name="DoctorsNote" component={DoctorsNote}
+          options={{ title: 'Doctors Note', headerStyle: {
+              
+              backgroundColor: '#51087E',
+          
+              
+              
+
+          },
+          headerTitleStyle: {
+            fontFamily: 'HammersmithOne-Regular',
+            fontSize: 20
+          },
+          headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
+        }}
+          />  
+          <Stack.Screen name="Medications" component={Medications}
+          options={{ title: 'Medications', headerStyle: {
+              
+              backgroundColor: '#51087E',
+          
+              
+              
+
+          },
+          headerTitleStyle: {
+            fontFamily: 'HammersmithOne-Regular',
+            fontSize: 20
+          },
+          headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
+        }}
+          />    
+          <Stack.Screen name="DoctorsVitals" component={DoctorsVitals}
+          options={{ title: 'Vitals', headerStyle: {
+              
+              backgroundColor: '#51087E',
+          
+              
+              
+
+          },
+          headerTitleStyle: {
+            fontFamily: 'HammersmithOne-Regular',
+            fontSize: 20
+          },
+          headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
+        }}
+          />    
+          <Stack.Screen name="Document" component={ViewDocument}
+          options={{ title: 'Document', headerStyle: {
+              
+              backgroundColor: '#51087E',
+          
+              
+              
+
+          },
+          headerTitleStyle: {
+            fontFamily: 'HammersmithOne-Regular',
+            fontSize: 20
+          },
+          headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
+        }}
+          />    
+            <Stack.Screen name="Upload" component={UploadDocument}
+          options={{ title: 'Document Upload', headerStyle: {
+              
+              backgroundColor: '#51087E',
+          
+              
+              
+
+          },
+          headerTitleStyle: {
+            fontFamily: 'HammersmithOne-Regular',
+            fontSize: 20
+          },
+          headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
+        }}
+          />       
         </Stack.Navigator>
       </>
     )

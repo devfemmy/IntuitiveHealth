@@ -16,7 +16,7 @@ const MedicalRecords = (props) => {
                     </MyAppText>
             </View>
                 <View>
-                <TouchableOpacity onPress= {() => props.navigation.navigate('Practise')}>
+                <TouchableOpacity onPress= {() => props.navigation.navigate('History')}>
                     <View style= {styles.card}>
                         <View style= {styles.imgCont}>
                         <ResumeIcon width= {130} height= {130} />
@@ -26,12 +26,12 @@ const MedicalRecords = (props) => {
                                 Medical History
                             </MyAppText>
                             <MyAppText style= {styles.colorText}>Continue
-                                <Keyback width= {15} height= {15} />
+                                {/* <Keyback width= {15} height= {15} /> */}
                             </MyAppText>
                         </View>
                     </View>
             </TouchableOpacity>
-            <TouchableOpacity onPress= {() => props.navigation.navigate('Practise')}>
+            <TouchableOpacity onPress= {() => props.navigation.navigate('Upload') }>
                     <View style= {styles.card}>
                         <View style= {styles.imgCont}>
                         <UploadIcon width= {130} height= {130} />
@@ -41,7 +41,7 @@ const MedicalRecords = (props) => {
                                 Document Upload
                             </MyAppText>
                             <MyAppText style= {styles.colorText}>Continue
-                                <Keyback width= {15} height= {15} />
+                                {/* <Keyback width= {15} height= {15} /> */}
                             </MyAppText>
                         </View>
                     </View>

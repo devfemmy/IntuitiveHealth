@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, FlatList, ActivityIndicator } from 'react-native';
 import { ListItem, SearchBar } from 'react-native-elements';
 import ConsultCard from '../../../Components/ConsultCard';
+import MyAppText from '../../../Components/MyAppText';
 
 class GeneralPractise extends Component {
   constructor(props) {
@@ -21,21 +22,24 @@ class GeneralPractise extends Component {
   }
 
   makeRemoteRequest = () => {
-    const url = `https://randomuser.me/api/?&results=20`;
+    const url = `https://conduit.detechnovate.net/public/api/conduithealth/doctors/lang/slot/1`;
     this.setState({ loading: true });
 
     fetch(url)
       .then(res => res.json())
       .then(res => {
         this.setState({
-          data: res.results,
+          data: res.data,
           error: res.error || null,
           loading: false,
         });
-        this.arrayholder = res.results;
+        console.log('Array', res.data)
+        this.arrayholder = res.data;
+        
       })
       .catch(error => {
         this.setState({ error, loading: false });
+        alert('Network Error, Please Try Again');
       });
   };
 
@@ -58,7 +62,7 @@ class GeneralPractise extends Component {
     });
 
     const newData = this.arrayholder.filter(item => {
-      const itemData = `${item.name.title.toUpperCase()} ${item.name.first.toUpperCase()} ${item.name.last.toUpperCase()}`;
+      const itemData = `${item.name.toUpperCase()} ${item.last_name.toUpperCase()}`;
       const textData = text.toUpperCase();
 
       return itemData.indexOf(textData) > -1;
@@ -85,7 +89,7 @@ class GeneralPractise extends Component {
     if (this.state.loading) {
       return (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-          <ActivityIndicator />
+         <ActivityIndicator  size="large" color="#51087E" />
         </View>
       );
     }
@@ -93,19 +97,32 @@ class GeneralPractise extends Component {
       <View style={{ flex: 1, marginTop: 30 }}>
         <FlatList
           data={this.state.data}
-          renderItem={({ item }) => (
-            <ConsultCard
-            pressed = {()=> this.props.navigation.navigate('Slot')}
-            image = {item.picture.thumbnail}
-            name= {`${item.name.first} ${item.name.last}`}
-            />
-            // <ListItem
-            // onPress= {() => this.props.navigation.navigate('Login')}
-            //   leftAvatar={{ source: { uri: item.picture.thumbnail } }}
-            //   title={`${item.name.first} ${item.name.last}`}
-            // />
-          )}
-          keyExtractor={item => item.email}
+          renderItem={({ item }) => {
+            // var newArrayDataOfOjbect = Object.values(item.languages)
+            // console.log('Converted Array', newArrayDataOfOjbect, typeof(newArrayDataOfOjbect))
+            console.log('slotsss', item.slots )
+            return (
+              <ConsultCard
+              lang= {item.languages.map(
+                (lang, index) => <MyAppText key= {index}>{lang.language} </MyAppText>
+              )
+              }
+              specialty= {item.specialty}
+              pressed = {
+                (item.slots === null) ? ()=> alert('Doctor Not Available') : ()=> this.props.navigation.navigate('Slot', {doctor_id: item.id})
+                
+              }
+              image = {item.image}
+              name= {`${item.title} ${item.name} ${item.last_name}`}
+              // available= {item.slots.appointment_start }
+              available = {
+                (item.slots === null) ? 'Not Available' : item.slots.appointment_start
+              }
+              />
+            )
+          } 
+        }
+          keyExtractor={item => item.id}
           ListHeaderComponent={this.renderHeader}
         />
       </View>

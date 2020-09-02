@@ -17,7 +17,7 @@ const WelcomeScreen = (props) => {
                             </TouchableOpacity>
                         </View>
                   <View style= {styles.lowerContainer}>
-                        <Text style= {styles.textStyle}>Book an appointment with the right doctor</Text>
+                        {/* <Text style= {styles.textStyle}>Book an appointment with the right doctor</Text> */}
                   </View>
                 </ImageBackground>
                 <ImageBackground source= {require('../assets/sliders/sliders/slider2.png')}
@@ -29,7 +29,7 @@ const WelcomeScreen = (props) => {
                             </TouchableOpacity>
                         </View>
                         <View style= {styles.lowerContainer}>
-                        <Text style= {styles.textStyle}>Get virtual consultation online with doctors on the go.</Text>
+                        {/* <Text style= {styles.textStyle}>Get virtual consultation online with doctors on the go.</Text> */}
                   </View>
                 </ImageBackground>
                 <ImageBackground source= {require('../assets/sliders/sliders/slider3.png')}
@@ -41,7 +41,7 @@ const WelcomeScreen = (props) => {
                             </TouchableOpacity>
                         </View>
                         <View style= {styles.lowerContainer}>
-                        <Text style= {styles.textStyle}>Keep you medical record history handy.</Text>
+                        {/* <Text style= {styles.textStyle}>Keep you medical record history handy.</Text> */}
 
                   </View>
                 </ImageBackground>

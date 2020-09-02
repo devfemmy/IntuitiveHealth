@@ -21,12 +21,12 @@ const FindConsult = (props) => {
                                 General Practice
                             </MyAppText>
                             <MyAppText style= {styles.colorText}>Continue
-                                <Keyback width= {15} height= {15} />
+                                {/* <Keyback width= {18} height= {18} /> */}
                             </MyAppText>
                         </View>
                     </View>
             </TouchableOpacity>
-            <TouchableOpacity onPress= {() => props.navigation.navigate('Specialist')}>
+            <TouchableOpacity onPress= {() => props.navigation.navigate('Mental')}>
                     <View style= {styles.card}>
                         <View style= {styles.imgCont}>
                         <Icon2 width= {120} height= {120} />
@@ -36,7 +36,7 @@ const FindConsult = (props) => {
                                 Mental Health Specialist
                             </MyAppText>
                             <MyAppText style= {styles.colorText}>Continue
-                            <Keyback width= {15} height= {15} />
+                            {/* <Keyback width= {15} height= {15} /> */}
                             </MyAppText>
                         </View>
                     </View>

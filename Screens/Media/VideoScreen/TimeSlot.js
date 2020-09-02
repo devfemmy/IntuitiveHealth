@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, StyleSheet,Text, ScrollView, Image, Platform } from 'react-native';
+import React, {useState, useEffect} from 'react';
+import { View, StyleSheet,Text, ScrollView,AsyncStorage, Image, Platform, ActivityIndicator } from 'react-native';
 import DoctorCard from '../../../Components/DoctorCard';
 import IconText from '../../../Components/IconText';
 import VoiceIcon from '../../../assets/sliders/images/vchat.svg';
@@ -10,17 +10,114 @@ import SlotIconText from '../../../Components/SlotIconText';
 import Icon from 'react-native-vector-icons/Ionicons';
 import SlotPicker from '../../../Components/SlotPicker';
 import { useLinkProps } from '@react-navigation/native';
+import axios from 'axios';
 
 const TimeSlot = (props) => {
+    const { doctor_id } = props.route.params;
+    const [loading, setLoading] = useState(true);
+    const [slots, setSlots] = useState([]);
+    const [name, setName] = useState('');
+    const [last_name, setLastName] = useState('');
+    const [image, setImage] = useState('');
+    const [title, setTitle] = useState('');
+    const [showSlot, setShowSlot] = useState([]);
+    const [slotDate, setSlotDate] = useState('');
+    const [count, setCount] = useState('');
+    useEffect(() => {
+        const id = AsyncStorage.getItem('Mytoken').then(
+            res => {
+                axios.get(`https://conduit.detechnovate.net/public/api/conduithealth/doctor/slots/${doctor_id}`, {headers: {Authorization: res}})
+                .then(
+                  
+                    res => {
+                        console.log('slots', res.data)
+                        setLoading(false)
+                        const profile = res.data.data;
+                        const image = profile.image;
+                        const title = profile.title;
+                        const name = profile.name;
+                        const last_name = profile.last_name;
+                        const slotArray = res.data.data.appointments;
+                        setSlots(slotArray);
+                        setName(name);
+                        setLastName(last_name);
+                        setTitle(title);
+                        setImage(image);
+                        console.log("slots", slotArray)
+                       
+                    }
+                )
+                .catch(err => {
+                    const code = err.response.status;
+                    if (code === 401) {
+                        Alert.alert(
+                            'Error!',
+                            'Expired Token',
+                            [
+                              {text: 'OK', onPress: () => signOut()},
+                            ],
+                            { cancelable: false }
+                          )
+                      
+                    } else {
+                      setLoading(false)
+                        Alert.alert(
+                            'Network Error',
+                            'Please Try Again',
+                            [
+                              {text: 'OK', onPress: () => setShowBtn(true)},
+                            ],
+                            { cancelable: false }
+                          )
+                    }
+    
+                      
+                      console.log(err.response.status)
+    
+                })
+            }
+        )
+        .catch( err => {console.log(err)}) 
+        
+    
+      }, []);
+      function tConvert (time) {
+        // Check correct time format and split into components
+        time = time.toString ().match (/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time];
+      
+        if (time.length > 1) { // If time format correct
+          time = time.slice (1);  // Remove full string match value
+          time[5] = +time[0] < 12 ? 'AM' : 'PM'; // Set AM/PM
+          time[0] = +time[0] % 12 || 12; // Adjust hours
+        }
+        return time.join (''); // return adjusted time or original string
+      }
+    const showAvailable = (slot, day, date, count) => {
+        setShowSlot(slot)
+        const appDate = `${date}, ${day} `;
+        setSlotDate(appDate);
+        const concatCount = `${count} Slots`
+        setCount(concatCount)
+        
+    }
+    // alert(doctor_id)
+    if (loading) {
+        return (
+          <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+           <ActivityIndicator  size="large" color="#51087E" />
+          </View>
+        );
+      }
     return (
         <ScrollView style= {styles.container}>
             <View style= {styles.first}>
                 <DoctorCard 
-                image= {require('../../../assets/sliders/images/doctor.png')}
-                college= "Primary care"
-                name= "Dr. Jonathan Emmanuel" 
-                experience= "23 years experience overall" />
-                <IconText
+                image= {{uri: image}}
+                // college= "Primary care"
+                name= {`${title} ${name} ${last_name}`  }
+                // experience= "23 years experience overall"
+                 />
+                {/* <IconText
                 size= {14}
                 width= "49%"
                 paddingBottom= {10}
@@ -33,114 +130,51 @@ const TimeSlot = (props) => {
                 paddingBottom= {10}
                 color= "#9B9B9B" 
                 icon= {<SchoolIcon width= {20} height= {20} />}
-                text= "MBBS, MS" />
+                text= "MBBS, MS" /> */}
             </View>
             <View>
                 <ScrollView  style= {styles.secondCont} horizontal>
-                    <SlotBtn 
-                    date= "Today, 19 Jul"
-                     name= "No Slot Available"
-                    border= "#BBC2CC"
-                    style2= {styles.textStyle2}
-                        style1= {styles.textStyle} />
-                        <SlotBtn
-                        date= "Tomorrow, 20 Jul"
-                         name= "16 Slots Available" 
-                          border= "#A884BF"
-                        style2= {styles.textStyle1}
-                        style1= {styles.textStyle} />
-                        <SlotBtn
-                         date= "Today, 19 Jul" 
-                         name= "Slot Available"
-                          border= "#BBC2CC"
-                        style2= {styles.textStyle2}
-                        style1= {styles.textStyle} />
-                    <SlotBtn
-                        date= "Tomorrow, 20 Jul"
-                        name= "16 Slots Available"
-                        border= "#A884BF"
-                        style2= {styles.textStyle1}
-                        style1= {styles.textStyle} />
+                    {slots.map(
+                        (slot, index) => {
+                            return (
+                                <View key= {index}>
+                                <SlotBtn 
+                                onPress= {() => showAvailable(slot.slots, slot.appointment_date, slot.appointment_day, slot.count)}
+                                date= {`${slot.appointment_day}, ${slot.appointment_date}`}
+                                name= {`${slot.count} Slot Available`}
+                                border= "#BBC2CC"
+                                style2= {styles.textStyle2}
+                                    style1= {styles.textStyle} />
+                                </View>
+                            )
+                        }
+                    )}
                 </ScrollView>
             </View>
             <View style= {styles.bottomContainer}>
-                <MyAppText style= {styles.textStyle4}>Tomorrow 20, July</MyAppText>
-            </View>
-            <View style= {styles.slotContainer}>
-            <SlotIconText
-             text= "Morning"
-             slot= "3 Slots"
-             textColor= "#BBC2CC"
-             paddingBottom= {10}
-             icon= { <Icon
-                size={22}
-                color= "#94969D"
-                name={Platform.OS === 'android' ? 'md-partly-sunny' : 'ios-partly-sunny'}></Icon>}
-            />
+            <MyAppText style= {styles.textStyle4}>
+                       {`${slotDate}`}             
+            </MyAppText>
+            <MyAppText style= {styles.textStyle5}>
+                       {`${count}`}             
+            </MyAppText>
             <View style= {styles.flexContainer}>
-            <SlotPicker onPress = {()=> props.navigation.navigate('Patient')} color= "white" bg= "#51087E" time= "9:30am" />
-                <SlotPicker border= "#51087E" color= "#51087E" time= "9:30am" />
-                <SlotPicker border= "#51087E" color= "#51087E" time= "9:30am" />
-                <SlotPicker border= "#51087E" color= "#51087E" time= "9:30am" />
-                <SlotPicker border= "#51087E" color= "#51087E" time= "9:30am" />
+                {showSlot.map(
+                    (show, index) => {
+                        const sliceTime = show.app_time.slice(0, 5);
+                        return (
+                            <View key= {index}>
+                           
+                                <SlotPicker onPress = {()=> props.navigation.navigate('Patient',{slots: show, image: image, title: title, name: name, last_name: last_name})} 
+                                border= "#51087E" color= "#51087E" time= {tConvert(sliceTime)} />                                
+                            </View>
+                           
+                        )
+                    }
+                )}
+                </View>
+               
             </View>
-            </View>
-            {/* second slot */}
-            <View style= {styles.slotContainer}>
-            <SlotIconText
-             text= "Afternoon"
-             slot= "3 Slots"
-             textColor= "#BBC2CC"
-             paddingBottom= {10}
-             icon= { <Icon
-                size={22}
-                color= "#94969D"
-                name={Platform.OS === 'android' ? 'md-sunny' : 'ios-sunny'}></Icon>}
-            />
-            <View style= {styles.flexContainer}>
-                <SlotPicker border= "#51087E" color= "#51087E" time= "9:30am" />
-                <SlotPicker border= "#51087E" color= "#51087E" time= "9:30am" />
-                <SlotPicker border= "#51087E" color= "#51087E" time= "9:30am" />
-                <SlotPicker border= "#51087E" color= "#51087E" time= "9:30am" />
-            </View>
-            </View>
-            <View style= {styles.slotContainer}>
-            <SlotIconText
-             text= "Evening"
-             slot= "3 Slots"
-             textColor= "#BBC2CC"
-             paddingBottom= {10}
-             icon= { <Icon
-                size={22}
-                color= "#94969D"
-                name={Platform.OS === 'android' ? 'md-moon-outline' : 'ios-moon-outline'}></Icon>}
-            />
-            <View style= {styles.flexContainer}>
-                <SlotPicker border= "#51087E" color= "#51087E" time= "9:30am" />
-                <SlotPicker border= "#51087E" color= "#51087E" time= "9:30am" />
-                <SlotPicker border= "#51087E" color= "#51087E" time= "9:30am" />
-                <SlotPicker border= "#51087E" color= "#51087E" time= "9:30am" />
-            </View>
-            </View>
-            <View style= {styles.slotContainer}>
-            <SlotIconText
-             text= "Night"
-             slot= "3 Slots"
-             textColor= "#BBC2CC"
-             paddingBottom= {10}
-             icon= { <Icon
-                size={22}
-                color= "#94969D"
-                name={Platform.OS === 'android' ? 'md-moon' : 'ios-moon'}></Icon>}
-            />
-            <View style= {styles.flexContainer}>
-                <SlotPicker border= "#51087E" color= "#51087E" time= "9:30am" />
-                <SlotPicker border= "#51087E" color= "#51087E" time= "9:30am" />
-                <SlotPicker border= "#51087E" color= "#51087E" time= "9:30am" />
-                <SlotPicker border= "#51087E" color= "#51087E" time= "9:30am" />
-            </View>
-            </View>
-
         </ScrollView>
     )
 }
@@ -157,11 +191,13 @@ const styles = StyleSheet.create({
 
     },
     flexContainer: {
+        display: 'flex',
         flexDirection: 'row',
         width: '100%',
         flexWrap: 'wrap',
+        marginHorizontal: 20
         // alignItems: 'flex-start',
-        overflow: 'visible',
+        // overflow: 'visible',
     },
     textStyle4: {
         textAlign: 'center',
@@ -176,6 +212,10 @@ const styles = StyleSheet.create({
     textStyle2: {
         fontWeight: '100',
         opacity: 0.3
+    },
+    textStyle5: {
+        opacity: 0.5,
+        textAlign: 'center'
     },
     secondCont: {
      backgroundColor: '#E6EAF0',
@@ -195,7 +235,7 @@ const styles = StyleSheet.create({
     slotContainer: {
        borderTopColor: '#E6EAF0',
        borderTopWidth: 1,
-       marginHorizontal: 25,
+       marginHorizontal: 15,
        paddingVertical: 15
     }
 });

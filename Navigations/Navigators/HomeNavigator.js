@@ -6,6 +6,9 @@ import CustomHeaderButton from '../../Components/HeaderButton';
 import HomeScreen from '../../Screens/HomePage';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Notification from '../../Screens/Profile/Notification';
+import GeneralPractise from '../../Screens/Media/VideoScreen/GeneralPractise';
+import TimeSlot from '../../Screens/Media/VideoScreen/TimeSlot';
+import PatientDetails from '../../Screens/Media/VideoScreen/PatientDetails';
 
 
 const Stack = createStackNavigator();
@@ -87,7 +90,45 @@ const HomeNavigator = (props) => {
           headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
         }}
           />
+          <Stack.Screen name="Practise" component={GeneralPractise}
+          options={{ title: 'General Practise', headerStyle: {
+              
+              backgroundColor: '#51087E',
           
+              },
+              headerTitleStyle: {
+                fontFamily: 'HammersmithOne-Regular',
+                fontSize: 20
+              },
+          headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
+        }}
+          />  
+          <Stack.Screen name="Slot" component={TimeSlot}
+          options={{ title: 'Select Time Slot', headerStyle: {
+              
+              backgroundColor: '#51087E',
+          
+              },
+              headerTitleStyle: {
+                fontFamily: 'HammersmithOne-Regular',
+                fontSize: 18
+              },
+          headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
+        }}
+          />    
+        <Stack.Screen name="Patient" component={PatientDetails}
+          options={{ title: 'Patient Details', headerStyle: {
+              
+              backgroundColor: '#51087E',
+          
+              },
+              headerTitleStyle: {
+                fontFamily: 'HammersmithOne-Regular',
+                fontSize: 18
+              },
+          headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
+        }}
+          />  
         </Stack.Navigator>
       </>
     )

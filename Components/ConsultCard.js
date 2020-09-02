@@ -8,6 +8,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import MyBtn from './MyBtn';
 import InnerBtn from './InnerBtn';
 import MyAppText from './MyAppText';
+import SlotIconText from './SlotIconText';
 
 
 const ConsultCard = (props) => {
@@ -21,23 +22,24 @@ const ConsultCard = (props) => {
                     <MyAppText style= {styles.textStyle}>
                         {props.name}
                     </MyAppText>
-                    <MyAppText style= {styles.textColor1}>Primary care</MyAppText>
-                    <MyAppText style= {styles.textColor1}>23 years experience overall</MyAppText>
-                    <IconText width= "82%" paddingBottom= {10} text= "English, Yoruba, Hausa" icon= {<VoiceIcon width= {24} height= {24} />}  />
+                    <MyAppText style= {styles.textColor1}>
+                        {props.specialty}
+                    </MyAppText>
+                    {/* <MyAppText style= {styles.textColor1}>23 years experience overall</MyAppText> */}
+                    <SlotIconText width= "100%" paddingBottom= {10} text= {props.lang} icon= {<VoiceIcon width= {24} height= {24} />}  />
                     </View>
                 </View>
                 <Icon2 width= {24} height= {24} />
             </View>
             <View style= {styles.secondContainer}>
-                <MyAppText style= {styles.textColor2}>
+                {/* <MyAppText style= {styles.textColor2}>
                 Eko Hospital Lekki, Lagos.
-                </MyAppText>
+                </MyAppText> */}
                 <MyAppText style= {styles.textColor3}>
                     NEXT AVAILABLE
                 </MyAppText>
-                <IconText 
-                width= "40%"
-                text= "12:00PM, Today"
+                <SlotIconText 
+                text= {props.available}
                 icon= {<Icon
                       size={22}
                       color= "#6C0BA9"
@@ -58,7 +60,8 @@ const styles = StyleSheet.create({
         marginVertical: 10
     },
     textColor1: {
-        color: '#9B9B9B'
+        color: '#9B9B9B',
+        marginBottom: 4
     },
     btnContainer: {
         marginHorizontal: 15

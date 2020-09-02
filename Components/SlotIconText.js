@@ -22,7 +22,8 @@ const SlotIconText = (props) => {
         },
         textStyle: {
             marginHorizontal: 10,
-            color: props.color
+            color: props.color,
+            fontSize: props.size
         }
     });
     return (

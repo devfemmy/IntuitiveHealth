@@ -9,6 +9,9 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import Profilepage from '../../Screens/Profile/Profile';
 import ProfileButton from '../../Components/ProfileBtn';
 import HelpCenter from '../../Screens/Settings/settings';
+import Personal from '../../Screens/Profile/Personal';
+import CheckBmi from '../../Screens/Profile/CheckBmi';
+import LifeStyle from '../../Screens/Profile/LifeStyle';
 
 
 const Stack = createStackNavigator();
@@ -72,6 +75,54 @@ const ProfileNavigator = (props) => {
             //   color="red"
             // />
           ), 
+          headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
+        }}
+          />
+          <Stack.Screen name="Personal" component={Personal}
+          options={{ title: 'Personal', headerStyle: {
+              
+              backgroundColor: '#51087E',
+          
+              
+              
+
+          },
+          headerTitleStyle: {
+            fontFamily: 'HammersmithOne-Regular',
+            fontSize: 20
+          },
+          headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
+        }}
+          />
+          <Stack.Screen name="Bmi" component={CheckBmi}
+          options={{ title: 'Body Mass Index', headerStyle: {
+              
+              backgroundColor: '#51087E',
+          
+              
+              
+
+          },
+          headerTitleStyle: {
+            fontFamily: 'HammersmithOne-Regular',
+            fontSize: 20
+          },
+          headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
+        }}
+          />
+          <Stack.Screen name="Lifestyle" component={LifeStyle}
+          options={{ title: 'Life Style', headerStyle: {
+              
+              backgroundColor: '#51087E',
+          
+              
+              
+
+          },
+          headerTitleStyle: {
+            fontFamily: 'HammersmithOne-Regular',
+            fontSize: 20
+          },
           headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
         }}
           />

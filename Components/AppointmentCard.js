@@ -10,8 +10,8 @@ const AppointmentCard = (props) => {
         container : {
             marginBottom: 15,
             backgroundColor: 'white',
-            minHeight: 50,
-            maxHeight: 180,
+            minHeight: 180,
+            // maxHeight: 250,
             borderWidth: 1,
             borderColor: '#E8E8E8',
             borderRadius: 5
@@ -24,21 +24,23 @@ const AppointmentCard = (props) => {
             fontSize: 13
         },
         flexContainer: {
-            display: 'flex',
+            // display: 'flex',
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
-            padding: 18,
+            paddingHorizontal: 18,
+            paddingVertical: 10
           
         },
         flexContainer2: {
-            display: 'flex',
+            // display: 'flex',
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
             borderTopWidth: 1,
             borderTopColor: '#E8E8E8',
-            padding: 18
+            paddingHorizontal: 10,
+            paddingVertical: 10
           
         },
         textStyle: {
@@ -60,21 +62,22 @@ const AppointmentCard = (props) => {
     });
     return (
         <View style= {styles.container}>
+            <TouchableOpacity onPress= {props.onPress}>
             <View style= {styles.flexContainer}>
                 <Image
-                style= {{width: 60, height: 60, resizeMode: 'cover'}} 
-                source= {require('../assets/sliders/images/doctor.png')} />
+                style= {{width: 60, height: 60, resizeMode: 'cover', borderRadius: 60}} 
+                source= {{uri: props.image}} />
                 <View style= {styles.textContainer}>
                     <MyAppText>
                             <MyAppText style= {styles.textStyle2}>Appointment with</MyAppText>
-                                <MyAppText style= {styles.textStyle1}> Dr. Jonathan Doe</MyAppText>
+                            <MyAppText style= {styles.textStyle1}>{`Dr ${props.doctor}`}</MyAppText>
                     </MyAppText>
-                    <MyAppText style= {styles.textStyle2}>Virtual General Practise</MyAppText>
+                    {/* <MyAppText style= {styles.textStyle2}>Virtual General Practise</MyAppText> */}
                     <TouchableOpacity>
                         <SlotIconText color="#6C0BA9" icon= {<Icon
                         size={22}
                         color= "#000000"
-                        name={Platform.OS === 'android' ? 'md-videocam' : 'ios-videocam'}></Icon>} text= "Tomorrow, 20 Jul, 1:00am" />
+                        name={Platform.OS === 'android' ? 'md-videocam' : 'ios-videocam'}></Icon>} text= {props.appdate} />
                     </TouchableOpacity>
                 </View>
             </View>
@@ -91,6 +94,7 @@ const AppointmentCard = (props) => {
             <MyAppText style= {styles.textStyle}>
                 {props.textDes}
             </MyAppText>
+            </TouchableOpacity>
         </View>
     )
 }

@@ -16,7 +16,7 @@ const VitalsPage = (props) => {
                     </MyAppText>
                     <View style= {styles.btnContainer}>
                         <InnerBtn onPress= {()=> props.navigation.navigate('Input')} bg= "#6C0BA9" color= "white" text= "Continue" />
-                        <InnerBtn color= "#6C0BA9" text= "Skip for later" />
+                        <InnerBtn border= "#f7f7fa" color= "#6C0BA9" text= "Skip for later" />
                     </View>
             </View>
         </ScrollView>
