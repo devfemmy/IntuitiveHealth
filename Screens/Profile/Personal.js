@@ -42,7 +42,6 @@ const Personal = (props) => {
                       setFirstname(firstname);
                       setLastname(lastname);
                       setEmail(email);
-                      AsyncStorage.setItem('email', email);
                       setOccupation(occupation)
                       setLocation(location)
                      

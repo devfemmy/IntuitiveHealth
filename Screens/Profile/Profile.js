@@ -103,6 +103,15 @@ card: {
     alignItems: 'center',
     paddingRight: 30,
     marginBottom: 20,
+    shadowColor: "#1F1F1F1F",
+    shadowOffset: {
+        width: 5,
+        height: 5,
+    },
+    shadowOpacity: 1,
+    shadowRadius: 3.84,
+
+    elevation: 5,
 },
 });
 

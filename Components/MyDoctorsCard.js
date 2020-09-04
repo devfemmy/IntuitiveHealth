@@ -45,7 +45,16 @@ const styles = StyleSheet.create({
         borderColor: '#E8E8E8',
         minHeight: 200,
         marginHorizontal: 30,
-        marginVertical: 10
+        marginVertical: 10,
+        shadowColor: "#1F1F1F1F",
+        shadowOffset: {
+            width: 5,
+            height: 5,
+        },
+        shadowOpacity: 1,
+        shadowRadius: 3.84,
+
+        elevation: 5,
     },
     iconContainer: {
         width: '100%'

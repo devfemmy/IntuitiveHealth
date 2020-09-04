@@ -13,7 +13,17 @@ const DescriptionCard = (props) => {
             minWidth: 150,
             maxWidth: 170,
             marginVertical: 20,
+            borderRadius: 5,
             marginRight: 15,
+            shadowColor: "#1F1F1F1F",
+            shadowOffset: {
+                width: 5,
+                height: 5,
+            },
+            shadowOpacity: 1,
+            shadowRadius: 3.84,
+    
+            elevation: 5,
        
         },
         imageContainer: {
@@ -44,7 +54,8 @@ const DescriptionCard = (props) => {
         textStyle3: {
             color: '#6C0BA9',
             fontWeight: 'bold',
-            marginBottom: 10
+            marginBottom: 10,
+            textAlign: 'center'
         }
 
     })
@@ -53,7 +64,10 @@ const DescriptionCard = (props) => {
             <TouchableOpacity onPress= {props.onPress}>
             <View style= {styles.container}>
             <View style= {styles.imageContainer}>
-                    <Image style= {props.thumbimg} source= {props.source} />
+                    <Image 
+                    defaultSource= {props.defaultSource}
+                    style= {props.thumbimg} 
+                    source= {props.source} />
             </View>
             <View style= {styles.textContainer}>
             <MyAppText style= {styles.textStyle}>{props.name}</MyAppText>

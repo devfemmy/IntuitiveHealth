@@ -29,7 +29,16 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         width: '80%',
-        minHeight: 90
+        minHeight: 90,
+        shadowColor: "#1F1F1F1F",
+        shadowOffset: {
+            width: 5,
+            height: 5,
+        },
+        shadowOpacity: 1,
+        shadowRadius: 3.84,
+
+        elevation: 5,
     },
     flexCont: {
         paddingTop: 10

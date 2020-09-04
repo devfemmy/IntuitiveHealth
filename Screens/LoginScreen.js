@@ -1,5 +1,5 @@
 import React, { Component,useEffect, useState, useContext } from 'react';
-import { View, StyleSheet,Text, TouchableOpacity, Image, 
+import { View, StyleSheet,Text, TouchableOpacity, Image, Alert,
   AsyncStorage,ActivityIndicator,
   TextInput, ScrollView } from 'react-native';
 import FormInput from '../Components/FormInput';
@@ -37,6 +37,7 @@ const LoginScreen = (props) => {
       alert("Please fill in your correct credentials")
   } else {
       // {props.userButton}
+      AsyncStorage.setItem('email', email);
       setBtn(true)
       // signIn({email:email.email,password:email.password});
       const data = {
@@ -54,12 +55,17 @@ const LoginScreen = (props) => {
           const firstname = response.data.name;
           const member_no = response.data.member_no;
           const lastname = response.data.last_name;
+          const subscript = response.data.subscription.subscription;
+          const color = response.data.subscription.color;
           // const memberId = response.success.user.Membership_id;
           // const currentBal = response.success.user.Available_balance;
           // const blockedPts = response.success.user.Blocked_points;
           AsyncStorage.setItem('membershipId', member_no);
           AsyncStorage.setItem('firstname', firstname);
           AsyncStorage.setItem('lastname', lastname);
+          // console.log('Subscript', subscript)
+          AsyncStorage.setItem('subscript', subscript);
+          AsyncStorage.setItem('color', color);
           // AsyncStorage.setItem('currentBal', currentBal);
           // AsyncStorage.setItem('blockedpts', blockedPts);
           AsyncStorage.setItem('Mytoken', "Bearer "+token);
@@ -74,6 +80,9 @@ const LoginScreen = (props) => {
         
       }).catch(err => {
           const code = err.response.status;
+          if (code === 400) {
+            alert('Password is Incorrect')
+          }
           if (code === 401) {
               Alert.alert(
                   'Error!',

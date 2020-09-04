@@ -22,16 +22,16 @@ const styles = StyleSheet.create({
         padding: 20,
         borderWidth: 1,
         borderColor: '#E8E8E8',
-        // shadowColor: "black",
-        // shadowOffset: {
-        //     width: 3,
-        //     height: 3,
-        // },
-        // shadowOpacity: 0.15,
-        // shadowRadius: 3.84,
+        borderRadius: 5,
+        shadowColor: "#1F1F1F1F",
+        shadowOffset: {
+            width: 5,
+            height: 5,
+        },
+        shadowOpacity: 1,
+        shadowRadius: 3.84,
 
-        // elevation: 5,
-        borderRadius: 5
+        elevation: 5,
     },
     flexContainer: {
         display: 'flex',

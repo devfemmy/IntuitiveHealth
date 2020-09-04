@@ -107,6 +107,8 @@ class GeneralPractise extends Component {
                 (lang, index) => <MyAppText key= {index}>{lang.language} </MyAppText>
               )
               }
+              experience= {`${item.experience} Years Experience`}
+              qualification= {item.qualification}
               specialty= {item.specialty}
               pressed = {
                 (item.slots === null) ? ()=> alert('Doctor Not Available') : ()=> this.props.navigation.navigate('Slot', {doctor_id: item.id})

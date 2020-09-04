@@ -7,12 +7,17 @@ import Logo1 from '../assets/sliders/images/home1.svg';
 import MyAppText from '../Components/MyAppText';
 import Arrow from '../assets/sliders/images/arrow2.svg';
 import axios from 'axios';
+import Carousel from 'react-native-snap-carousel';
 // import Card from '../assets/sliders/images/placard.svg'
 
 const HomeScreen = (props) => {
     const [firstname, setFirstName] = React.useState('');
     const [lastname, setLastName] = React.useState('');
     const [doctors, setDoctors] = React.useState([]);
+    const [image, setImage] = React.useState('');
+    const [mentalSliders, setMentalSliders] = React.useState([]);
+    const [Sliders, setSliders] = React.useState([]);
+
     const name = AsyncStorage.getItem('firstname').then(
         res => {
            setFirstName(res)
@@ -26,24 +31,128 @@ const HomeScreen = (props) => {
       useEffect(() => {
         const id = AsyncStorage.getItem('Mytoken').then(
             res => {
-               console.log('home', res)
+               console.log('home', res);
+               axios.get('https://conduit.detechnovate.net/public/api/conduithealth/sliders', {headers: {Authorization: res}})
+               .then(
+                res => {
+                    console.log("home1", res.data)
+                    const sliders = res.data.data;
+                    setSliders(sliders)
+               
+                   
+                }
+            )
+            .catch(err => {
+                const code = err.response.status;
+                if (code === 401) {
+                    Alert.alert(
+                        'Error!',
+                        'Expired Token',
+                        [
+                          {text: 'OK', onPress: () => signOut()},
+                        ],
+                        { cancelable: false }
+                      )
+                  
+                } else {
+                    showLoaded(true)
+                    Alert.alert(
+                        'Network Error',
+                        'Please Try Again',
+                        [
+                          {text: 'OK', onPress: () => setShowBtn(true)},
+                        ],
+                        { cancelable: false }
+                      )
+                }
+
+                  
+                  console.log(err.response.status)
+
+            });
+            axios.get('http://conduit.detechnovate.net/public/api/conduithealth/mental/sliders', {headers: {Authorization: res}})
+            .then(
+             res => {
+                 console.log("home2", res.data)
+                 const mental_sliders = res.data.data;
+                 setMentalSliders(mental_sliders)
+                 
+           
+                
+             }
+         )
+         .catch(err => {
+             const code = err.response.status;
+             if (code === 401) {
+                 Alert.alert(
+                     'Error!',
+                     'Expired Token',
+                     [
+                       {text: 'OK', onPress: () => signOut()},
+                     ],
+                     { cancelable: false }
+                   )
+               
+             } else {
+                 showLoaded(true)
+                 Alert.alert(
+                     'Network Error',
+                     'Please Try Again',
+                     [
+                       {text: 'OK', onPress: () => setShowBtn(true)},
+                     ],
+                     { cancelable: false }
+                   )
+             }
+
+               
+               console.log(err.response.status)
+
+         });
+         axios.get('https://conduit.detechnovate.net/public/api/conduithealth/ad/image', {headers: {Authorization: res}})
+         .then(
+          res => {
+              console.log("home3", res.data)
+              const image = res.data.data.image;
+              setImage(image)
+             
+          }
+      )
+      .catch(err => {
+          const code = err.response.status;
+          if (code === 401) {
+              Alert.alert(
+                  'Error!',
+                  'Expired Token',
+                  [
+                    {text: 'OK', onPress: () => signOut()},
+                  ],
+                  { cancelable: false }
+                )
+            
+          } else {
+              showLoaded(true)
+              Alert.alert(
+                  'Network Error',
+                  'Please Try Again',
+                  [
+                    {text: 'OK', onPress: () => setShowBtn(true)},
+                  ],
+                  { cancelable: false }
+                )
+          }
+
+            
+            console.log(err.response.status)
+
+      });
+
                 axios.get('https://conduit.detechnovate.net/public/api/conduithealth/doctors/1', {headers: {Authorization: res}})
                 .then(
                     res => {
                         console.log("home", res.data)
                         const doctors = res.data.data;
                         setDoctors(doctors);
-                        // const profile = res.data.data;
-                        // const lastname = profile.last_name;
-                        // const firstname = profile.name;
-                        // const email = profile.email;
-                        // const occupation = profile.occupation;
-                        // const location = profile.location;
-                        // setFirstname(firstname);
-                        // setLastname(lastname);
-                        // setEmail(email);
-                        // setOccupation(occupation)
-                        // setLocation(location)
                        
                     }
                 )
@@ -81,7 +190,16 @@ const HomeScreen = (props) => {
         
     
       }, []);
-      const fullname = `${firstname.slice(0, 1).toUpperCase()}${lastname.slice(0, 1).toUpperCase()}`
+      const fullname = `${firstname.slice(0, 1).toUpperCase()}${lastname.slice(0, 1).toUpperCase()}`;
+     const _renderItem = ({item, index}) => {
+        return (
+            <View style={styles.slide}>
+                <TouchableOpacity>
+                    <Image  defaultSource= {require('../assets/sliders/images/placeholder2.png')} style= {styles.imageStyle6} source= {{uri: item.image}} />
+                </TouchableOpacity>
+            </View>
+        );
+    }
     return (
         <ScrollView style= {styles.container}>
         <TouchableOpacity onPress= {()=> props.navigation.navigate('Profile')}>
@@ -101,6 +219,18 @@ const HomeScreen = (props) => {
                 <Arrow width= {35} height= {35} />
            </View>
         </TouchableOpacity>
+        <View>
+            <Carousel
+                // ref={(c) => { _carousel = c; }}
+                data={Sliders}
+                renderItem={_renderItem}
+                sliderWidth={400}
+                itemWidth={350}
+                autoplay= {true}
+                lockScrollWhileSnapping= {true}
+                loop= {true}
+                />
+        </View>
         <View style= {styles.secondCont}>
             <TouchableOpacity onPress= {()=> props.navigation.navigate('Practise')}>
                     <View style= {styles.card}>
@@ -109,7 +239,7 @@ const HomeScreen = (props) => {
                         </View>
                         <View style= {styles.textContainer}>
                             <MyAppText style= {styles.boldText}>Find a doctor</MyAppText>
-                            <MyAppText style= {styles.textStyle4}>Get virtual consultation online with doctors on the go.</MyAppText>
+                            <MyAppText style= {styles.textStyle4}>Get virtual consultation online with doctors</MyAppText>
                             <MyAppText style= {styles.textStyle2}>Find Doctor</MyAppText>
                         </View>
                     </View>
@@ -141,6 +271,7 @@ const HomeScreen = (props) => {
                                 <DescriptionCard source= {{uri: doctor.image}}
                                 name= {`${doctor.name} ${doctor.last_name}`}
                                 thumbimg = {styles.thumbimg}
+                                defaultSource= {require('../assets/sliders/images/placeholder.png')}
                             />
                             </View>
                         )
@@ -152,7 +283,8 @@ const HomeScreen = (props) => {
             <TouchableOpacity>
             <Image 
                 style= {styles.imageDim}
-                source= {require('../assets/sliders/images/plan_card.png')} />
+                defaultSource= {require('../assets/sliders/images/placeholder2.png')}
+                source= {{uri: image}} />
             </TouchableOpacity>
 
         </View>
@@ -161,24 +293,20 @@ const HomeScreen = (props) => {
                 <MyAppText style= {{...styles.bolderText, ...styles.textColor}}>Chat with Top Doctors</MyAppText>
             </View>
             <ScrollView showsHorizontalScrollIndicator= {false}  horizontal>
-                <DescriptionCard source={require('../assets/sliders/images/thumbs6.png')}
-                name= "Having issues with you skin?"
-                title= "Dermatologists"
-                consult= "Consult Now"
-                thumbimg = {styles.biggerThumb}
-                />
-                <DescriptionCard source={require('../assets/sliders/images/thumbs7.png')}
-                name= "Not sure of your hormone system?"
-                title= "Dermatologists"
-                consult= "Consult Now"
-                thumbimg = {styles.biggerThumb}
-                />
-                <DescriptionCard source={require('../assets/sliders/images/thumbs8.png')}
-                name= "Not sure of your hormone system?"
-                title= "Dermatologists"
-                consult= "Consult Now"
-                thumbimg = {styles.biggerThumb}
-                />
+                {mentalSliders.map (
+                    (slides, index) => {
+                        return (
+                            <View key= {index}>
+                                <DescriptionCard source={{uri: slides.image}}
+                                name= {slides.name}
+                                thumbimg = {styles.biggerThumb}
+                                consult= "Consult Now"
+                                defaultSource= {require('../assets/sliders/images/placeholder2.png')}
+                                />
+                            </View>
+                        )
+                    }
+                )}
             </ScrollView>
         </View>
         
@@ -197,7 +325,8 @@ const styles = StyleSheet.create({
         height: 80
     },
     imageStyleContainer: {
-        marginVertical: 10
+        marginVertical: 10,
+        paddingHorizontal: 15
     },
     thumbimg: {
         width: 80,
@@ -212,7 +341,8 @@ const styles = StyleSheet.create({
     },
     imageDim: {
         width: '100%',
-        height: 240
+        height: 240,
+        borderRadius: 8
     },
     textContainer: {
         width: '60%'
@@ -231,7 +361,16 @@ const styles = StyleSheet.create({
         marginVertical: 15
     },
     secondCont: {
-        paddingHorizontal: 30
+        paddingHorizontal: 30,
+        shadowColor: "#1F1F1F1F",
+        shadowOffset: {
+            width: 5,
+            height: 5,
+        },
+        shadowOpacity: 1,
+        shadowRadius: 3.84,
+
+        elevation: 5,
     },
     lowerContainer: {
         paddingHorizontal: 30,
@@ -253,6 +392,12 @@ const styles = StyleSheet.create({
         height: 80,
         resizeMode: 'contain'
     },
+    imageStyle6: {
+        width: 350,
+        height: 200,
+        resizeMode: 'contain'
+    },
+
     imageStyle2: {
         width: 40,
         height: 40,

@@ -14,7 +14,16 @@ const AppointmentCard = (props) => {
             // maxHeight: 250,
             borderWidth: 1,
             borderColor: '#E8E8E8',
-            borderRadius: 5
+            borderRadius: 5,
+            shadowColor: "#1F1F1F1F",
+            shadowOffset: {
+                width: 5,
+                height: 5,
+            },
+            shadowOpacity: 1,
+            shadowRadius: 3.84,
+    
+            elevation: 5,
         },
         appIdText: {
             color: '#464646'

@@ -1,9 +1,11 @@
 import React, {useState, useEffect} from 'react';
-import { View, StyleSheet, ScrollView, AsyncStorage,ActivityIndicator, Switch } from 'react-native';
+import { View, StyleSheet, ScrollView, AsyncStorage,ActivityIndicator } from 'react-native';
+// import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
 import InnerBtn from '../../Components/InnerBtn';
-import ProfileInput from '../../Components/ProfileInput';
 import MyAppText from '../../Components/MyAppText';
 import axios from '../../axios-req';
+import RadioButton from '../../Components/RadioButtons';
+
 
 const LifeStyle = (props) => {
     const [dob, setDob] = React.useState('java');
@@ -21,7 +23,8 @@ const LifeStyle = (props) => {
     const [weight, setWeight] = useState('');
     const [bmi, setBmi] = useState('');
     const [questions, setQuestions] = useState([]);
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(true);
+    const [checked, setChecked] = useState(false);
 
     const toggleSwitch = (index) => {
       alert(index)
@@ -85,25 +88,54 @@ const LifeStyle = (props) => {
         </View>
       );
     }
+    const onPressCheckbox = (value) => {
+      // alert(value)
+      // if (value === 'yes') {
+      //   setChecked(true)
+      // }
+    }
     return (
         <ScrollView style= {styles.container}>
       <View style={[styles.scene, { backgroundColor: '#F7F7FA', padding: 20 }]}>
         <View style= {styles.profileCont}>          
                     {questions.map(
                       (question, index) =>  {
+                        let options = question.options;
+                        // const PROP = [
+                        //   {
+                        //     id: 'samsung',
+                        //     name: 'Samsung',
+                        //   },
+                        //   {
+                        //     id: 'apple',
+                        //     name: 'Apple',
+                        //   },
+                        // ];
+                        const PROP = options;
+                        console.log('answers', question.options.name)
                         return (
-                          <View key = {index} style= {styles.switchContainer}>
-
-                          <MyAppText>
+                          <View key = {index}>
+                          <MyAppText style= {styles.headerText}>
                             {question.question.question}
                           </MyAppText>
-                            <Switch
-                                trackColor={{ false: "#B4BBC6", true: "#880ED4" }}
-                                thumbColor={isEnabled ? "white" : "white"}
-                                ios_backgroundColor="#B4BBC6"
-                                onValueChange={(index)=> toggleSwitch(index)}
-                                value={isEnabled}
-                            />
+                          <RadioButton PROP={PROP} />
+                          <View>
+                              {/* {question.options.map(
+                                (ans, index) => {
+                                  return (
+                                    <View key= {index}>
+                                    <CheckBox
+                                      title={ans.name}
+                                      checkedIcon='dot-circle-o'
+                                      uncheckedIcon='circle-o'
+                                      checked={checked}
+                                      onPress={()=> onPressCheckbox(ans.name)}
+                                    />
+                                    </View>
+                                  )
+                                }
+                              )} */}
+                          </View>
                             </View>
                         )
                       }
@@ -151,6 +183,10 @@ const styles = StyleSheet.create({
     labelStyle: {
       fontFamily: 'HammersmithOne-Regular' 
     },
+    headerText: {
+      fontSize: 20,
+      marginBottom: 10
+    },
     switchContainer: {
       display: 'flex',
       flexDirection: 'row',
@@ -180,6 +216,10 @@ const styles = StyleSheet.create({
       fontSize: 28,
       marginBottom: 25,
       textAlign: 'left'
+    },
+    options: {
+      backgroundColor: 'red',
+      marginVertical: 5
     },
     resultContainer: {
       marginVertical: 40

@@ -49,7 +49,16 @@ const styles = StyleSheet.create({
         marginHorizontal: 30,
         marginVertical: 10,
         paddingVertical: 10,
-        borderRadius: 8
+        borderRadius: 8,
+        shadowColor: "#1F1F1F1F",
+        shadowOffset: {
+            width: 5,
+            height: 5,
+        },
+        shadowOpacity: 1,
+        shadowRadius: 3.84,
+
+        elevation: 5,
     },
     iconContainer: {
         width: '100%'

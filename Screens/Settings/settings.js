@@ -10,12 +10,12 @@ const SettingPage = (props) => {
     return (
         <ScrollView style= {styles.container}>
            <View>
-               <TouchableOpacity>
+               <TouchableOpacity onPress= {()=> props.navigation.navigate('About')}>
                 <ProfileCard>
                         <MyAppText style= {styles.textStyle}>About Conduit Telehealth</MyAppText>
                     </ProfileCard>
                </TouchableOpacity>
-               <TouchableOpacity>
+               <TouchableOpacity onPress= {()=> props.navigation.navigate('Terms')}>
                 <ProfileCard>
                         <MyAppText style= {styles.textStyle}>Privacy Policy</MyAppText>
                     </ProfileCard>
@@ -25,10 +25,10 @@ const SettingPage = (props) => {
                         <MyAppText style= {styles.textStyle}>Rate Conduit Telehealth App</MyAppText>
                     </ProfileCard>
                </TouchableOpacity>
-               <TouchableOpacity   onPress={() => signOut(props)}>
+               <TouchableOpacity>
                 <ProfileCard>
-                        <MyAppText style= {styles.textStyle2}>Logout</MyAppText>
-                        <Icon width= {25} height= {25} />
+                        <MyAppText style= {styles.textStyle}>Change Password</MyAppText>
+                        {/* <Icon width= {25} height= {25} /> */}
 
                     </ProfileCard>
                </TouchableOpacity>

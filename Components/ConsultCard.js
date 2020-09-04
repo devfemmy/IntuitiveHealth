@@ -25,7 +25,12 @@ const ConsultCard = (props) => {
                     <MyAppText style= {styles.textColor1}>
                         {props.specialty}
                     </MyAppText>
-                    {/* <MyAppText style= {styles.textColor1}>23 years experience overall</MyAppText> */}
+                    <MyAppText style= {styles.textColor1}>
+                        {props.qualification}
+                    </MyAppText>
+                    <MyAppText style= {styles.textColor1}>
+                        {props.experience}
+                    </MyAppText>
                     <SlotIconText width= "100%" paddingBottom= {10} text= {props.lang} icon= {<VoiceIcon width= {24} height= {24} />}  />
                     </View>
                 </View>
@@ -57,7 +62,16 @@ const styles = StyleSheet.create({
         borderColor: '#E8E8E8',
         minHeight: 200,
         marginHorizontal: 30,
-        marginVertical: 10
+        marginVertical: 10,
+        shadowColor: "#1F1F1F1F",
+        shadowOffset: {
+            width: 5,
+            height: 5,
+        },
+        shadowOpacity: 1,
+        shadowRadius: 3.84,
+
+        elevation: 5,
     },
     textColor1: {
         color: '#9B9B9B',
