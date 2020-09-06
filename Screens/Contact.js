@@ -5,55 +5,22 @@ import {Collapse,CollapseHeader, CollapseBody, AccordionList} from 'accordion-co
 import ArrowIcon from '../assets/sliders/images/arrow1.svg'
 import axios from 'axios';
 import MyAppText from '../Components/MyAppText';
-const Faq = () => {
-    const [faqs, setFaq] = useState([]);
+import UploadIcon from '../assets/sliders/images/contact.svg';
+import ProfileCard from '../Components/ProfileCard';
+
+
+const ContactUs = () => {
     const [phone, setPhone] = useState([]);
     const [loading, setLoading] = useState(true);
     useEffect(() => {
         const id = AsyncStorage.getItem('Mytoken').then(
             res => {
                 console.log('token', res)
-                axios.get('https://conduit.detechnovate.net/public/api/faqs', {headers: {Authorization: res}})
-                .then(
-                    res => {
-                        const faq = res.data.data;
-                        setFaq(faq);
-                        setLoading(false)
-                       
-                    }
-                )
-                .catch(err => {
-                    const code = err.response.status;
-                    if (code === 401) {
-                        Alert.alert(
-                            'Error!',
-                            'Expired Token',
-                            [
-                              {text: 'OK', onPress: () => signOut()},
-                            ],
-                            { cancelable: false }
-                          )
-                      
-                    } else {
-                        // showLoaded(true)
-                        Alert.alert(
-                            'Network Error',
-                            'Please Try Again',
-                            [
-                              {text: 'OK', onPress: () => console.log(err)},
-                            ],
-                            { cancelable: false }
-                          )
-                    }
-    
-                      
-                      console.log(err.response.status)
-    
-                });
                 axios.get('https://conduit.detechnovate.net/public/api/help/no', {headers: {Authorization: res}})
                 .then(
                     res => {
                         // console.log('number', res.data.data[0])
+                        setLoading(false)
                         const contactNumber = res.data.data;
                         setPhone(contactNumber);
                         console.log(contactNumber)
@@ -63,6 +30,7 @@ const Faq = () => {
                     }
                 )
                 .catch(err => {
+                    setLoading(false)
                     const code = err.response.status;
                     if (code === 401) {
                         Alert.alert(
@@ -106,30 +74,29 @@ const Faq = () => {
       }
     return (
         <ScrollView style= {styles.container}>
-            <View>
-            {faqs.map(
-                (faq, index) => {
-                    return (
-                        <View key= {index}>
-                            <Collapse style= {styles.collapse}>
-                                <CollapseHeader>
-                                <View style= {styles.flexCont}>
-                                    <MyAppText style= {styles.textStyle}>
-                                        {faq.question}
-                                    </MyAppText>
-                                <ArrowIcon width={30} height= {30} />
+            <View style= {styles.imageContainer}>
+                <UploadIcon width= {250} height={220} />
+            </View>
+            <View style= {styles.textContainer}>
+                <MyAppText style= {styles.textStyle3}>
+                    Feel Free To Contact Us today
+                </MyAppText>
+                {phone.map(
+                    (number, index) => {
+                        return (
+                            
+                                <View key= {index}>
+                                    <ProfileCard>
+                                        <MyAppText style= {styles.contactStyle} onPress={()=>{Linking.openURL(`tel:${number.number}`);}}>
+                                        {`Call: ${number.number}`}
+                                        </MyAppText>
+                                    </ProfileCard>
+                                    
                                 </View>
-                                </CollapseHeader>
-                                <CollapseBody>
-                                <MyAppText style= {styles.faqText}> 
-                                    {faq.answer}
-                                </MyAppText>
-                                </CollapseBody>
-                            </Collapse>
-                        </View>
-                    )
-                }
-            )}
+                            
+                        )
+                    }
+                )}
             </View>
 
         </ScrollView>
@@ -160,9 +127,19 @@ const styles = StyleSheet.create({
         fontSize: 17,
         fontWeight: 'bold'
     },
+    contactStyle: {
+        textAlign: 'center'
+    },
     textStyle2: {
         fontSize: 16,
         marginVertical: 5
+    },
+    textStyle3: {
+        color: '#6C0BA9',
+        textAlign: 'center',
+        fontSize: 25,
+        marginHorizontal: 50,
+        marginBottom: 20
     },
     collapse: {
         backgroundColor: '#F7F7FA',
@@ -171,7 +148,11 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderBottomColor: '#ccc',
         minHeight: 40
+    },
+    imageContainer: {
+        alignItems: 'center',
+        marginVertical: 30
     }
 });
 
-export default Faq
+export default ContactUs

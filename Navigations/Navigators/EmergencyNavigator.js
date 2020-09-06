@@ -83,7 +83,7 @@ const EmergencyNavigator = (props) => {
         }}
           />
         <Stack.Screen name="Voice" component={VoiceCall}
-          options={{ title: 'Voice Call', headerStyle: {
+          options={{ title: 'Audio Consultation', headerStyle: {
               
               backgroundColor: '#51087E',
           

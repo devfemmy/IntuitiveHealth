@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
-import EmergencyIcon from '../../assets/sliders/images/emergency.svg';
+import EmergencyIcon from '../../assets/sliders/images/emergency1.svg';
 import PhoneIcon from '../../assets/sliders/images/ecall.svg';
 import VideoIcon from '../../assets/sliders/images/evideo.svg';
 import MyAppText from '../../Components/MyAppText';
@@ -47,7 +47,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#51087E',
     },
     firstContainer: {
-        alignItems: 'center'
+        alignItems: 'center',
+        marginVertical: 25
     },
     lowerContainer: {
         margin: 20,

@@ -14,7 +14,7 @@ export default class RadioButton extends Component {
 		props.pressed()
 	}
 	render() {
-		const { PROP } = this.props;
+		const { PROP,pressed,question_id } = this.props;
         const { value } = this.state;
         console.log('value', this.state)
 
@@ -34,8 +34,9 @@ export default class RadioButton extends Component {
 								// }}
 								onPress= {
 									() => {
-										this.pressedFunction(res.id),
-										this.functionPressed(this.props)
+										this.props.pressed({question_id, value: res.id}),
+										this.pressedFunction(res.id)
+										// this.functionPressed(this.props)
 									}
 								}
 								>

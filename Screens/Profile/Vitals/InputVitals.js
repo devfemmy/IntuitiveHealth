@@ -96,6 +96,7 @@ const InputVitals = () => {
                 <VitalInput
                 // onChangeText= {(value)=> setPressFunc(value)}
                 keyboardType= "numeric"
+                placeholder= "180/260"
                 // color= {color} 
                 // indicator= {indicator} 
                 label= "Blood Pressure" />

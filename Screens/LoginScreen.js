@@ -165,7 +165,7 @@ const LoginScreen = (props) => {
                       </MyAppText>
                       </View>
                       <MyAppText style= {{textAlign: 'center', fontSize: 16, color: '#9B9B9B'}}>By continuing, you agree to
-                       <MyAppText style= {{color: '#51087E', fontWeight: 'bold'}}> Terms & Conditions</MyAppText>
+                       <MyAppText onPress={() => props.navigation.navigate('Terms')} style= {{color: '#51087E', fontWeight: 'bold'}}> Terms & Conditions</MyAppText>
                         </MyAppText>
                     </View>
                  

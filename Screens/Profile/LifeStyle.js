@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { View, StyleSheet, ScrollView, AsyncStorage,ActivityIndicator } from 'react-native';
+import { View, StyleSheet,Alert, ScrollView, AsyncStorage,ActivityIndicator } from 'react-native';
 // import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
 import InnerBtn from '../../Components/InnerBtn';
 import MyAppText from '../../Components/MyAppText';
@@ -8,23 +8,9 @@ import RadioButton from '../../Components/RadioButtons';
 
 
 const LifeStyle = (props) => {
-    const [dob, setDob] = React.useState('java');
-    const [isEnabled, setIsEnabled] = React.useState(false);
-    const [isEnabled2, setIsEnabled2] = React.useState(false);
-    const toggleSwitch2 = () => setIsEnabled2(previousState => !previousState);
-    const [firstname, setFirstname] = useState('');
-    const [lastname, setLastname] = useState('');
-    const [email, setEmail] = useState('');
-    const [occupation, setOccupation] = useState('');
-    const [showLoaded, setShowLoaded] = useState(false);
-    const [location, setLocation] = useState('');
     const [showBtn, setShowBtn] = useState(true);
-    const [height, setHeight] = useState('');
-    const [weight, setWeight] = useState('');
-    const [bmi, setBmi] = useState('');
     const [questions, setQuestions] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [checked, setChecked] = useState(false);
 
     const toggleSwitch = (index) => {
       alert(index)
@@ -47,6 +33,7 @@ const LifeStyle = (props) => {
                   }
               )
               .catch(err => {
+                console.log(err)
                 setLoading(false)
                   const code = err.response.status;
                   if (code === 401) {
@@ -61,6 +48,7 @@ const LifeStyle = (props) => {
                     
                   } else {
                     setLoading(false)
+                    console.log(err)
                       Alert.alert(
                           'Network Error',
                           'Please Try Again',
@@ -88,26 +76,74 @@ const LifeStyle = (props) => {
         </View>
       );
     }
-    const onPressCheckbox = (value) => {
-      // alert(value)
-      // if (value === 'yes') {
-      //   setChecked(true)
-      // }
+    const sortArray = () => {
+      setShowBtn(false)
+
+     const id = AsyncStorage.getItem('Mytoken').then(
+       
+         res => {
+              const sortedData = questions.map((question)=>{
+                return {question_id:question.question_id,option_id:question.option_id}
+              }
+            );
+             const data = sortedData;
+             axios.post('lifestyle/answers', {response:data}, {headers: {Authorization: res}})
+             .then(
+                 res => {  
+                    // console.log(res)
+                     const message = res.data.message; 
+                     alert(message);
+                     setShowBtn(true)
+                 }
+             )
+             .catch(err => {
+                setShowBtn(true)
+                // console.log(err.response)
+                 const code = err.response.status;
+                 if (code === 401) {
+                     Alert.alert(
+                         'Error!',
+                         'Expired Token',
+                         [
+                           {text: 'OK', onPress: () => signOut()},
+                         ],
+                         { cancelable: false }
+                       )
+                   
+                 } else {
+                     setShowBtn(true)
+                     Alert.alert(
+                         'Network Error',
+                         'Please Try Again',
+                         [
+                           {text: 'OK', onPress: () => setShowBtn(true)},
+                         ],
+                         { cancelable: false }
+                       )
+                 }
+  
+                   
+             
+  
+             })
+         }
+     )
+     .catch( err => {console.log(err)})
     }
     const onRadioValueChanged = ({question_id,value})=>{
 
       const newQuestions = questions.map((question)=>{
           if(question.question.id===question_id)
           {
-              return {...question,option_id:value}
+              return {...question,option_id:value, question_id: question_id}
           }
          
           return question;
       });
-      console.log('myq', newQuestions)
+      // console.log('myq', newQuestions)
       setQuestions(newQuestions);
+      // sortArray()
   };
-  console.log('questionsarray', questions)
     return (
         <ScrollView style= {styles.container}>
       <View style={[styles.scene, { backgroundColor: '#F7F7FA', padding: 20 }]}>
@@ -115,20 +151,6 @@ const LifeStyle = (props) => {
                     {questions.map(
                       (question, index) =>  {
                         let options = question.options;
-                        let question_id = question.question.id;
-                        let option_id = question.options.map(
-                          option => option.id
-                        )
-                        // const PROP = [
-                        //   {
-                        //     id: 'samsung',
-                        //     name: 'Samsung',
-                        //   },
-                        //   {
-                        //     id: 'apple',
-                        //     name: 'Apple',
-                        //   },
-                        // ];
                         const PROP = options;
                         console.log('answers', question.question)
                         return (
@@ -136,7 +158,7 @@ const LifeStyle = (props) => {
                           <MyAppText style= {styles.headerText}>
                             {question.question.question}
                           </MyAppText>
-                          <RadioButton pressed= {()=> onRadioValueChanged({question_id, option_id})} PROP={PROP} />
+                          <RadioButton question_id={question.question.id} pressed= {onRadioValueChanged} PROP={PROP} />
                           <View>
                               {/* {question.options.map(
                                 (ans, index) => {
@@ -175,7 +197,8 @@ const LifeStyle = (props) => {
                        
                     ]} />
             </View> */}
-            <InnerBtn text= "Save" color= "#fff" bg= "#51087E" />
+               {showBtn ?   <InnerBtn onPress= {sortArray} text= "Save" color= "#fff" bg= "#51087E" /> : <ActivityIndicator size= "large" color= "#000075"/>}
+           
         </View>
     </View>
         </ScrollView>

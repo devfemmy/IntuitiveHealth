@@ -12,6 +12,9 @@ import Faq from '../../Screens/Faq';
 import WelcomeScreen from '../../Screens/WelcomeScreen';
 import FlatListDemo from '../../Screens/HmoScreen';
 import IntroPage from '../../Screens/IntroPage';
+import Terms from '../../Screens/Settings/About/Terms';
+import HelpPage from '../../Screens/Profile/HelpCenter/HelpPage';
+import ContactUs from '../../Screens/Contact';
 
 const Stack = createStackNavigator();
 
@@ -86,7 +89,50 @@ const LoginNavigator = (props) => {
             fontSize: 20
           },
           headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
-        }} component={Faq} />
+        }} component={HelpPage} />
+          <Stack.Screen name="Terms" options={{ title: 'Terms', headerStyle: {
+             backgroundColor: Platform.OS === 'android' ? '#51087E' : '#51087E',
+
+          },
+          headerTitleStyle: {
+            fontFamily: 'HammersmithOne-Regular',
+            fontSize: 20
+          },
+          headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
+        }} component={Terms} />
+          <Stack.Screen name="Faqs" component={Faq}
+          options={{ title: 'FAQ', headerStyle: {
+              
+              backgroundColor: '#51087E',
+          
+              
+              
+
+          }, 
+          headerTitleStyle: {
+            fontFamily: 'HammersmithOne-Regular',
+            fontSize: 20
+          },
+          headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
+        }}
+          />
+          <Stack.Screen name="Contact" component={ContactUs}
+          options={{ title: 'Contact Us', headerStyle: {
+              
+              backgroundColor: '#51087E',
+          
+              
+              
+
+          }, 
+          headerTitleStyle: {
+            fontFamily: 'HammersmithOne-Regular',
+            fontSize: 20
+          },
+          headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
+        }}
+          />
+        
         </Stack.Navigator>
       </>
     )

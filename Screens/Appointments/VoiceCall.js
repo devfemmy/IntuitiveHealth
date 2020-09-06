@@ -1,12 +1,77 @@
-import React from 'react';
-import { View, StyleSheet, ScrollView, Text, Image } from 'react-native';
+import React, {useEffect, useState} from 'react';
+import { View, StyleSheet,ActivityIndicator,AsyncStorage, ScrollView,Linking, Text, Image } from 'react-native';
 import CallIcon from '../../assets/sliders/images/ccphone1.svg';
 import MyAppText from '../../Components/MyAppText';
 import PhoneIcon from '../../assets/sliders/images/phone1.svg';
 import InnerBtn from '../../Components/InnerBtn';
+import axios from 'axios';
 // import ImageIcon from '../../assets/sliders/images/ccphone.png';
 
 const VoiceCall = () => {
+    const [phone, setPhone] = useState('');
+    const [loading, setLoading] = useState(true);
+
+
+    useEffect(() => {
+        const id = AsyncStorage.getItem('Mytoken').then(
+            res => {
+                console.log('token', res)
+                axios.get('https://conduit.detechnovate.net/public/api/conduithealth/phone', {headers: {Authorization: res}})
+                .then(
+                    res => {
+                        // console.log('number', res.data.data[0])
+                        setLoading(false)
+                        const contactNumber = res.data.data.emergency_no;
+                        setPhone(contactNumber);
+                        console.log(contactNumber)
+                        // setPhone(contactNumber);
+                        
+                       
+                    }
+                )
+                .catch(err => {
+                    setLoading(false)
+                    const code = err.response.status;
+                    if (code === 401) {
+                        Alert.alert(
+                            'Error!',
+                            'Expired Token',
+                            [
+                              {text: 'OK', onPress: () => signOut()},
+                            ],
+                            { cancelable: false }
+                          )
+                      
+                    } else {
+                        // showLoaded(true)
+                        Alert.alert(
+                            'Network Error',
+                            'Please Try Again',
+                            [
+                              {text: 'OK', onPress: () => console.log(err)},
+                            ],
+                            { cancelable: false }
+                          )
+                    }
+    
+                      
+                      console.log(err.response.status)
+    
+                });
+
+            }
+        )
+        .catch( err => {console.log(err)}) 
+        
+    
+      }, []);
+      if (loading) {
+        return (
+          <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+           <ActivityIndicator  size="large" color="#51087E" />
+          </View>
+        );
+      }
     return (
         <ScrollView style= {styles.container}>
               <View style= {styles.voiceCall}>
@@ -21,10 +86,11 @@ const VoiceCall = () => {
               </View>
               <View style= {styles.btnContainer}>
                     <InnerBtn
+                    onPress={()=>{Linking.openURL(`tel:${phone}`);}}
                     bg= "white"
                     color= "#51087E"
                     text= "Call Now" 
-                    icon= {<PhoneIcon width= {18} height= {18} />} />
+                    icon= {<PhoneIcon width= {18} height= {18} />} />                                    
               </View>
 
         </ScrollView>
