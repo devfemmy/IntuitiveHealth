@@ -290,7 +290,7 @@ const HomeScreen = (props) => {
         </View>
         <View style= {styles.lowerContainer}>
             <View style= {styles.pageDesc}>
-                <MyAppText style= {{...styles.bolderText, ...styles.textColor}}>Chat with Top Doctors</MyAppText>
+                <MyAppText style= {{...styles.bolderText, ...styles.textColor}}>Mental Health Specialist</MyAppText>
             </View>
             <ScrollView showsHorizontalScrollIndicator= {false}  horizontal>
                 {mentalSliders.map (

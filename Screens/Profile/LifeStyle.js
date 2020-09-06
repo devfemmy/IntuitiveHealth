@@ -94,6 +94,20 @@ const LifeStyle = (props) => {
       //   setChecked(true)
       // }
     }
+    const onRadioValueChanged = ({question_id,value})=>{
+
+      const newQuestions = questions.map((question)=>{
+          if(question.question.id===question_id)
+          {
+              return {...question,option_id:value}
+          }
+         
+          return question;
+      });
+      console.log('myq', newQuestions)
+      setQuestions(newQuestions);
+  };
+  console.log('questionsarray', questions)
     return (
         <ScrollView style= {styles.container}>
       <View style={[styles.scene, { backgroundColor: '#F7F7FA', padding: 20 }]}>
@@ -101,6 +115,10 @@ const LifeStyle = (props) => {
                     {questions.map(
                       (question, index) =>  {
                         let options = question.options;
+                        let question_id = question.question.id;
+                        let option_id = question.options.map(
+                          option => option.id
+                        )
                         // const PROP = [
                         //   {
                         //     id: 'samsung',
@@ -112,13 +130,13 @@ const LifeStyle = (props) => {
                         //   },
                         // ];
                         const PROP = options;
-                        console.log('answers', question.options.name)
+                        console.log('answers', question.question)
                         return (
                           <View key = {index}>
                           <MyAppText style= {styles.headerText}>
                             {question.question.question}
                           </MyAppText>
-                          <RadioButton PROP={PROP} />
+                          <RadioButton pressed= {()=> onRadioValueChanged({question_id, option_id})} PROP={PROP} />
                           <View>
                               {/* {question.options.map(
                                 (ans, index) => {

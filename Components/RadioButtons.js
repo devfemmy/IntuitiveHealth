@@ -6,7 +6,13 @@ export default class RadioButton extends Component {
 	state = {
 		value: null,
 	};
-
+	pressedFunction = (id) => {
+		this.setState({value: id})
+	}
+	functionPressed = (props) => {
+		// console.log('I was pressed');
+		props.pressed()
+	}
 	render() {
 		const { PROP } = this.props;
         const { value } = this.state;
@@ -20,11 +26,19 @@ export default class RadioButton extends Component {
 							<MyAppText style={styles.radioText}>{res.name}</MyAppText>
 							<TouchableOpacity
 								style={styles.radioCircle}
-								onPress={() => {
-									this.setState({
-										value: res.id,
-									});
-								}}>
+								// onPress={() => {
+								// 	this.setState({
+								// 		value: res.id,
+								// 	});
+								// 	this.props.pressed
+								// }}
+								onPress= {
+									() => {
+										this.pressedFunction(res.id),
+										this.functionPressed(this.props)
+									}
+								}
+								>
                                   {value === res.id && <View style={styles.selectedRb} />}
 							</TouchableOpacity>
 						</View>
