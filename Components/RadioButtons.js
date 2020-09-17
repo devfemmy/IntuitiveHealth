@@ -14,24 +14,20 @@ export default class RadioButton extends Component {
 		props.pressed()
 	}
 	render() {
-		const { PROP,pressed,question_id } = this.props;
+		const { PROP,pressed,question_id,option } = this.props;
         const { value } = this.state;
-        console.log('value', this.state)
+        // console.log('value', this.state)
 
 		return (
 			<View>
 				{PROP.map(res => {
 					return (
 						<View key={res.id} style={styles.container}>
-							<MyAppText style={styles.radioText}>{res.name}</MyAppText>
 							<TouchableOpacity
-								style={styles.radioCircle}
-								// onPress={() => {
-								// 	this.setState({
-								// 		value: res.id,
-								// 	});
-								// 	this.props.pressed
-								// }}
+								
+								style={
+									value === res.id && styles.selectedRb
+								}
 								onPress= {
 									() => {
 										this.props.pressed({question_id, value: res.id}),
@@ -39,8 +35,11 @@ export default class RadioButton extends Component {
 										// this.functionPressed(this.props)
 									}
 								}
-								>
-                                  {value === res.id && <View style={styles.selectedRb} />}
+								> 
+							<MyAppText style={
+								value === res.id && styles.radioText || styles.radioText2
+							}>{`${(res.id + 9 ).toString(36).toLowerCase()}. ${res.name}`}</MyAppText>
+							{/* {value === res.id && <Text style={styles.selectedRb} />} */}
 							</TouchableOpacity>
 						</View>
 					);
@@ -53,33 +52,48 @@ export default class RadioButton extends Component {
 
 const styles = StyleSheet.create({
 	container: {
-        marginBottom: 35,
+        marginBottom: 15,
         // marginTop: 15,
-        alignItems: 'center',
-        flexDirection: 'row',
-
-		justifyContent: 'space-between',
+        // alignItems: 'center',
+		// flexDirection: 'row',
+		backgroundColor: 'white',
+		height: 38,
+		borderWidth: 1,
+		borderRadius: 3,
+		borderColor: '#EDEFF2',
+		color: '#9B9B9B',
+		justifyContent: 'center',
 	},
     radioText: {
         marginRight: 35,
-        fontSize: 20,
-        color: '#000',
-        fontWeight: '700'
-    },
-	radioCircle: {
-		height: 25,
-		width: 25,
-		borderRadius: 100,
-		borderWidth: 2,
-		borderColor: '#51087E',
-		alignItems: 'center',
-		justifyContent: 'center',
+        fontSize: 18,
+        color: 'white',
+		fontWeight: '700',
+		width: '100%',
+		paddingHorizontal: 15,
+		// backgroundColor: 'yellow'
 	},
+	radioText2: {
+		color: '#9B9B9B',
+		paddingHorizontal: 15,
+
+	},
+	// radioCircle: {
+	// 	height: 50,
+	// 	width: '100%',
+	// 	borderRadius: 100,
+	// 	borderWidth: 2,
+	// 	borderColor: '#51087E',
+	// 	alignItems: 'center',
+	// 	justifyContent: 'center',
+	// },
 	selectedRb: {
-		width: 15,
-		height: 15,
-		borderRadius: 50,
-		backgroundColor: '#51087E',
+		width: '100%',
+		height: 38,
+		// borderRadius: 50,
+		justifyContent: 'center',
+		backgroundColor: '#6C0BA9',
+		// paddingHorizontal: 15,
     },
     result: {
         marginTop: 20,

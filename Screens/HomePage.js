@@ -1,5 +1,6 @@
 import React, {useEffect} from 'react';
 import { View, StyleSheet,AsyncStorage,Alert, Text, Image, Dimensions } from 'react-native';
+import { Overlay } from 'react-native-elements';
 import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
 import DescriptionCard from '../Components/DescpCard';
 import Logo from '../assets/sliders/images/home.svg';
@@ -8,6 +9,7 @@ import MyAppText from '../Components/MyAppText';
 import Arrow from '../assets/sliders/images/arrow2.svg';
 import axios from 'axios';
 import Carousel from 'react-native-snap-carousel';
+import HomeOverlay from '../Components/HomeOverlay';
 // import Card from '../assets/sliders/images/placard.svg'
 
 const HomeScreen = (props) => {
@@ -17,6 +19,14 @@ const HomeScreen = (props) => {
     const [image, setImage] = React.useState('');
     const [mentalSliders, setMentalSliders] = React.useState([]);
     const [Sliders, setSliders] = React.useState([]);
+    const [visible, setVisible] = React.useState(false);
+
+    const toggleOverlay = () => {
+        setVisible(true);
+      };
+      const removeModal = () => {
+        setVisible(false);
+      } 
 
     const name = AsyncStorage.getItem('firstname').then(
         res => {
@@ -29,6 +39,7 @@ const HomeScreen = (props) => {
         }
       ).catch(err => console.log(err));
       useEffect(() => {
+        toggleOverlay()
         const id = AsyncStorage.getItem('Mytoken').then(
             res => {
                console.log('home', res);
@@ -112,7 +123,7 @@ const HomeScreen = (props) => {
          axios.get('https://conduit.detechnovate.net/public/api/conduithealth/ad/image', {headers: {Authorization: res}})
          .then(
           res => {
-              console.log("home3", res.data)
+            //   console.log("home3", res.data)
               const image = res.data.data.image;
               setImage(image)
              
@@ -150,7 +161,7 @@ const HomeScreen = (props) => {
                 axios.get('https://conduit.detechnovate.net/public/api/conduithealth/doctors/1', {headers: {Authorization: res}})
                 .then(
                     res => {
-                        console.log("home", res.data)
+                        // console.log("home", res.data)
                         const doctors = res.data.data;
                         setDoctors(doctors);
                        
@@ -202,6 +213,11 @@ const HomeScreen = (props) => {
     }
     return (
         <ScrollView style= {styles.container}>
+        <View>
+            <Overlay isVisible={visible} onBackdropPress={removeModal}>
+                <HomeOverlay pressed= {removeModal} />
+            </Overlay>
+        </View>
         <TouchableOpacity onPress= {()=> props.navigation.navigate('Profile')}>
         <View style= {styles.firstCont}>
                     <View style= {styles.circle}>

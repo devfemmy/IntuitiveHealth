@@ -27,7 +27,7 @@ const Emergency = (props) => {
                         </View>
                     </ProfileCard>
                 </TouchableOpacity>
-                <TouchableOpacity onPress= {()=> props.navigation.navigate('Voice')}>
+                <TouchableOpacity onPress= {()=> props.navigation.navigate('EmergencyVoice')}>
                     <ProfileCard>
                         <View>
                             <PhoneIcon width= {50} height= {50} />

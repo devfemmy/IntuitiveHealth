@@ -52,6 +52,7 @@ const MyDoctorNavigator = (props) => {
           headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
         }}
           />
+          
           <Stack.Screen name="Details" component={AppointmentDetails}
           options={{ title: 'Appointment Details', headerStyle: {
               

@@ -23,6 +23,7 @@ const FormInput = (props) => {
             placeholderTextColor= {props.placeholderTextColor}
             selectionColor = {props.selectionColor}
             autoCorrect= {false}
+            keyboardType= {props.keyboardType}
             autoCapitalize= 'none'
             secureTextEntry = {props.secureTextEntry}
             onChangeText={props.onChangeText}

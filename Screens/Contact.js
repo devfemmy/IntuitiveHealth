@@ -21,6 +21,7 @@ const ContactUs = () => {
                     res => {
                         // console.log('number', res.data.data[0])
                         setLoading(false)
+                        console.log('contact us', res)
                         const contactNumber = res.data.data;
                         setPhone(contactNumber);
                         console.log(contactNumber)
@@ -83,18 +84,47 @@ const ContactUs = () => {
                 </MyAppText>
                 {phone.map(
                     (number, index) => {
+                     if (number.id === 1) {
                         return (
                             
-                                <View key= {index}>
-                                    <ProfileCard>
-                                        <MyAppText style= {styles.contactStyle} onPress={()=>{Linking.openURL(`tel:${number.number}`);}}>
-                                        {`Call: ${number.number}`}
-                                        </MyAppText>
-                                    </ProfileCard>
-                                    
-                                </View>
+                            <View key= {index}>
+                                <ProfileCard>
+                                    <MyAppText style= {styles.contactStyle} onPress={()=>{Linking.openURL(`tel:${number.number}`);}}>
+                                    {`Call ${number.display}`}
+                                    </MyAppText>
+                                </ProfileCard>
+                                
+                            </View>
+                        
+                    )
+                     }else if (number.id === 2) {
+                        return (
                             
-                        )
+                            <View key= {index}>
+                                <ProfileCard>
+                                    <MyAppText style= {styles.contactStyle} onPress={()=>{Linking.openURL(`mailto:${number.number}`);}}>
+                                    {`Mail to: ${number.display}`}
+                                    </MyAppText>
+                                </ProfileCard>
+                                
+                            </View>
+                        
+                    )
+                     }else {
+                        return (
+                            
+                            <View key= {index}>
+                                <ProfileCard>
+                                    <MyAppText style= {styles.contactStyle} onPress={()=>{Linking.openURL(`https:${number.number}`);}}>
+                                    {`${number.display}`}
+                                    </MyAppText>
+                                </ProfileCard>
+                                
+                            </View>
+                        
+                    )
+                     }
+
                     }
                 )}
             </View>

@@ -11,12 +11,11 @@ const AppointmentPage = (props) => {
     useEffect(() => {
         const id = AsyncStorage.getItem('Mytoken').then(
             res => {
-               console.log('home', res)
+
                 axios.get('my/slots', {headers: {Authorization: res}})
                 .then(
                     res => {
                         setLoading(false)
-                        console.log("home", res.data)
                         const appointments = res.data.data;
                         setAppointment(appointments);
                         // const profile = res.data.data;
@@ -59,7 +58,7 @@ const AppointmentPage = (props) => {
                     }
     
                       
-                      console.log(err.response.status)
+                    
     
                 })
             }
@@ -67,7 +66,7 @@ const AppointmentPage = (props) => {
         .catch( err => {console.log(err)}) 
         
     
-      }, []);
+      });
       if (loading) {
         return (
           <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -85,7 +84,10 @@ const AppointmentPage = (props) => {
                             return (
                                 <View key= {index}>
                                       <AppointmentCard 
-                                      onPress= {()=> props.navigation.navigate('Details')}
+                                      onPress= {()=> props.navigation.navigate('Details',
+                                      {doctor: appointment.doctor_name, lastname: appointment.doctor_last_name,
+                                        image: appointment.image, slot_id: appointment.slot_id, time: appointment.appointment_start, status: appointment.status_name}
+                                      )}
                                       doctor= {`${appointment.doctor_name} ${appointment.doctor_last_name}`} 
                                        appdate= {appointment.appointment_start} image= {appointment.image}
                                       color= "#D30C0C" status= {appointment.status_name} appid= {appointment.my_id} />
@@ -95,7 +97,10 @@ const AppointmentPage = (props) => {
                             return (
                                 <View key= {index}>
                                       <AppointmentCard 
-                                      onPress= {()=> props.navigation.navigate('Details')}
+                                      onPress= {()=> props.navigation.navigate('Details', 
+                                      
+                                      {doctor: appointment.doctor_name, lastname: appointment.doctor_last_name,
+                                        image: appointment.image, slot_id: appointment.slot_id, time: appointment.appointment_start, status: appointment.status_name})}
                                       doctor= {`${appointment.doctor_name} ${appointment.doctor_last_name}`} 
                                        appdate= {appointment.appointment_start} image= {appointment.image}
                                       color= "#464646" status= {appointment.status_name} appid= {appointment.my_id} />
@@ -106,7 +111,11 @@ const AppointmentPage = (props) => {
                                 <View key= {index}>
                                       <AppointmentCard
 
-                                      onPress= {()=> props.navigation.navigate('Details')}
+                                      onPress= {()=> props.navigation.navigate('Details', 
+                                      {doctor: appointment.doctor_name, lastname: appointment.doctor_last_name,
+                                        image: appointment.image, slot_id: appointment.slot_id, time: appointment.appointment_start, status: appointment.status_name}
+                                        )}
+
                                       appdate= {appointment.appointment_start}
                                        doctor= {`${appointment.doctor_name} ${appointment.doctor_last_name}`} 
                                        appdate= {appointment.appointment_start} image= {appointment.image}
@@ -117,7 +126,10 @@ const AppointmentPage = (props) => {
                             return (
                                 <View key= {index}>
                                       <AppointmentCard 
-                                      onPress= {()=> props.navigation.navigate('Details')}
+                                      onPress= {()=> props.navigation.navigate('Details', 
+                                      
+                                      {doctor: appointment.doctor_name, lastname: appointment.doctor_last_name,
+                                        image: appointment.image, slot_id: appointment.slot_id, time: appointment.appointment_start, status: appointment.status_name})}
                                       doctor= {`${appointment.doctor_name} ${appointment.doctor_last_name}`} 
                                        appdate= {appointment.appointment_start} image= {appointment.image}
                                       color= "#58C315" status= {appointment.status_name} appid= {appointment.my_id} />
@@ -127,7 +139,10 @@ const AppointmentPage = (props) => {
                             return (
                                 <View key= {index}>
                                       <AppointmentCard 
-                                      onPress= {()=> props.navigation.navigate('Details')}
+                                      onPress= {()=> props.navigation.navigate('Details', 
+                                      
+                                      {doctor: appointment.doctor_name, lastname: appointment.doctor_last_name,
+                                        image: appointment.image, slot_id: appointment.slot_id, time: appointment.appointment_start, status: appointment.status_name})}
                                       doctor= {`${appointment.doctor_name} ${appointment.doctor_last_name}`} 
                                        appdate= {appointment.appointment_start} image= {appointment.image}
                                       color= "#51087E" status= {appointment.status_name} appid= {appointment.my_id} />

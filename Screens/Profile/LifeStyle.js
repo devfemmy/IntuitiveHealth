@@ -140,7 +140,7 @@ const LifeStyle = (props) => {
          
           return question;
       });
-      // console.log('myq', newQuestions)
+      console.log('myql', newQuestions)
       setQuestions(newQuestions);
       // sortArray()
   };

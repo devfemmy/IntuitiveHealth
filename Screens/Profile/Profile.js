@@ -19,9 +19,9 @@ const Profilepage = (props) => {
                             <MyAppText style= {styles.boldText}>
                                 Personal
                             </MyAppText>
-                            <MyAppText style= {styles.colorText}>Continue
+                            {/* <MyAppText style= {styles.colorText}>Continue */}
                                 {/* <Keyback width= {15} height= {15} /> */}
-                            </MyAppText>
+                            {/* </MyAppText> */}
                         </View>
                     </View>
             </TouchableOpacity>
@@ -34,9 +34,9 @@ const Profilepage = (props) => {
                             <MyAppText style= {styles.boldText}>
                                 Body Mass Index
                             </MyAppText>
-                            <MyAppText style= {styles.colorText}>Continue
+                            {/* <MyAppText style= {styles.colorText}>Continue */}
                                 {/* <Keyback width= {15} height= {15} /> */}
-                            </MyAppText>
+                            {/* </MyAppText> */}
                         </View>
                     </View>
             </TouchableOpacity>
@@ -49,9 +49,9 @@ const Profilepage = (props) => {
                             <MyAppText style= {styles.boldText}>
                                 LifeStyle
                             </MyAppText>
-                            <MyAppText style= {styles.colorText}>Continue
+                            {/* <MyAppText style= {styles.colorText}>Continue */}
                                 {/* <Keyback width= {15} height= {15} /> */}
-                            </MyAppText>
+                            {/* </MyAppText> */}
                         </View>
                     </View>
             </TouchableOpacity>

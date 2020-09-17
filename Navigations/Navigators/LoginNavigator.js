@@ -15,6 +15,8 @@ import IntroPage from '../../Screens/IntroPage';
 import Terms from '../../Screens/Settings/About/Terms';
 import HelpPage from '../../Screens/Profile/HelpCenter/HelpPage';
 import ContactUs from '../../Screens/Contact';
+import ConfirmToken from '../../Screens/ConfirmToken';
+import ResetToken from '../../Screens/ResetToken';
 
 const Stack = createStackNavigator();
 
@@ -70,6 +72,26 @@ const LoginNavigator = (props) => {
           },
           headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
         }} component={ForgotPassword} />
+        <Stack.Screen name="ConfirmToken" options={{ title: 'Confirm Password', headerStyle: {
+              backgroundColor: Platform.OS === 'android' ? '#51087E' : '#51087E',
+
+          },
+          headerTitleStyle: {
+            fontFamily: 'HammersmithOne-Regular',
+            fontSize: 20
+          },
+          headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
+        }} component={ConfirmToken} />
+        <Stack.Screen name="ResetToken" options={{ title: 'Enter Token', headerStyle: {
+              backgroundColor: Platform.OS === 'android' ? '#51087E' : '#51087E',
+
+          },
+          headerTitleStyle: {
+            fontFamily: 'HammersmithOne-Regular',
+            fontSize: 20
+          },
+          headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
+        }} component={ResetToken} />
           <Stack.Screen name="Intro" options={{ title: 'Choose Login', headerStyle: {
               backgroundColor: Platform.OS === 'android' ? '#51087E' : '#51087E',
 

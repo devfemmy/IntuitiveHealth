@@ -1,5 +1,7 @@
 import React, { Component, useState, useContext } from 'react';
-import { View, StyleSheet,Text,Alert, TouchableOpacity, Image, TextInput, ScrollView, ActivityIndicator } from 'react-native';
+import { View, StyleSheet,Text,Alert,
+    ActivityIndicator,
+    TouchableOpacity, Image, TextInput, ScrollView } from 'react-native';
 import FormInput from '../Components/FormInput';
 import MyBtn from '../Components/MyBtn';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
@@ -7,28 +9,29 @@ import CustomHeaderButton from '../Components/HeaderButton';
 import InnerBtn from '../Components/InnerBtn';
 import axios from 'axios';
 
-const ForgotPassword = (props) => {
-  const [email, setUsername] = useState('');
+const ResetToken = (props) => {
+  const [token, setUsername] = useState('');
   const [button, setButton] = useState(false);
-
-  const resetPassword = () => {
-    if (email === '') {
-      alert("Please fill in your correct credentials")
+  const confirmToken = () => {
+    if (token === '') {
+      alert("Please fill in token sent to you")
   } else {
      setButton(true)
       const data = {
-          email: email
+          token: token
       }
-      axios.post('https://conduit.detechnovate.net/public/api/conduithealth/user/forgot_password', data)
+      axios.post('https://conduit.detechnovate.net/public/api/conduithealth/user/verify_token', data)
       .then( res => {
         setButton(false)
           console.log('password', res.data)
         const response = res.data.message;
+        const reset_token = res.data.data.reset_token;
+        const email = res.data.data.email
         Alert.alert(
           'Alert',
           response,
           [
-            {text: 'OK', onPress: () =>  props.navigation.navigate('ResetToken')},
+            {text: 'OK', onPress: () =>  props.navigation.navigate('ConfirmToken', {token: reset_token, email: email})},
           ],
           { cancelable: false }
         )
@@ -44,7 +47,7 @@ const ForgotPassword = (props) => {
           setButton(false)
           const code = err.response.status;
           if (code === 400) {
-            alert('Incorrect Email')
+            alert('Incorrect Token')
           }
           if (code === 401) {
               Alert.alert(
@@ -57,12 +60,12 @@ const ForgotPassword = (props) => {
                 )
             
           } else {
-              setBtn(false)
+            //   setBtn(false)
               Alert.alert(
                   'Network Error',
                   'Please Try Again',
                   [
-                    {text: 'OK', onPress: () =>  setBtn(false)},
+                    {text: 'OK', onPress: () =>  setButton(false)},
                   ],
                   { cancelable: false }
                 )
@@ -73,8 +76,6 @@ const ForgotPassword = (props) => {
 
   }
   }
-
-
 
   return (
     <ScrollView style= {styles.container}>
@@ -88,22 +89,22 @@ const ForgotPassword = (props) => {
                 </View> */}
                   <View style= {styles.inputContainer}>
                     <View style= {styles.formContainer}>
-                        <Text style= {styles.forgotText}>Forgot your Password?</Text>
+                        <Text style= {styles.forgotText}>Enter Token</Text>
                     </View>
                     <View style= {styles.textContainer}>
-                    <Text style= {styles.label}>Enter your registered Email Address</Text>
+                    <Text style= {styles.label}>Enter Reset Token Sent To Email Address</Text>
                     <FormInput
-
-                    placeholder= "Member Id/Email Address" 
+                    keyboardType= "numeric"
+                    placeholder= "token" 
                     color= "white"
                     selectionColor= "white"
                     placeholderTextColor= "#9B9B9B"
                     secureTextEntry = {false}
-                    value={email}
+                    value={token}
                     onChangeText={setUsername}
                     />
                      {button ? <ActivityIndicator  size="large" color="#fff" /> :
-                   <InnerBtn onPress= {resetPassword} text= "Reset Password" bg= "white" color= "#51087E" />}
+                   <InnerBtn onPress= {confirmToken} text= "Continue" bg= "white" color= "#51087E" />}
                     </View>               
                
                 </View>
@@ -182,4 +183,4 @@ const styles = StyleSheet.create({
     resizeMode: 'contain'
   }
 })
-export default ForgotPassword
+export default ResetToken

@@ -11,6 +11,7 @@ import ProfileButton from '../../Components/ProfileBtn';
 import SettingPage from '../../Screens/Settings/settings';
 import About from '../../Screens/Settings/About/About';
 import Terms from '../../Screens/Settings/About/Terms';
+import ChangePassword from '../../Screens/Settings/ChangePassword/ChangePassword';
 
 
 const Stack = createStackNavigator();
@@ -66,6 +67,22 @@ const SettingsNavigator = (props) => {
           />
           <Stack.Screen name="Terms" component={Terms}
           options={{ title: 'Terms and Privacy Policy', headerStyle: {
+              
+              backgroundColor: '#51087E',
+          
+              
+              
+
+          },
+          headerTitleStyle: {
+            fontFamily: 'HammersmithOne-Regular',
+            fontSize: 20
+          },
+          headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
+        }}
+          />
+          <Stack.Screen name="ChangePassword" component={ChangePassword}
+          options={{ title: 'Change Password', headerStyle: {
               
               backgroundColor: '#51087E',
           

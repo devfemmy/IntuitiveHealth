@@ -25,7 +25,8 @@ const SettingPage = (props) => {
                         <MyAppText style= {styles.textStyle}>Rate Conduit Telehealth App</MyAppText>
                     </ProfileCard>
                </TouchableOpacity>
-               <TouchableOpacity>
+
+               <TouchableOpacity onPress= {()=> props.navigation.navigate('ChangePassword')}>
                 <ProfileCard>
                         <MyAppText style= {styles.textStyle}>Change Password</MyAppText>
                         {/* <Icon width= {25} height= {25} /> */}

@@ -23,6 +23,7 @@ const MyDoctorsCard = (props) => {
                         {props.name}
                     </MyAppText>
                     <MyAppText style= {styles.textColor1}>{props.section}</MyAppText>
+                    <MyAppText style= {styles.textColor1}>{props.experience}</MyAppText>
                     </View>
                 </View>
                 <Icon2 width= {24} height= {24} />
@@ -30,7 +31,8 @@ const MyDoctorsCard = (props) => {
             <View style= {styles.secondContainer}>
                     <SlotIconText 
                     text= {props.language}
-                    icon= {<VoiceIcon width= {15} height= {15} />}  />
+                    // icon= {<VoiceIcon width= {15} height= {15} />}  
+                    />
         
             <View style= {styles.btnContainer}>
                 <InnerBtn onPress= {props.pressed} bg= "#51087E" color= "#FAFAFA" text= "Book Appointment" />

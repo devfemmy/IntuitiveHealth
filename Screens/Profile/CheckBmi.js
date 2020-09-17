@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { View, StyleSheet, ScrollView, AsyncStorage, ActivityIndicator } from 'react-native';
+import { View, StyleSheet, ScrollView,Alert, AsyncStorage, ActivityIndicator } from 'react-native';
 import InnerBtn from '../../Components/InnerBtn';
 import ProfileInput from '../../Components/ProfileInput';
 import MyAppText from '../../Components/MyAppText';
@@ -94,7 +94,7 @@ const CheckBmi = (props) => {
           borderWidth: 1,
           borderColor: borderCode,
         //   borderColor: '#E6C300',
-          width: 100,
+          width: 150,
           alignItems: 'center',
           justifyContent: 'center',
           borderRadius: 5,
@@ -164,23 +164,29 @@ const CheckBmi = (props) => {
         const intergerHeight = parseInt(height);
         const intergerWeight = parseInt(weight);
         const heightSquare = intergerHeight * intergerHeight;
-        const myBmi = (intergerWeight/heightSquare).toFixed()
+        const myBmi = ((intergerWeight/heightSquare) * 10000).toFixed(1)
         setBmi(myBmi);
-        if (myBmi < 2) {
-            setStatus('LOW');
+        const floatedBmi = parseFloat(myBmi)
+        if (floatedBmi < 18.5) {
+            setStatus('UNDER WEIGHT');
             setBorderCode('#E6C300');
             setColorCode('#D30C0C0B');
             setTextColor('#E6C300')
-        }else if (myBmi > 5 ) {
-            setStatus('HIGH');
+        }else if (floatedBmi >=25 && floatedBmi <=29.9  ) {
+            setStatus('OVER WEIGHT');
             setBorderCode('#D30C0C');
             setColorCode('#D30C0C0B');
             setTextColor('#D30C0C')
-        }else {
+        }else if (floatedBmi >= 18.5 && floatedBmi <= 24.9) {
             setStatus('NORMAL');
             setBorderCode('#58C315');
             setColorCode('#58C3151A');
             setTextColor('#58C315')
+        } else {
+          setStatus('OBESITY');
+          setBorderCode('white');
+          setColorCode('black');
+          setTextColor('white')
         }
         setResult(false)
     }
@@ -189,10 +195,11 @@ const CheckBmi = (props) => {
        const id = AsyncStorage.getItem('Mytoken').then(
            res => {
                const data = {
-                   height:  height,
+                   height:  height/30.48,
                    weight: weight,
                    bmi: bmi
                }
+               console.log("data", data)
                axios.post('bmi/create', data, {headers: {Authorization: res}})
                .then(
                    res => {  
@@ -203,6 +210,7 @@ const CheckBmi = (props) => {
                    }
                )
                .catch(err => {
+                console.log("error", err.response)
                 setShowBtn(true)
                    const code = err.response.status;
                    if (code === 401) {
@@ -242,7 +250,7 @@ const CheckBmi = (props) => {
               <MyAppText style= {styles.bmiText}>
               BMI (Body Mass Index)
               </MyAppText>
-              <VitalInput value= {height} onChangeText= {(value) => setHeight(value) }  indicator= "Metres" keyboardType= "numeric" label= "Height" />
+              <VitalInput value= {height} onChangeText= {(value) => setHeight(value) }  indicator= "Cm" keyboardType= "numeric" label= "Height" />
               <VitalInput value= {weight} onChangeText = {(value) => setWeight(value) } indicator= "Kg" keyboardType= "numeric" label= "Weight" />
               <InnerBtn onPress= {calculateBmi} text= "Calculate BMI" border= "#51087E" bg= "#fff" color= "#51087E" />
               {result ? null : (
