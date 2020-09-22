@@ -79,7 +79,7 @@ const AppointmentCard = (props) => {
                 <View style= {styles.textContainer}>
                     <MyAppText>
                             <MyAppText style= {styles.textStyle2}>Appointment with</MyAppText>
-                            <MyAppText style= {styles.textStyle1}>{`Dr ${props.doctor}`}</MyAppText>
+                            <MyAppText style= {styles.textStyle1}>{` Dr ${props.doctor}`}</MyAppText>
                     </MyAppText>
                     {/* <MyAppText style= {styles.textStyle2}>Virtual General Practise</MyAppText> */}
                     <TouchableOpacity>

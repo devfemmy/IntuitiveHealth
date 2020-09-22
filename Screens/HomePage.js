@@ -20,6 +20,7 @@ const HomeScreen = (props) => {
     const [mentalSliders, setMentalSliders] = React.useState([]);
     const [Sliders, setSliders] = React.useState([]);
     const [visible, setVisible] = React.useState(false);
+    const [welcome, setWelcome] = React.useState('Welcome Back');
 
     const toggleOverlay = () => {
         setVisible(true);
@@ -31,6 +32,16 @@ const HomeScreen = (props) => {
     const name = AsyncStorage.getItem('firstname').then(
         res => {
            setFirstName(res)
+        }
+      ).catch(err => console.log(err));
+      const welcomeMsg = AsyncStorage.getItem('login').then(
+        res => {
+          const mssg = parseInt(res);
+          if (mssg === 1) {
+            setWelcome("Welcome Back")
+          }else {
+            setWelcome("Welcome")
+          }
         }
       ).catch(err => console.log(err));
       const last_name = AsyncStorage.getItem('lastname').then(
@@ -161,7 +172,7 @@ const HomeScreen = (props) => {
                 axios.get('https://conduit.detechnovate.net/public/api/conduithealth/doctors/1', {headers: {Authorization: res}})
                 .then(
                     res => {
-                        // console.log("home", res.data)
+                        console.log("home", res.data)
                         const doctors = res.data.data;
                         setDoctors(doctors);
                        
@@ -215,7 +226,11 @@ const HomeScreen = (props) => {
         <ScrollView style= {styles.container}>
         <View>
             <Overlay isVisible={visible} onBackdropPress={removeModal}>
-                <HomeOverlay pressed= {removeModal} />
+                <HomeOverlay pressed= {removeModal} welcome= {welcome} name= {firstname} >
+                    {/* <TouchableOpacity onPress= {() => setVisible(false)} style= {styles.btnContainer}>
+                        <MyAppText style= {{color: 'white'}}>Continue</MyAppText>
+                    </TouchableOpacity> */}
+                </HomeOverlay>
             </Overlay>
         </View>
         <TouchableOpacity onPress= {()=> props.navigation.navigate('Profile')}>
@@ -248,7 +263,7 @@ const HomeScreen = (props) => {
                 />
         </View>
         <View style= {styles.secondCont}>
-            <TouchableOpacity onPress= {()=> props.navigation.navigate('Practise')}>
+            <TouchableOpacity onPress= {()=> props.navigation.navigate('Practise', {id: 1})}>
                     <View style= {styles.card}>
                         <View style= {styles.imgCont}>
                             <Logo width= {100} height= {120} />
@@ -463,6 +478,17 @@ const styles = StyleSheet.create({
         backgroundColor:'#6C0BA9',
         justifyContent: 'center',
         alignItems: 'center'
+    },
+    btnContainer: {
+        width: '100%',
+        backgroundColor: '#6C0BA9',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: 40,
+        paddingHorizontal: 25,
+        marginVertical: 15,
+        borderRadius: 5
     }
+
 })
 export default HomeScreen

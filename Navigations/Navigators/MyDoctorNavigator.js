@@ -15,6 +15,7 @@ import VirtualCall from '../../Screens/Appointments/VirtualCall';
 import VoiceCall from '../../Screens/Appointments/VoiceCall';
 import MyDoctors from '../../Screens/Records/MyDoctors';
 import TimeSlot from '../../Screens/Media/VideoScreen/TimeSlot';
+import FindConsult from '../../Screens/Media/VideoScreen/FindConsult';
 
 
 const Stack = createStackNavigator();
@@ -52,6 +53,19 @@ const MyDoctorNavigator = (props) => {
           headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
         }}
           />
+          <Stack.Screen name="Consult" component={FindConsult}
+          options={{ title: 'Find and Consult', headerStyle: {
+              
+              backgroundColor: '#51087E',
+          
+              },
+              headerTitleStyle: {
+                fontFamily: 'HammersmithOne-Regular',
+                fontSize: 20
+              },
+          headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
+        }}
+          />  
           
           <Stack.Screen name="Details" component={AppointmentDetails}
           options={{ title: 'Appointment Details', headerStyle: {

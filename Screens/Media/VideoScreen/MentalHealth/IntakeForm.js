@@ -7,19 +7,27 @@ import MyAppText from '../../../../Components/MyAppText';
 import RadioButton from '../../../../Components/RadioButtons';
 
 const IntakeForm = (props) => {
+    const  {id} = props.route.params;
     const [showBtn, setShowBtn] = useState(true);
     const [questions, setQuestions] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [noQuestion, setNoQues] = useState(null);
+    const [sortedAnswers, setSortedAnswers] = useState(false);
+    const [inputState, setInput] = useState(null)
 
     useEffect(() => {
-        const id = AsyncStorage.getItem('Mytoken').then(
+        const token = AsyncStorage.getItem('Mytoken').then(
             res => {
-                axios.get('mental/questions/1', {headers: {Authorization: res}})
+                axios.get(`mental/questions/${id}`, {headers: {Authorization: res}})
                 .then(
                     res => {
                       setLoading(false)
                         console.log("lifestyle", res.data.data)
                         const questions = res.data.data;
+                        const length = questions.length;
+                        if (length < 1) {
+                          setNoQues('No Question for selected group')
+                        }
                         setQuestions(questions);
                        
                     }
@@ -62,84 +70,106 @@ const IntakeForm = (props) => {
     
       }, []);
       const sortArray = () => {
-        setShowBtn(false)
+        if (noQuestion != null || sortedAnswers === false) {
+          alert('You cannot submit Incomplete form')
+        } else {
+          setShowBtn(false)
   
-       const id = AsyncStorage.getItem('Mytoken').then(
-         
-           res => {
-                const sortedData = questions.map((question)=>{
-                  return {question_id:question.question_id,option_id:question.option_id}
-                }
-              );
-               const data = sortedData;
-               axios.post('lifestyle/answers', {response:data}, {headers: {Authorization: res}})
-               .then(
-                   res => {  
-                      // console.log(res)
-                       const message = res.data.message; 
-                       alert(message);
-                       setShowBtn(true)
+          const id = AsyncStorage.getItem('Mytoken').then(
+            
+              res => {
+                   const sortedData = questions.map((question)=>{
+                     console.log("QUESTION", question)
+                     return {question_id:question.id,answer:question.answer}
                    }
-               )
-               .catch(err => {
-                  setShowBtn(true)
-                  // console.log(err.response)
-                   const code = err.response.status;
-                   if (code === 401) {
+                 );
+                  const data = sortedData;
+                  axios.post('lifestyle/answers', {response:data}, {headers: {Authorization: res}})
+                  .then(
+                      res => {  
+                         // console.log(res)
+                          const message = res.data.message; 
+                          alert(message);
+                          setShowBtn(true)
+                      }
+                  )
+                  .catch(err => {
+                    console.log("error", err.response)
+                     setShowBtn(true)
+                     // console.log(err.response)
+                      const code = err.response.status;
+                     if (code === 400) {
                        Alert.alert(
-                           'Error!',
-                           'Expired Token',
-                           [
-                             {text: 'OK', onPress: () => signOut()},
-                           ],
-                           { cancelable: false }
-                         )
-                     
-                   } else {
-                       setShowBtn(true)
-                       Alert.alert(
-                           'Network Error',
-                           'Please Try Again',
-                           [
-                             {text: 'OK', onPress: () => setShowBtn(true)},
-                           ],
-                           { cancelable: false }
-                         )
-                   }
-    
-                     
-               
-    
-               })
-           }
-       )
-       .catch( err => {console.log(err)})
+                        'Success',
+                        'Your Form has been saved',
+                        [
+                          {text: 'OK', onPress: () => props.navigation.navigate('Practise', {name: 'Mental Health', id: 2})},
+                        ],
+                        { cancelable: false }
+                      )
+
+                     }
+                      else if (code === 401) {
+                          Alert.alert(
+                              'Error!',
+                              'Expired Token',
+                              [
+                                {text: 'OK', onPress: () => signOut()},
+                              ],
+                              { cancelable: false }
+                            )
+                        
+                      } else {
+                          setShowBtn(true)
+                          Alert.alert(
+                              'Network Error',
+                              'Please Try Again',
+                              [
+                                {text: 'OK', onPress: () => setShowBtn(true)},
+                              ],
+                              { cancelable: false }
+                            )
+                      }
+       
+                        
+                  
+       
+                  })
+              }
+          )
+          .catch( err => {console.log(err)})
+        }
+
       }
       const onRadioValueChanged = ({question_id,value})=>{
-  
+
         const newQuestions = questions.map((question)=>{
-            if(question.id===question_id)
+            if(question.question.id===question_id)
             {
                 return {...question,option_id:value, question_id: question_id}
             }
            
             return question;
         });
-        console.log('myq222', newQuestions)
+        console.log('myql', newQuestions)
         setQuestions(newQuestions);
+        setSortedAnswers(true)
         // sortArray()
     };
     const saveInputChange = (value, id) => {
+      console.log('inputsValue', value)
       const newQuestions = questions.map((question)=>{
         if(question.id===id)
         {
-          console.log('points', question)
+          // console.log('points', question)
+          
             return {...question,answer:value, question_id: id}
         }
        
         return question;
     });
-   console.log('questions222', newQuestions)
+   setQuestions(newQuestions)
+   console.log('new q', newQuestions)
     // setQuestions(newQuestions);
     }
       if (loading) {
@@ -152,26 +182,33 @@ const IntakeForm = (props) => {
     return (
         <ScrollView style= {styles.container}>
         <View>
+          <MyAppText style= {{textAlign: 'center'}}>{noQuestion}</MyAppText>
         {questions.map(
                       (question, index) =>  {
                         const response_type_id = parseInt(question.response_type_id);
+                        let options = question.options;
+                        const PROP = options;
                         if (response_type_id === 2) {
-                            let options = question.options;
-                            const PROP = options;
                             return (
                               <View key = {index}>
                               <MyAppText style= {styles.headerText}>
                                 {question.question}
                               </MyAppText>
-                              <RadioButton question_id={question.id} pressed= {onRadioValueChanged} PROP={PROP} />
+                              <RadioButton 
+                              question_id={question.question.id} 
+                              pressed= {onRadioValueChanged} 
+                              PROP={PROP} />
                               <View>
                               </View>
                                 </View>
                             )
-                        } else {
+                        } 
+                        else {
+                          console.log('options', question)
                             return (
                                 <View>
                                 <ProfileInput
+                                value= {question.options}
                                  onChangeText = {(value) => saveInputChange(value, question.id)}
                                 label= {question.question} />
                                 </View>
@@ -200,7 +237,7 @@ const IntakeForm = (props) => {
                         <ProfileInput width= "45%"  label= "Last name" />
             </View> */}
             <View style= {styles.btnContainer}>
-                    <InnerBtn onPress= {() => props.navigation.navigate('Slot')} text= "Continue" color= "white" bg= "#51087E" />
+            {showBtn ?   <InnerBtn onPress= {sortArray} text= "Save" color= "#fff" bg= "#51087E" /> : <ActivityIndicator size= "large" color= "#000075"/>}
             </View>
         </View>
         </ScrollView>
@@ -218,7 +255,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     btnContainer: {
-        marginVertical: 50
+        marginVertical: 20
     },
     headerText: {
         marginVertical: 10

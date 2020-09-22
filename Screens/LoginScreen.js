@@ -57,6 +57,7 @@ const LoginScreen = (props) => {
           const lastname = response.data.last_name;
           const subscript = response.data.subscription.subscription;
           const color = response.data.subscription.color;
+          const firstLogin = response.data.first_login;
           // const memberId = response.success.user.Membership_id;
           // const currentBal = response.success.user.Available_balance;
           // const blockedPts = response.success.user.Blocked_points;
@@ -66,6 +67,7 @@ const LoginScreen = (props) => {
           // console.log('Subscript', subscript)
           AsyncStorage.setItem('subscript', subscript);
           AsyncStorage.setItem('color', color);
+          AsyncStorage.setItem('login', firstLogin);
           // AsyncStorage.setItem('currentBal', currentBal);
           // AsyncStorage.setItem('blockedpts', blockedPts);
           AsyncStorage.setItem('Mytoken', "Bearer "+token);
@@ -79,11 +81,12 @@ const LoginScreen = (props) => {
         }
         
       }).catch(err => {
+        setBtn(false)
           const code = err.response.status;
           if (code === 400) {
             alert('Password is Incorrect')
           }
-          if (code === 401) {
+         else if (code === 401) {
               Alert.alert(
                   'Error!',
                   'Expired Token',
@@ -94,7 +97,6 @@ const LoginScreen = (props) => {
                 )
             
           } else {
-              setBtn(false)
               Alert.alert(
                   'Network Error',
                   'Please Try Again',

@@ -20,7 +20,8 @@ export default class RadioButton extends Component {
 
 		return (
 			<View>
-				{PROP.map(res => {
+				{PROP.map((res, index) => {
+					const alphabet = index + 1
 					return (
 						<View key={res.id} style={styles.container}>
 							<TouchableOpacity
@@ -38,7 +39,7 @@ export default class RadioButton extends Component {
 								> 
 							<MyAppText style={
 								value === res.id && styles.radioText || styles.radioText2
-							}>{`${(res.id + 9 ).toString(36).toLowerCase()}. ${res.name}`}</MyAppText>
+							}>{`${(alphabet + 9 ).toString(36).toLowerCase()}. ${res.name}`}</MyAppText>
 							{/* {value === res.id && <Text style={styles.selectedRb} />} */}
 							</TouchableOpacity>
 						</View>

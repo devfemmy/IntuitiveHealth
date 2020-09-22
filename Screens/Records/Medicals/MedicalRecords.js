@@ -46,6 +46,21 @@ const MedicalRecords = (props) => {
                         </View>
                     </View>
             </TouchableOpacity>
+            <TouchableOpacity onPress= {() => props.navigation.navigate('ViewUpload')}>
+                    <View style= {styles.card}>
+                        <View style= {styles.imgCont}>
+                        <ResumeIcon width= {130} height= {130} />
+                        </View>
+                        <View style= {styles.textCont}>
+                            <MyAppText style= {styles.boldText}>
+                                View Uploads
+                            </MyAppText>
+                            <MyAppText style= {styles.colorText}>Continue
+                                {/* <Keyback width= {15} height= {15} /> */}
+                            </MyAppText>
+                        </View>
+                    </View>
+            </TouchableOpacity>
                 </View>
         </ScrollView>
     )

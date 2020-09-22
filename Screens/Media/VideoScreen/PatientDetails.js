@@ -10,11 +10,7 @@ import axios from 'axios';
 
 const PatientDetails = (props) => {
     const [visible, setVisible] = useState(false);
-    const { title} = props.route.params;
-    const { name} = props.route.params;
-    const { last_name} = props.route.params;
-    const { image} = props.route.params;
-    const { slots} = props.route.params;
+    const { title, name, last_name, image, slots, group_id} = props.route.params;
     const [showBtn, setShowBtn] = useState(true);
     const [email, setEmail] = useState('')
     const id = AsyncStorage.getItem('email').then(
@@ -50,65 +46,133 @@ const PatientDetails = (props) => {
         const doctor_id = slots.doctor_id;
         const slot_id = slots.id;
         console.log(doctor_id, typeof(doctor_id))
-        const id = AsyncStorage.getItem('Mytoken').then(
-            res => {
-                const data = {
-                    slot_id: slot_id,
-                    doctor_id:  doctor_id
-                  
+        if (group_id === 1) {
+            const id = AsyncStorage.getItem('Mytoken').then(
+                res => {
+                    const data = {
+                        slot_id: slot_id,
+                        doctor_id:  doctor_id
+                      
+                    }
+                    axios.post('https://conduit.detechnovate.net/public/api/user/book/slot', data, {headers: {Authorization: res}})
+                    .then(
+                        res => {  
+                           console.log(res)
+                            const message = res.data.message; 
+                           toggleOverlay()
+                            setShowBtn(true)
+                        }
+                    )
+                    .catch(err => {
+                        console.log(err.response)
+                        const code = err.response.status;
+                        const message = err.response.message
+                        if (code === 400) {
+                            setShowBtn(true)
+                            Alert.alert(
+                                message,
+                                'Please Try Another',
+                                [
+                                  {text: 'OK', onPress: () => setShowBtn(true)},
+                                ],
+                                { cancelable: false }
+                              )
+                        }
+                        else if (code === 401) {
+                            Alert.alert(
+                                'Error!',
+                                'Expired Token',
+                                [
+                                  {text: 'OK', onPress: () => signOut()},
+                                ],
+                                { cancelable: false }
+                              )
+                          
+                        } else {
+                            console.log(err)
+                            setShowBtn(true)
+                            Alert.alert(
+                                'Network Error',
+                                'Please Try Again',
+                                [
+                                  {text: 'OK', onPress: () => setShowBtn(true)},
+                                ],
+                                { cancelable: false }
+                              )
+                        }
+         
+                          
+                    
+         
+                    })
                 }
-                axios.post('https://conduit.detechnovate.net/public/api/user/book/slot', data, {headers: {Authorization: res}})
-                .then(
-                    res => {  
-                       console.log(res)
-                        const message = res.data.message; 
-                       toggleOverlay()
-                        setShowBtn(true)
-                    }
-                )
-                .catch(err => {
-                    const code = err.response.status;
-                    if (code === 400) {
-                        setShowBtn(true)
-                        Alert.alert(
-                            'This Slot Unavailable',
-                            'Please Try Another',
-                            [
-                              {text: 'OK', onPress: () => setShowBtn(true)},
-                            ],
-                            { cancelable: false }
-                          )
-                    }
-                    if (code === 401) {
-                        Alert.alert(
-                            'Error!',
-                            'Expired Token',
-                            [
-                              {text: 'OK', onPress: () => signOut()},
-                            ],
-                            { cancelable: false }
-                          )
+            )
+            .catch( err => {console.log(err)})
+        }else {
+            const id = AsyncStorage.getItem('Mytoken').then(
+                res => {
+                    const data = {
+                        slot_id: slot_id,
+                        doctor_id:  doctor_id,
+                        intake_id: 1
                       
-                    } else {
-                        console.log(err)
-                        setShowBtn(true)
-                        Alert.alert(
-                            'Network Error',
-                            'Please Try Again',
-                            [
-                              {text: 'OK', onPress: () => setShowBtn(true)},
-                            ],
-                            { cancelable: false }
-                          )
                     }
-     
-                      
-                
-     
-                })
-            }
-        )
-        .catch( err => {console.log(err)})
+                    axios.post('https://conduit.detechnovate.net/public/api/user/book/group/slot', data, {headers: {Authorization: res}})
+                    .then(
+                        res => {  
+                           console.log(res, "success")
+                            const message = res.data.message; 
+                           toggleOverlay()
+                            setShowBtn(true)
+                        }
+                    )
+                    .catch(err => {
+                        console.log(err.response)
+                        const code = err.response.status;
+                        const message = err.response.message
+                        if (code === 400) {
+                            setShowBtn(true)
+                            Alert.alert(
+                                message,
+                                'Please Try Another',
+                                [
+                                  {text: 'OK', onPress: () => setShowBtn(true)},
+                                ],
+                                { cancelable: false }
+                              )
+                        }
+                        else if (code === 401) {
+                            Alert.alert(
+                                'Error!',
+                                'Expired Token',
+                                [
+                                  {text: 'OK', onPress: () => signOut()},
+                                ],
+                                { cancelable: false }
+                              )
+                          
+                        } else {
+                            console.log(err)
+                            setShowBtn(true)
+                            Alert.alert(
+                                'Network Error',
+                                'Please Try Again',
+                                [
+                                  {text: 'OK', onPress: () => setShowBtn(true)},
+                                ],
+                                { cancelable: false }
+                              )
+                        }
+         
+                          
+                    
+         
+                    })
+                }
+            )
+            .catch( err => {console.log(err)})
+        }
+
     }
     const moveToHome = () => {
         setVisible(false)

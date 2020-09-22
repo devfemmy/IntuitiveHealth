@@ -16,7 +16,7 @@ const MyDoctorsCard = (props) => {
         <View style= {styles.container}>
             <View style= {styles.firstContainer}>
                 <Image style= {styles.imageStyle} 
-                source={require('../assets/sliders/images/doctor.png')} />
+                source={props.image} />
                 <View style= {styles.textContainer}>
                     <View>  
                     <MyAppText style= {styles.textStyle}>

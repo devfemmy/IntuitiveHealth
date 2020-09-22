@@ -93,13 +93,26 @@ const InputVitals = () => {
                 // color= {color} 
                 // indicator= {indicator} 
                 label= "Respiratory Rate" />
+                <View style= {styles.flexedContainer}>
                 <VitalInput
+                width= "50%"
+                indicator= "/"
                 // onChangeText= {(value)=> setPressFunc(value)}
                 keyboardType= "numeric"
-                placeholder= "180/260"
+                placeholder= "mm"
                 // color= {color} 
                 // indicator= {indicator} 
-                label= "Blood Pressure" />
+                label= "Blood Pressure(mm/Hg)" />
+                  <VitalInput
+                  width= "50%"
+                // onChangeText= {(value)=> setPressFunc(value)}
+                keyboardType= "numeric"
+                placeholder= "Hg"
+                size= {30}
+                // color= {color} 
+                // indicator= {indicator} 
+                label= " " />
+                </View>
                 <VitalInput
                  onChangeText= {(value)=> setTempFunc(value)}
                 keyboardType= "numeric"
@@ -125,6 +138,10 @@ const styles = StyleSheet.create({
     },
     btnContainer: {
         marginTop: 30
+    },
+    flexedContainer: {
+      flexDirection: 'row',
+      justifyContent: 'space-between'
     }
 });
 

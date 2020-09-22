@@ -14,7 +14,7 @@ const MyDoctors = (props) => {
                 .then(
                     res => {
                         setLoading(false)
-                        const doctors = res.data
+                        const doctors = res.data.data;
                         setDoctors(doctors);
                         // console.log("appointments", res.data)
                         // const profile = res.data.data;
@@ -81,8 +81,9 @@ const MyDoctors = (props) => {
                         return (
                             <MyDoctorsCard
                             key= {index}
+                            image= {{uri: doctor.image}}
                             experience = {`${doctor.experience} years experience`}
-                            pressed= {()=> props.navigation.navigate('Practise')}
+                            pressed= {()=> props.navigation.navigate('Consult')}
                             language= {doctor.qualification}
                             section= {doctor.specialty} 
                             name= {`${doctor.title} ${doctor.name} ${doctor.last_name} `} />

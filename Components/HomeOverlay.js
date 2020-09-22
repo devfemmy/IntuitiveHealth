@@ -9,20 +9,19 @@ import MyAppText from './MyAppText';
 const HomeOverlay = (props) => {
     return (
         <View style= {styles.container}>
+            <MyAppText onPress= {props.pressed}  style= {styles.closeText}>X Close</MyAppText>
             <View style= {{alignItems: 'center'}}>
                 <Icon width= {280} height= {150} />
             </View>
             <MyAppText style= {styles.textSyle}>
-            Welcome Folashade,
+            {props.welcome} {props.name},
             </MyAppText>
             <MyAppText style={styles.textSyle2}>
             this is your conduit to a healthier life
             </MyAppText>
-            <View>
-                <TouchableOpacity onPress= {props.pressed} style= {styles.btnContainer}>
-                <MyAppText style= {{color: 'white'}}>Continue</MyAppText>
-            </TouchableOpacity>
-            </View>
+            {/* <View>
+                {props.children}
+            </View> */}
         </View>
     )
 }
@@ -32,6 +31,13 @@ const styles = StyleSheet.create({
         minHeight: 300,
         width: '100%',
         // alignItems: 'center'
+    },
+    closeText: {
+        fontSize: 20,
+        textAlign: 'right',
+        position: 'relative',
+        top: -10,
+        right: -3
     },
     textSyle: {
         fontSize: 21,
@@ -43,16 +49,7 @@ const styles = StyleSheet.create({
        color: '#9B9B9B',
        marginHorizontal: 15
     },
-    btnContainer: {
-        width: '100%',
-        backgroundColor: '#6C0BA9',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: 40,
-        paddingHorizontal: 25,
-        marginVertical: 15,
-        borderRadius: 5
-    }
+
 })
 
 export default HomeOverlay;

@@ -62,17 +62,21 @@ const VideoNavigator = (props) => {
         }}
           />     
         <Stack.Screen name="Practise" component={GeneralPractise}
-          options={{ title: 'General Practise', headerStyle: {
+                  options={
+                    ({ route }) => ({ title: route.params.name, 
+                      headerStyle: {
               
-              backgroundColor: '#51087E',
-          
-              },
-              headerTitleStyle: {
-                fontFamily: 'HammersmithOne-Regular',
-                fontSize: 20
-              },
-          headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
-        }}
+                        backgroundColor: '#51087E',
+                    
+                        },
+                        headerTitleStyle: {
+                          fontFamily: 'HammersmithOne-Regular',
+                          fontSize: 20
+                        },
+                    headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
+                    })
+            
+                }
           />    
           <Stack.Screen name="Slot" component={TimeSlot}
           options={{ title: 'Select Time Slot', headerStyle: {

@@ -13,7 +13,7 @@ import { useLinkProps } from '@react-navigation/native';
 import axios from 'axios';
 
 const TimeSlot = (props) => {
-    const { doctor_id } = props.route.params;
+    const { doctor_id, group_id } = props.route.params;
     const [loading, setLoading] = useState(true);
     const [slots, setSlots] = useState([]);
     const [name, setName] = useState('');
@@ -49,6 +49,7 @@ const TimeSlot = (props) => {
                 )
                 .catch(err => {
                     const code = err.response.status;
+                    const message = err.response.message
                     if (code === 401) {
                         Alert.alert(
                             'Error!',
@@ -62,7 +63,7 @@ const TimeSlot = (props) => {
                     } else {
                       setLoading(false)
                         Alert.alert(
-                            'Network Error',
+                            message,
                             'Please Try Again',
                             [
                               {text: 'OK', onPress: () => setShowBtn(true)},
@@ -165,7 +166,9 @@ const TimeSlot = (props) => {
                         return (
                             <View key= {index}>
                            
-                                <SlotPicker onPress = {()=> props.navigation.navigate('Patient',{slots: show, image: image, title: title, name: name, last_name: last_name})} 
+                                <SlotPicker onPress = {()=> props.navigation.navigate('Patient',{slots: show, image: image, 
+                                group_id: group_id,
+                                title: title, name: name, last_name: last_name})} 
                                 border= "#51087E" color= "#51087E" time= {tConvert(sliceTime)} />                                
                             </View>
                            

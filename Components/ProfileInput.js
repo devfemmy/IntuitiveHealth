@@ -40,7 +40,7 @@ const ProfileInput = (props) => {
             keyboardType= {props.keyboardType}
             autoCapitalize= 'none'
             secureTextEntry = {props.secureTextEntry}
-            onChangeText={(event)=>props.onChangeText(event)}
+            onChangeText={props.onChangeText}
             value={props.value} />
             
         </View>

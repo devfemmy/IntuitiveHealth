@@ -11,6 +11,9 @@ target 'IntuitiveHealth' do
 
 
 
+  pod 'RNFS', :path => '../node_modules/react-native-fs'
+
+
   target 'IntuitiveHealthTests' do
     inherit! :complete
     # Pods for testing

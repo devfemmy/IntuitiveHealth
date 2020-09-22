@@ -8,6 +8,7 @@ import UploadIcon2 from '../../assets/sliders/images/profile2.svg';
 import UploadIcon3 from '../../assets/sliders/images/profile3.svg';
 
 const Profilepage = (props) => {
+    console.log('Value Component', props.value)
     return (
         <ScrollView style= {styles.container}>
             <TouchableOpacity onPress= {() => props.navigation.navigate('Personal') }>

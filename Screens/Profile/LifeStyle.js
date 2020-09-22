@@ -152,13 +152,16 @@ const LifeStyle = (props) => {
                       (question, index) =>  {
                         let options = question.options;
                         const PROP = options;
+                        console.log('femiii', options)
                         console.log('answers', question.question)
                         return (
                           <View key = {index}>
                           <MyAppText style= {styles.headerText}>
                             {question.question.question}
                           </MyAppText>
-                          <RadioButton question_id={question.question.id} pressed= {onRadioValueChanged} PROP={PROP} />
+                          <RadioButton 
+                          question_id={question.question.id} 
+                          pressed= {onRadioValueChanged} PROP={PROP} />
                           <View>
                               {/* {question.options.map(
                                 (ans, index) => {

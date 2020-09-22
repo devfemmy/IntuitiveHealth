@@ -5,11 +5,16 @@ import MyAppText from './MyAppText'
 const VitalInput = (props) => {
     const styles = StyleSheet.create({
         container: {
-          marginVertical: 8
+          marginVertical: 8,
+          width: props.width,
+          borderRightColor: props.bdc,
+          borderRightWidth: props.bdw,
+          height: props.height
         },
         indicatorStyle: {
           color: props.color,
-          textAlign: 'right'
+          textAlign: 'right',
+          fontSize: props.size
         },
         indicatorContainer: {
           width: '20%',

@@ -35,12 +35,12 @@ const Notification = (props) => {
                           )
                       
                     } else {
-                        showLoaded(true)
+                        // showLoaded(true)
                         Alert.alert(
                             'Network Error',
                             'Please Try Again',
                             [
-                              {text: 'OK', onPress: () => setShowBtn(true)},
+                              {text: 'OK'},
                             ],
                             { cancelable: false }
                           )

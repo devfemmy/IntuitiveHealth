@@ -22,7 +22,8 @@ class GeneralPractise extends Component {
   }
 
   makeRemoteRequest = () => {
-    const url = `https://conduit.detechnovate.net/public/api/conduithealth/doctors/lang/slot/1`;
+    const {id} = this.props.route.params
+    const url = `https://conduit.detechnovate.net/public/api/conduithealth/doctors/lang/slot/${id}`;
     this.setState({ loading: true });
 
     fetch(url)
@@ -86,6 +87,7 @@ class GeneralPractise extends Component {
   };
 
   render() {
+    const {id} = this.props.route.params
     if (this.state.loading) {
       return (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -111,7 +113,7 @@ class GeneralPractise extends Component {
               qualification= {item.qualification}
               specialty= {item.specialty}
               pressed = {
-                (item.slots === null) ? ()=> alert('Doctor Not Available') : ()=> this.props.navigation.navigate('Slot', {doctor_id: item.id})
+                (item.slots === null) ? ()=> alert('Doctor Not Available') : ()=> this.props.navigation.navigate('Slot', {doctor_id: item.id, group_id:id })
                 
               }
               image = {item.image}

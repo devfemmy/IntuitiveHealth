@@ -22,6 +22,8 @@ import Medications from '../../Screens/Records/Medicals/Medications';
 import DoctorsVitals from '../../Screens/Records/Medicals/DoctorVitals';
 import ViewDocument from '../../Screens/Records/Medicals/ViewDocument';
 import UploadDocument from '../../Screens/Records/Document/UploadDocument';
+import ViewUploads from '../../Screens/Records/Document/ViewUpload';
+import ViewList from '../../Screens/Records/Document/ViewList';
 
 
 const Stack = createStackNavigator();
@@ -155,6 +157,39 @@ const MedicalsNavigator = (props) => {
           headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
         }}
           />    
+            <Stack.Screen name="ViewUpload" component={ViewUploads}
+          options={{ title: 'View Uploaded Documents', headerStyle: {
+              
+              backgroundColor: '#51087E',
+          
+              
+              
+
+          },
+          headerTitleStyle: {
+            fontFamily: 'HammersmithOne-Regular',
+            fontSize: 20
+          },
+          headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
+        }}
+          />  
+          <Stack.Screen name="ViewList" component={ViewList}
+                  options={
+                    ({ route }) => ({ title: route.params.name, 
+                      headerStyle: {
+              
+                        backgroundColor: '#51087E',
+                    
+                        },
+                        headerTitleStyle: {
+                          fontFamily: 'HammersmithOne-Regular',
+                          fontSize: 20
+                        },
+                    headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
+                    })
+            
+                }
+          />  
             <Stack.Screen name="Upload" component={UploadDocument}
           options={{ title: 'Document Upload', headerStyle: {
               
@@ -170,7 +205,7 @@ const MedicalsNavigator = (props) => {
           },
           headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
         }}
-          />       
+          />        
         </Stack.Navigator>
       </>
     )
