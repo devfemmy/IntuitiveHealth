@@ -13,6 +13,7 @@ import Emergency from '../../Screens/Emergency/Emergency';
 import EmergencyVoice from '../../Screens/Emergency/EmergencyVoice';
 import VirtualCall from '../../Screens/Appointments/VirtualCall';
 import VoiceCall from '../../Screens/Appointments/VoiceCall';
+import WaitingRoom from '../../Screens/Emergency/WaitingRoom';
 
 
 const Stack = createStackNavigator();
@@ -66,7 +67,23 @@ const EmergencyNavigator = (props) => {
           headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
         }}
           />
-                  <Stack.Screen name="Virtual" component={VirtualCall}
+          <Stack.Screen name="WaitingRoom" component={WaitingRoom}
+          options={{ title: 'Waiting Room', headerStyle: {
+              
+              backgroundColor: '#51087E',
+          
+              
+              
+
+          },
+          headerTitleStyle: {
+            fontFamily: 'HammersmithOne-Regular',
+            fontSize: 20
+          },
+          headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
+        }}
+          />
+          <Stack.Screen name="Virtual" component={VirtualCall}
           options={{ title: 'Virtual Call', headerStyle: {
               
               backgroundColor: '#51087E',

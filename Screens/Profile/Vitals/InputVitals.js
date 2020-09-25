@@ -1,17 +1,24 @@
 import React, {useState} from 'react';
-import { View, StyleSheet, ScrollView } from 'react-native';
+import { View, StyleSheet,Alert, ScrollView, ActivityIndicator, AsyncStorage } from 'react-native';
+// import AsyncStorage from '@react-native-community/async-storage';
 import VitalInput from '../../../Components/VitalInput';
 import InnerBtn from '../../../Components/InnerBtn';
+import axios from '../../../axios-req';
 
 const InputVitals = () => {
     const [pulse, setPulse] = useState('');
     const [temperature, setTemp] = useState('');
     const [pressure, setPressure] = useState('');
     const [respiratory, setResprate] = useState('');
+    const [numerator, setNumerator] = useState('');
+    const [denominator, setDenominator] = useState('');
     const [indicator, setIndicator] = useState('');
     const [tempIndicator, setTempIndicator] = useState('');
+    const [PressureIndicator, setPressureIndicator] = useState('');
     const [color, setColor] = useState('white')
     const [color2, setColor2] = useState('white')
+    const [color3, setColor3] = useState('white');
+    const [loading, setLoading] = useState(false)
 
     const setPulseFunc = (value) => {
         setPulse(value)
@@ -62,6 +69,28 @@ const InputVitals = () => {
           setIndicator(null)
       }
     }
+    const calculatePressure = (value) => {
+      setDenominator(value)
+      const a = parseInt(numerator);
+      const b = parseInt(value);
+      if (a < 120 && b < 80 ) {
+       setPressureIndicator('Normal')
+       setColor3('green')
+      }else if ((a >= 120 && a <= 129) && (b < 80)) {
+        setPressureIndicator('Elevated')
+        setColor3('yellow')
+      } else if ((a >= 130 && a <= 139) || (b >= 80 && b <= 89)) {
+        setPressureIndicator('High BP')
+        setColor3('orange')
+      }else if ((a >= 140) || (b >= 90)) {
+        setPressureIndicator('Very High BP')
+        setColor3('red')
+      }else if (a >= 180 || b >= 120) {
+        setPressureIndicator('Crisis')
+        setColor3('red')
+      }
+      
+    }
     const setTempFunc = (value) => {
        setTemp(value)
       const tempRate = parseFloat(value);
@@ -78,6 +107,76 @@ const InputVitals = () => {
         setTempIndicator(null)
       }
     }
+    const saveVitals = () => {
+      if (respiratory === '' || pulse === '' 
+       || temperature === '' || numerator === '' || denominator === '') {
+        alert('Please fill all input fields')
+      } else {
+        setLoading(true)
+        const id = AsyncStorage.getItem('Mytoken').then(
+          res => {
+              const data = {
+                pulse: pulse,
+                respiratory: respiratory,
+                temperature: temperature,
+                blood_pressure_num: numerator,
+                blood_pressure_denum: denominator
+              }
+              axios.post('vitals/create', data, {headers: {Authorization: res}})
+              .then(
+                  res => {
+                    setLoading(false)
+                      console.log("vitals", res.data)
+                      const messsage = `${res.data.message}, Your Vitals have been saved`;
+                      Alert.alert(
+                        'Success',
+                        messsage,
+                        [
+                          {text: 'OK'},
+                        ],
+                        { cancelable: false }
+                      )
+                     
+                  }
+              )
+              .catch(err => {
+                console.log(err.response)
+                setLoading(false)
+                  const code = err.response.status;
+                  const message = err.response.message;
+                  if (code === 401) {
+                      Alert.alert(
+                          'Error!',
+                          'Expired Token',
+                          [
+                            {text: 'OK', onPress: () => signOut()},
+                          ],
+                          { cancelable: false }
+                        )
+                    
+                  } else if (code === 400) {
+                    // setLoading(false)
+                    console.log(err)
+                      Alert.alert(
+                          message,
+                          'Please Try Again',
+                          [
+                            {text: 'OK'},
+                          ],
+                          { cancelable: false }
+                        )
+                  }
+  
+                    
+                    console.log(err.response.status)
+  
+              })
+          }
+      )
+      .catch( err => {console.log(err)}) 
+      }
+
+    }
     return (
         <ScrollView style= {styles.container}>
             <View style= {styles.vitalContainer}>
@@ -88,7 +187,7 @@ const InputVitals = () => {
                 color= {color} 
                 indicator= {indicator} label= "Pulse Rate" />
                 <VitalInput
-                // onChangeText= {(value)=> setResFunc(value)}
+                onChangeText= {(value)=> setResprate(value)}
                 keyboardType= "numeric"
                 // color= {color} 
                 // indicator= {indicator} 
@@ -97,7 +196,7 @@ const InputVitals = () => {
                 <VitalInput
                 width= "50%"
                 indicator= "/"
-                // onChangeText= {(value)=> setPressFunc(value)}
+                onChangeText= {(value)=> setNumerator(value)}
                 keyboardType= "numeric"
                 placeholder= "mm"
                 // color= {color} 
@@ -105,12 +204,12 @@ const InputVitals = () => {
                 label= "Blood Pressure(mm/Hg)" />
                   <VitalInput
                   width= "50%"
-                // onChangeText= {(value)=> setPressFunc(value)}
+                onChangeText= {(value)=> calculatePressure(value)}
                 keyboardType= "numeric"
                 placeholder= "Hg"
                 size= {30}
-                // color= {color} 
-                // indicator= {indicator} 
+                color2= {color3}
+                indicator2= {PressureIndicator} 
                 label= " " />
                 </View>
                 <VitalInput
@@ -119,10 +218,12 @@ const InputVitals = () => {
                 color= {color2} 
                 indicator= {tempIndicator} label= "Temperature" />
                 <View style= {styles.btnContainer}>
-                        <InnerBtn 
+                  {loading ? (<ActivityIndicator size= "large" color= "#6C0BA9" />) :                         <InnerBtn 
+                        onPress= {saveVitals}
                         bg= "#6C0BA9"
                         color= "white"
-                        text= "Save" />
+                        text= "Save" />}
+
                 </View>
             </View>
         </ScrollView>

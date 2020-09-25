@@ -16,6 +16,9 @@ const VitalInput = (props) => {
           textAlign: 'right',
           fontSize: props.size
         },
+        textStyle2: {
+          color: props.color2
+        },
         indicatorContainer: {
           width: '20%',
           marginVertical: 1,
@@ -51,9 +54,14 @@ const VitalInput = (props) => {
       })
     return (
         <View style= {styles.container}>
+        <View style= {{flexDirection: 'row', justifyContent: 'space-between'}}>
         <MyAppText style= {styles.textStyle}>
             {props.label}
         </MyAppText>
+        <MyAppText style= {styles.textStyle2}>
+          {props.indicator2}
+        </MyAppText>
+        </View>
         <View style= {styles.lowerContainer}>
         <View style= {styles.textInputContainer}>
             <TextInput style= {styles.inputStyle} 
