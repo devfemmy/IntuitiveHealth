@@ -13,9 +13,20 @@ const PatientDetails = (props) => {
     const { title, name, last_name, image, slots, group_id} = props.route.params;
     const [showBtn, setShowBtn] = useState(true);
     const [email, setEmail] = useState('')
+    const [id_slot, setSlot] = useState('')
+
     const id = AsyncStorage.getItem('email').then(
         res => {
             setEmail(res)
+        }
+    ).catch(
+        err => {}
+    );
+
+    const slot_id = AsyncStorage.getItem('formid').then(
+        res => {
+            // console.log('222', res)
+            setSlot(res)
         }
     ).catch(
         err => {}
@@ -114,9 +125,10 @@ const PatientDetails = (props) => {
                     const data = {
                         slot_id: slot_id,
                         doctor_id:  doctor_id,
-                        intake_id: 1
+                        intake_id: parseInt(id_slot)
                       
                     }
+                    console.log("data to send", data)
                     axios.post('https://conduit.detechnovate.net/public/api/user/book/group/slot', data, {headers: {Authorization: res}})
                     .then(
                         res => {  

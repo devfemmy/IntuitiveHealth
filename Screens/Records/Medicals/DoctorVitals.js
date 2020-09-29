@@ -1,99 +1,101 @@
-import React from 'react';
-import { View, StyleSheet, ScrollView } from 'react-native';
+import React, {useEffect, useState} from 'react';
+import { View, StyleSheet,AsyncStorage,ActivityIndicator,Alert, TouchableOpacity,ScrollView } from 'react-native';
 import DoctorCard from '../../../Components/DoctorCard';
 import MyAppText from '../../../Components/MyAppText';
 import ProfileCard from '../../../Components/ProfileCard';
+import axios from '../../../axios-req'
+
 
 
 const DoctorsVitals = (props) => {
+    const [notes, setNotes] = useState([]);
+    const [loading, setLoading] = useState(true);
+    useEffect(() => {
+        const id = AsyncStorage.getItem('Mytoken').then(
+            res => {
+
+                axios.get('vitals/show', {headers: {Authorization: res}})
+                .then(
+                    res => {
+                        setLoading(false)
+                        console.log("notes,", res.data)
+                        const notes = res.data.data
+                        setNotes(notes)
+                       
+                    }
+                )
+                .catch(err => {
+                    setLoading(false)
+                    const code = err.response.status;
+                    if (code === 401) {
+                        Alert.alert(
+                            'Error!',
+                            'Expired Token',
+                            [
+                              {text: 'OK', onPress: () => signOut()},
+                            ],
+                            { cancelable: false }
+                          )
+                      
+                    } else {
+                        Alert.alert(
+                            'Network Error',
+                            'Please Try Again',
+                            [
+                              {text: 'OK'},
+                            ],
+                            { cancelable: false }
+                          )
+                    }
+    
+                      
+                    
+    
+                })
+            }
+        )
+        .catch( err => {console.log(err)}) 
+        
+    
+      }, []);
+      if (loading) {
+        return (
+          <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+           <ActivityIndicator  size="large" color="#51087E" />
+          </View>
+        );
+      }
     return (
         <ScrollView style= {styles.container}>
-            <View style= {styles.imageContainer}>
-                <DoctorCard 
-                college= "Obstetricians/Gynecologists"
-                experience= "23 years experience overall"
-                image= {require('../../../assets/sliders/images/doctor.png')}
-                name= "Dr Jonathan Doe" />
-            </View>
-            <View style= {styles.flexContainer}>
-                <View style= {styles.textContainer}>
-                    <MyAppText style= {styles.label}>
-                        Type
-                    </MyAppText>
-                    <MyAppText style= {styles.content}>
-                    Virtual (General Practice)
-                    </MyAppText>
-                </View>
-                <View style= {styles.textContainer}>
-                    <MyAppText style= {{...styles.label, ...styles.textRight}}>
-                        Date and Time
-                    </MyAppText>
-                    <MyAppText style= {styles.content}>
-                    20 Jul, 2020 1:00am
-                    </MyAppText>
-                </View>
-            </View>
             <View style= {styles.noteContainer}>
-                        <ProfileCard>
-                                <View>
-                                    <MyAppText style= {styles.label}>
-                                        Pulse Rate
-                                    </MyAppText>
+                        {notes.map((note, index) => {
+                            const doctors_name = `${note.title} ${note.name} ${note.last_name}`
+                            return (
+                                <View key= {index}>
+                            <TouchableOpacity onPress= {() => props.navigation.navigate('ViewVitals', {name: doctors_name, time: note.created_at.slice(11, 16), date: note.created_at, deno: note.blood_pressure_denum, num: note.blood_pressure_num, temperature: note.temperature, pulse: note.pulse, respiratory: note.respiratory}) }>
+                                    <ProfileCard>
+                                    <View style= {styles.textContainer}>
+                                        <MyAppText style= {styles.label}>
+                                            Date
+                                        </MyAppText>
+                                        <MyAppText style= {styles.content}>
+                                       {note.created_at.slice(0, 10)}
+                                        </MyAppText>
+                                    </View>
+                                    <View style= {styles.textContainer}>
+                                        <MyAppText style= {{...styles.label, ...styles.textRight}}>
+                                            Time
+                                        </MyAppText>
+                                        <MyAppText style= {styles.content}>
+                                       {note.created_at.slice(11, 16)}
+                                        </MyAppText>
+                                    </View>
+                                </ProfileCard>
+                                </TouchableOpacity>
                                 </View>
-                                    <MyAppText>
-                                        <MyAppText style= {styles.label3}>
-                                            34
-                                        </MyAppText>
-                                        <MyAppText style= {styles.label2}>
-                                            (high)
-                                        </MyAppText>
-                                    </MyAppText>
-                        </ProfileCard>
-                        <ProfileCard>
-                                <View>
-                                    <MyAppText style= {styles.label}>
-                                        Respiratory Rate
-                                    </MyAppText>
-                                </View>
-                                    <MyAppText>
-                                        <MyAppText style= {styles.label3}>
-                                            34
-                                        </MyAppText>
-                                        <MyAppText style= {styles.label2}>
-                                            (high)
-                                        </MyAppText>
-                                    </MyAppText>
-                        </ProfileCard>
-                        <ProfileCard>
-                                <View>
-                                    <MyAppText style= {styles.label}>
-                                        Blood Pressure
-                                    </MyAppText>
-                                </View>
-                                    <MyAppText>
-                                        <MyAppText style= {styles.label3}>
-                                            34
-                                        </MyAppText>
-                                        <MyAppText style= {styles.label5}>
-                                            (Normal)
-                                        </MyAppText>
-                                    </MyAppText>
-                        </ProfileCard>
-                        <ProfileCard>
-                                <View>
-                                    <MyAppText style= {styles.label}>
-                                        Temperature
-                                    </MyAppText>
-                                </View>
-                                    <MyAppText>
-                                        <MyAppText style= {styles.label3}>
-                                            24
-                                        </MyAppText>
-                                        <MyAppText style= {styles.label4}>
-                                            (Low)
-                                        </MyAppText>
-                                    </MyAppText>
-                        </ProfileCard>
+
+                            )
+                        })}
                 </View>
         </ScrollView>
     )
@@ -134,23 +136,12 @@ const styles = StyleSheet.create({
     label: {
         color: '#BBC2CC'
     },
-    label2: {
-        color: '#D30C0C'
-    },
-    label4: {
-        color: '#E6C300'
-    },
-    label5: {
-        color: '#58C315'
-    },
     content: {
-        color: '#2E2E2E',
-        textAlign: 'right'
+        color: '#2E2E2E'
     },
     textRight: {
         textAlign: 'right'
     }
-    
 });
 
-export default DoctorsVitals;
+export default DoctorsVitals

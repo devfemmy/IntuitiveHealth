@@ -24,6 +24,9 @@ import ViewDocument from '../../Screens/Records/Medicals/ViewDocument';
 import UploadDocument from '../../Screens/Records/Document/UploadDocument';
 import ViewUploads from '../../Screens/Records/Document/ViewUpload';
 import ViewList from '../../Screens/Records/Document/ViewList';
+import ViewNotes from '../../Screens/Records/Medicals/Views/ViewNotes';
+import ViewPrescription from '../../Screens/Records/Medicals/Views/ViewPres';
+import ViewVitals from '../../Screens/Records/Medicals/Views/ViewVitals';
 
 
 const Stack = createStackNavigator();
@@ -95,6 +98,54 @@ const MedicalsNavigator = (props) => {
           />   
           <Stack.Screen name="DoctorsNote" component={DoctorsNote}
           options={{ title: 'Doctors Note', headerStyle: {
+              
+              backgroundColor: '#51087E',
+          
+              
+              
+
+          },
+          headerTitleStyle: {
+            fontFamily: 'HammersmithOne-Regular',
+            fontSize: 20
+          },
+          headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
+        }}
+          />  
+          <Stack.Screen name="ViewNotes" component={ViewNotes}
+          options={{ title: 'Note Details', headerStyle: {
+              
+              backgroundColor: '#51087E',
+          
+              
+              
+
+          },
+          headerTitleStyle: {
+            fontFamily: 'HammersmithOne-Regular',
+            fontSize: 20
+          },
+          headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
+        }}
+          /> 
+          <Stack.Screen name="ViewVitals" component={ViewVitals}
+          options={{ title: 'Vitals Details', headerStyle: {
+              
+              backgroundColor: '#51087E',
+          
+              
+              
+
+          },
+          headerTitleStyle: {
+            fontFamily: 'HammersmithOne-Regular',
+            fontSize: 20
+          },
+          headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
+        }}
+          />  
+          <Stack.Screen name="ViewPrescription" component={ViewPrescription}
+          options={{ title: 'Prescription Details', headerStyle: {
               
               backgroundColor: '#51087E',
           

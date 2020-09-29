@@ -8,9 +8,11 @@ import ChatIcon from '../../assets/sliders/images/vc.svg';
 import axios from 'axios';
 
 const AppointmentDetails = (props) => {
-    const {doctor, lastname, image, slot_id, time, status} = props.route.params;
+    const {doctor, lastname, image, slot_id, time, patient_session, status} = props.route.params;
     const [loader, setLoading] = useState(false);
-    const [cancelBtn, setCancelBtn] = useState(true)
+    const [cancelBtn, setCancelBtn] = useState(true);
+    const [callBtn, setCallBtn] = useState(true);
+    const [sessionActive, setSession] = useState(true);
     const [color_code, setColorCode] = useState('black');
     useEffect(() => { 
         if (status === 'Booked') {
@@ -18,7 +20,16 @@ const AppointmentDetails = (props) => {
         } else if (status === 'Cancelled') {
             setColorCode('#D30C0C')
             setCancelBtn(false)
-        }
+        }else if (status === "Confirmed") {
+            setColorCode('#58C315');
+            setCancelBtn(false);
+            // setCallBtn(false)
+        } else if (status === "Confirmed" && patient_session >= 0) {
+            setColorCode('#6C0BA9')
+            setCancelBtn(false);
+            setSession(false)
+           
+        } 
     }, [])
 
    
@@ -93,6 +104,9 @@ const AppointmentDetails = (props) => {
         )
         .catch( err => {console.log(err)}) 
     }
+    const fetchSessionToken = () => {
+        alert('Not yet available')
+    }
     
     const styles = StyleSheet.create({
         container: {
@@ -120,6 +134,10 @@ const AppointmentDetails = (props) => {
             padding: 20,
             paddingVertical: 15
         },
+        flexContainer: {
+            flexDirection: 'row',
+            justifyContent: 'space-around'
+        },
         textStyle: {
             color: '#2E2E2E'
         },
@@ -134,7 +152,8 @@ const AppointmentDetails = (props) => {
             padding: 20
         },
         callContainer: {
-            width: '45%'
+            width: '100%',
+            justifyContent: 'center'
         }
     });
     return (
@@ -203,29 +222,40 @@ const AppointmentDetails = (props) => {
                    {status}
                 </MyAppText>
             </View>
+            {sessionActive ? 
             <View style= {styles.btnContainer}>
-                {cancelBtn ? 
-                  <View>
-                  {loader ? <ActivityIndicator  size="large" color="#51087E" /> :
-                  <InnerBtn onPress= {alertUser} border= "#51087E" bg= "#51087E" color= "white" text= "Cancel Appointment" />
-                  
-                  }
-                  </View> : 
-                  
-                  <InnerBtn onPress= {() => props.navigation.popToTop()} border= "#51087E" bg= "#51087E" color= "white" text= "Back to Appointments" />             
-            }
-                    {/* <View style= {styles.callContainer}>
-                    <InnerBtn
-                    onPress= {()=> props.navigation.navigate('Voice')} 
-                    bg= "#880ED4" color= "white" icon= {<PhoneIcon width= {18} height= {18} />} text= "Voice Call" />
-                    </View>
-                  
-                    <View style= {styles.callContainer}>
-                    <InnerBtn
-                     onPress= {()=> props.navigation.navigate('Virtual')}  
-                    bg= "#51087E" color= "white" icon= {<ChatIcon width= {18} height= {18} />} text= "Virtual Call" />
-                    </View> */}
-            </View>
+            {callBtn ? 
+                            <View>
+                            {cancelBtn ? 
+                              <View>
+                              {loader ? <ActivityIndicator  size="large" color="#51087E" /> :
+                              <InnerBtn onPress= {alertUser} border= "#51087E" bg= "#51087E" color= "white" text= "Cancel Appointment" />
+                              
+                              }
+                              </View> : 
+                              
+                              <InnerBtn onPress= {() => props.navigation.popToTop()} border= "#51087E" bg= "#51087E" color= "white" text= "Back to Appointments" />             
+                        }
+                            </View> : (
+                                <>
+                                <View style= {styles.callContainer}>
+                                    <InnerBtn
+                                    onPress= {()=> props.navigation.navigate('Voice')} 
+                                    bg= "#880ED4" color= "white" icon= {<PhoneIcon width= {18} height= {18} />} text= "Voice Call" />
+                                    </View>
+                                
+                                    <View style= {styles.callContainer}>
+                                    <InnerBtn
+                                    onPress= {fetchSessionToken}  
+                                    bg= "#51087E" color= "white" icon= {<ChatIcon width= {18} height= {18} />} text= "Virtual Call" />
+                                    </View>
+                                </>
+                            )
+        }
+        </View> : <MyAppText style= {{textAlign: 'center', marginVertical: 20}}>Checking For session...</MyAppText>
+        
+        }
+
         </ScrollView>
     )
 }

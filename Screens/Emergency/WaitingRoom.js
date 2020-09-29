@@ -8,7 +8,8 @@ import MyAppText from '../../Components/MyAppText';
 const WaitingRoom = (props) => {
     const [doctors, setDoctors] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [appid, setId] = useState(null)
+    const [display_id, setMyId] = useState(0);
+    let interval = null
  
 
     const joinWaitingRoom = () => {
@@ -22,8 +23,8 @@ const WaitingRoom = (props) => {
                         console.log(res, "waiting room")
                         const appid = res.data.data.id;
                         console.log('join', appid)
-                        setId(appid)
-                        setInterval(() => getToken(appid), 60000);
+                        interval = setInterval(() => getToken(appid), 30000);
+                        setMyId(appid)
                         const message = `${res.data.message}!!! You are now in waiting room`
                         Alert.alert(
                             'Alert',
@@ -34,7 +35,7 @@ const WaitingRoom = (props) => {
                             ],
                             { cancelable: false }
                           )
-                       
+                       getToken()
                     }
                 )
                 .catch(err => {
@@ -42,10 +43,12 @@ const WaitingRoom = (props) => {
                     setLoading(false)
                     const code = err.response.status;
                     const message = err.response.data.message;
-                    const appid = parseInt(err.response.data.data.id);
-                    console.log('APP ID', appid)
-                    setId(appid)
-                    setInterval(() => getToken(appid), 60000);
+                    const request_id = parseInt(err.response.data.data.id);
+                    console.log('request_id ID', request_id)
+                    interval = setInterval(() => getToken(request_id), 30000);
+                    setMyId(request_id)
+                    
+                    // setInterval(() => getToken(appid), 60000);
                     if (code === 401) {
                         Alert.alert(
                             'Error!',
@@ -73,6 +76,8 @@ const WaitingRoom = (props) => {
                       
                     
     
+                }).finally(()=>{
+                    getToken()
                 })
             }
         )
@@ -83,12 +88,11 @@ const WaitingRoom = (props) => {
         const id = AsyncStorage.getItem('Mytoken').then(
             res => {
 
-                axios.get(`waiting/cancel/${appid}`, {headers: {Authorization: res}})
+                axios.get(`waiting/cancel/${display_id}`, {headers: {Authorization: res}})
                 .then(
                     res => {
                         setLoading(false)
                         console.log(res, "waiting room")
-                        setId(0)
                         const message = res.data.message;
                         Alert.alert(
                             'Alert',
@@ -138,17 +142,14 @@ const WaitingRoom = (props) => {
         )
         .catch( err => {console.log(err)}) 
     }
-    const getToken = (value) => {
+    const getToken = (request_id) => {
         // setLoading(true)
       
-        console.log('GET TOKEN BLOACK', value)
-        if (value === null) {
-            return
-        } else {
+        console.log('GET TOKEN BLOCK', request_id)
             const id = AsyncStorage.getItem('Mytoken').then(
                 res => {
     
-                    axios.get(`waiting/token/${value}`, {headers: {Authorization: res}})
+                    axios.get(`waiting/token/${request_id}`, {headers: {Authorization: res}})
                     .then(
                         res => {
                             setLoading(false)
@@ -186,19 +187,28 @@ const WaitingRoom = (props) => {
                 }
             )
             .catch( err => {console.log(err)}) 
-        }
+        
 
     }
     useEffect(() => {
+    
+    const subscribe = props.navigation.addListener('focus', () => {
         joinWaitingRoom()
+    //    cancelAppointment()
+    });
+    const unsubscribe = props.navigation.addListener('blur', () => {
+       clearInterval(interval)
+    //    cancelAppointment()
+    //    clearInterval()
+    });
       props.navigation.addListener('beforeRemove', (e) => {
         // Prevent default behavior of leaving the screen
       e.preventDefault();
 
       // Prompt the user before leaving the screen
       Alert.alert(
-        'Exit Waiting Room?',
-        'Exiting waiting room will cancel any pending appointment. Are you sure you want to leave?',
+        'Exit Room?',
+        'Exiting room will cancel any unsaved session. Are you sure you want to leave?',
         [
           { text: "Don't leave", style: 'cancel', onPress: () => {} },
           {
@@ -207,17 +217,8 @@ const WaitingRoom = (props) => {
             // If the user confirmed, then we dispatch the action we blocked earlier
             // This will continue the action that had triggered the removal of the screen
             onPress: () => {
-                console.log('Cancelling appointment5', appid)
-                if (appid === 0) {
-                    console.log('hey this')
                     props.navigation.dispatch(e.data.action)
-                }else {
-                    e.preventDefault();
-                    console.log('Cancelling appointment')
-                    // cancelAppointment()
-                    console.log('Cancelling appointment2')
-                    props.navigation.dispatch(e.data.action)
-                }
+                
 
             },
           },
@@ -225,7 +226,9 @@ const WaitingRoom = (props) => {
       );
     }
     
-    )},
+    )
+    return unsubscribe, subscribe
+},
   [props.navigation]);
     
 
@@ -236,6 +239,7 @@ const WaitingRoom = (props) => {
           </View>
         );
       }
+    console.log('RENDER', display_id)
     return (
         <View style= {styles.container}>
             <ScrollView>

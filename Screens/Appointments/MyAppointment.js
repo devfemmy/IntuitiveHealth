@@ -1,5 +1,5 @@
 import React, {useEffect, useState}from 'react';
-import { View, StyleSheet,AsyncStorage,ActivityIndicator, ScrollView, Text } from 'react-native';
+import { View, StyleSheet,AsyncStorage,ActivityIndicator,Alert, ScrollView, Text } from 'react-native';
 import MyAppText from '../../Components/MyAppText';
 import AppointmentCard from '../../Components/AppointmentCard';
 import InnerBtn from '../../Components/InnerBtn';
@@ -8,7 +8,8 @@ import axios from '../../axios-req';
 const AppointmentPage = (props) => {
     const [appointments, setAppointment] = useState([]);
     const [loading, setLoading] = useState(true);
-    useEffect(() => {
+
+    const fetchAppointments = () => {
         const id = AsyncStorage.getItem('Mytoken').then(
             res => {
 
@@ -17,19 +18,8 @@ const AppointmentPage = (props) => {
                     res => {
                         setLoading(false)
                         const appointments = res.data.data;
-                        setAppointment(appointments);
-                        // const profile = res.data.data;
-                        // const lastname = profile.last_name;
-                        // const firstname = profile.name;
-                        // const email = profile.email;
-                        // const occupation = profile.occupation;
-                        // const location = profile.location;
-                        // setFirstname(firstname);
-                        // setLastname(lastname);
-                        // setEmail(email);
-                        // setOccupation(occupation)
-                        // setLocation(location)
-                       
+                        setAppointment(appointments);  
+                        console.log('appointments', appointments)                     
                     }
                 )
                 .catch(err => {
@@ -46,7 +36,7 @@ const AppointmentPage = (props) => {
                           )
                       
                     } else {
-                        showLoaded(true)
+                        // showLoaded(true)
                         Alert.alert(
                             'Network Error',
                             'Please Try Again',
@@ -64,9 +54,15 @@ const AppointmentPage = (props) => {
             }
         )
         .catch( err => {console.log(err)}) 
+    }
+    useEffect(() => {
+        const unsubscribe = props.navigation.addListener('focus', () => {
+            fetchAppointments()
+          });
+  
         
-    
-      });
+        return unsubscribe;
+      }, [props.navigation]);
       if (loading) {
         return (
           <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -80,12 +76,14 @@ const AppointmentPage = (props) => {
                 {appointments.map(
                     (appointment, index) => {
                         const status = parseInt(appointment.status);
+                        const patient_session = parseInt(appointment.patient_session);
                         if (status === 0) {
                             return (
                                 <View key= {index}>
                                       <AppointmentCard 
                                       onPress= {()=> props.navigation.navigate('Details',
                                       {doctor: appointment.doctor_name, lastname: appointment.doctor_last_name,
+                                        patient_session: patient_session,
                                         image: appointment.image, slot_id: appointment.slot_id, time: appointment.appointment_start, status: appointment.status_name}
                                       )}
                                       doctor= {`${appointment.doctor_name} ${appointment.doctor_last_name}`} 
@@ -100,6 +98,7 @@ const AppointmentPage = (props) => {
                                       onPress= {()=> props.navigation.navigate('Details', 
                                       
                                       {doctor: appointment.doctor_name, lastname: appointment.doctor_last_name,
+                                        patient_session: patient_session,
                                         image: appointment.image, slot_id: appointment.slot_id, time: appointment.appointment_start, status: appointment.status_name})}
                                       doctor= {`${appointment.doctor_name} ${appointment.doctor_last_name}`} 
                                        appdate= {appointment.appointment_start} image= {appointment.image}
@@ -113,6 +112,7 @@ const AppointmentPage = (props) => {
 
                                       onPress= {()=> props.navigation.navigate('Details', 
                                       {doctor: appointment.doctor_name, lastname: appointment.doctor_last_name,
+                                        patient_session: patient_session,
                                         image: appointment.image, slot_id: appointment.slot_id, time: appointment.appointment_start, status: appointment.status_name}
                                         )}
 
@@ -129,6 +129,7 @@ const AppointmentPage = (props) => {
                                       onPress= {()=> props.navigation.navigate('Details', 
                                       
                                       {doctor: appointment.doctor_name, lastname: appointment.doctor_last_name,
+                                        patient_session: patient_session,
                                         image: appointment.image, slot_id: appointment.slot_id, time: appointment.appointment_start, status: appointment.status_name})}
                                       doctor= {`${appointment.doctor_name} ${appointment.doctor_last_name}`} 
                                        appdate= {appointment.appointment_start} image= {appointment.image}
@@ -142,6 +143,7 @@ const AppointmentPage = (props) => {
                                       onPress= {()=> props.navigation.navigate('Details', 
                                       
                                       {doctor: appointment.doctor_name, lastname: appointment.doctor_last_name,
+                                        patient_session: patient_session,
                                         image: appointment.image, slot_id: appointment.slot_id, time: appointment.appointment_start, status: appointment.status_name})}
                                       doctor= {`${appointment.doctor_name} ${appointment.doctor_last_name}`} 
                                        appdate= {appointment.appointment_start} image= {appointment.image}

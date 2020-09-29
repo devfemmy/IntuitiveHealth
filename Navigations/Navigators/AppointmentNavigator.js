@@ -79,6 +79,19 @@ const AppointmentNavigator = (props) => {
             fontFamily: 'HammersmithOne-Regular',
             fontSize: 20
           },
+          headerRight: () => (
+            <TouchableOpacity onPress= {() => props.navigation.popToTop()}>
+              <Image 
+              style= {{width:25, height: 25, marginRight: 20}}
+              source= {require('./../../assets/sliders/images/mail.png')} />
+            </TouchableOpacity>
+
+            // <Button
+            //   onPress={() => alert('This is a button!')}
+            //   title="Info"
+            //   color="red"
+            // />
+          ),
           headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
         }}
           />

@@ -20,7 +20,7 @@ const MentalHealth = (props) => {
                 .then(
                     res => {
                       setLoading(false)
-                        console.log("mental health", res.data.data)
+                        // console.log("mental health", res.data.data)
                         const group = res.data.data;
                         setGroup(group);
                        
@@ -84,7 +84,7 @@ const MentalHealth = (props) => {
                 const groupid= parseInt(group.id)
                 if (groupid === 1) {
                     return (
-                        <TouchableOpacity  onPress= {() => props.navigation.navigate('IntakeForm', {id: groupid})}>
+                        <TouchableOpacity key= {index}  onPress= {() => props.navigation.navigate('IntakeForm', {id: groupid})}>
                         <View style= {styles.lowerContainer}>
                             <View>
                                 <SlotIconText size={20} icon= {<AdultIcon width= {28} height= {28} />} text= {group.group_name} />
@@ -95,7 +95,7 @@ const MentalHealth = (props) => {
                     )
                 } else if (groupid === 2) {
                     return (
-                        <TouchableOpacity onPress= {() => props.navigation.navigate('IntakeForm', {id: groupid})}>
+                        <TouchableOpacity  key= {index} onPress= {() => props.navigation.navigate('IntakeForm', {id: groupid})}>
                         <View style= {styles.lowerContainer}>
                             <View>
                                 <SlotIconText size={20} icon= {<AdultIcon width= {28} height= {28} />} text= {group.group_name} />
@@ -106,7 +106,7 @@ const MentalHealth = (props) => {
                     )
                 } else if (groupid === 4 ) {
                     return (
-                        <TouchableOpacity  onPress= {() => props.navigation.navigate('IntakeForm', {id: groupid})}>
+                        <TouchableOpacity  key= {index}  onPress= {() => props.navigation.navigate('IntakeForm', {id: groupid})}>
                         <View style= {styles.lowerContainer}>
                             <View>
                                 <SlotIconText size={20} icon= {<ChildIcon width= {28} height= {28} />} text= {group.group_name} />
@@ -117,7 +117,7 @@ const MentalHealth = (props) => {
                     )
                 } else if (groupid === 3) {
                     return (
-                        <TouchableOpacity  onPress= {() => props.navigation.navigate('IntakeForm', {id: groupid})}>
+                        <TouchableOpacity  key= {index}  onPress= {() => props.navigation.navigate('IntakeForm', {id: groupid})}>
                         <View style= {styles.lowerContainer}>
                             <View>
                                 <SlotIconText size={20} icon= {<ChildIcon width= {28} height= {28} />} text= {group.group_name.slice(0,25)} />

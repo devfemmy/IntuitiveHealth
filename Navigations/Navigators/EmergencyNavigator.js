@@ -14,6 +14,7 @@ import EmergencyVoice from '../../Screens/Emergency/EmergencyVoice';
 import VirtualCall from '../../Screens/Appointments/VirtualCall';
 import VoiceCall from '../../Screens/Appointments/VoiceCall';
 import WaitingRoom from '../../Screens/Emergency/WaitingRoom';
+import EndCallIcon from '../../assets/sliders/images/end_call.svg';
 
 
 const Stack = createStackNavigator();
@@ -96,6 +97,17 @@ const EmergencyNavigator = (props) => {
             fontFamily: 'HammersmithOne-Regular',
             fontSize: 20
           },
+          headerRight: () => (
+            <TouchableOpacity style= {{marginRight: 10}} onPress= {() => props.navigation.navigate('Emergency')}>
+                <EndCallIcon width= {30} height= {30} />
+            </TouchableOpacity>
+
+            // <Button
+            //   onPress={() => alert('This is a button!')}
+            //   title="Info"
+            //   color="red"
+            // />
+          ),
           headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
         }}
           />

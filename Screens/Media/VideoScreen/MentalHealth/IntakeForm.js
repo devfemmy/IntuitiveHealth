@@ -14,7 +14,7 @@ const IntakeForm = (props) => {
     const [noQuestion, setNoQues] = useState(null);
     const [sortedAnswers, setSortedAnswers] = useState(false);
     const [inputState, setInput] = useState(null)
-
+    console.log('group id', id)
     useEffect(() => {
         const token = AsyncStorage.getItem('Mytoken').then(
             res => {
@@ -75,7 +75,7 @@ const IntakeForm = (props) => {
         } else {
           setShowBtn(false)
   
-          const id = AsyncStorage.getItem('Mytoken').then(
+          const token = AsyncStorage.getItem('Mytoken').then(
             
               res => {
                    const sortedData = questions.map((question)=>{
@@ -84,26 +84,40 @@ const IntakeForm = (props) => {
                    }
                  );
                   const data = sortedData;
-                  axios.post('lifestyle/answers', {response:data}, {headers: {Authorization: res}})
+                  const group_id = parseInt(id);
+                  axios.post('mental/response', {response:data, group_id}, {headers: {Authorization: res}})
                   .then(
                       res => {  
                          // console.log(res)
                           const message = res.data.message; 
-                          alert(message);
+                          // console.log('response', res)
+                          const form_id = res.data.data.form_id;
+                          // console.log('formid222', form_id);
+                          const stringId = form_id.toString()
+                          AsyncStorage.setItem('formid', stringId);
+                          Alert.alert(
+                            'Alert',
+                            message,
+                            [
+                              {text: 'OK', onPress: () => props.navigation.navigate('Practise', {name: 'Mental Health', id: 2})},
+                            ],
+                            { cancelable: false }
+                          )
                           setShowBtn(true)
                       }
                   )
                   .catch(err => {
-                    console.log("error", err.response)
+                    // console.log("error", err.response)
                      setShowBtn(true)
                      // console.log(err.response)
                       const code = err.response.status;
+                      // const message = err.response.message;
                      if (code === 400) {
                        Alert.alert(
-                        'Success',
-                        'Your Form has been saved',
+                        'Error',
+                        'Please refill questions correctly',
                         [
-                          {text: 'OK', onPress: () => props.navigation.navigate('Practise', {name: 'Mental Health', id: 2})},
+                          {text: 'OK', onPress: () => props.navigation.goBack()},
                         ],
                         { cancelable: false }
                       )
@@ -142,22 +156,22 @@ const IntakeForm = (props) => {
 
       }
       const onRadioValueChanged = ({question_id,value})=>{
-
+        // console.log('what is', question_id)
         const newQuestions = questions.map((question)=>{
-            if(question.question.id===question_id)
+            if(question.id===question_id)
             {
-                return {...question,option_id:value, question_id: question_id}
+                return {...question,answer:value, question_id: question_id}
             }
            
             return question;
         });
-        console.log('myql', newQuestions)
         setQuestions(newQuestions);
+        // console.log('myql', newQuestions)
         setSortedAnswers(true)
         // sortArray()
     };
     const saveInputChange = (value, id) => {
-      console.log('inputsValue', value)
+      // console.log('inputsValue', value)
       const newQuestions = questions.map((question)=>{
         if(question.id===id)
         {
@@ -169,7 +183,7 @@ const IntakeForm = (props) => {
         return question;
     });
    setQuestions(newQuestions)
-   console.log('new q', newQuestions)
+  //  console.log('new q', newQuestions)
     // setQuestions(newQuestions);
     }
       if (loading) {
@@ -189,13 +203,14 @@ const IntakeForm = (props) => {
                         let options = question.options;
                         const PROP = options;
                         if (response_type_id === 2) {
+                          // console.log('question_id', question.id)
                             return (
                               <View key = {index}>
                               <MyAppText style= {styles.headerText}>
                                 {question.question}
                               </MyAppText>
                               <RadioButton 
-                              question_id={question.question.id} 
+                              question_id={question.id} 
                               pressed= {onRadioValueChanged} 
                               PROP={PROP} />
                               <View>
@@ -204,11 +219,11 @@ const IntakeForm = (props) => {
                             )
                         } 
                         else {
-                          console.log('options', question)
+                          // console.log('options', question)
                             return (
                                 <View>
                                 <ProfileInput
-                                value= {question.options}
+                                // value= {question.options}
                                  onChangeText = {(value) => saveInputChange(value, question.id)}
                                 label= {question.question} />
                                 </View>

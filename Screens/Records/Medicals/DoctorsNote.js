@@ -1,49 +1,101 @@
-import React from 'react';
-import { View, StyleSheet, ScrollView } from 'react-native';
+import React, {useEffect, useState} from 'react';
+import { View, StyleSheet,AsyncStorage,ActivityIndicator,Alert, TouchableOpacity,ScrollView } from 'react-native';
 import DoctorCard from '../../../Components/DoctorCard';
 import MyAppText from '../../../Components/MyAppText';
 import ProfileCard from '../../../Components/ProfileCard';
+import axios from '../../../axios-req'
+
 
 
 const DoctorsNote = (props) => {
+    const [notes, setNotes] = useState([]);
+    const [loading, setLoading] = useState(true);
+    useEffect(() => {
+        const id = AsyncStorage.getItem('Mytoken').then(
+            res => {
+
+                axios.get('notes/show', {headers: {Authorization: res}})
+                .then(
+                    res => {
+                        setLoading(false)
+                        console.log("notes,", res.data)
+                        const notes = res.data.data
+                        setNotes(notes)
+                       
+                    }
+                )
+                .catch(err => {
+                    setLoading(false)
+                    const code = err.response.status;
+                    if (code === 401) {
+                        Alert.alert(
+                            'Error!',
+                            'Expired Token',
+                            [
+                              {text: 'OK', onPress: () => signOut()},
+                            ],
+                            { cancelable: false }
+                          )
+                      
+                    } else {
+                        Alert.alert(
+                            'Network Error',
+                            'Please Try Again',
+                            [
+                              {text: 'OK'},
+                            ],
+                            { cancelable: false }
+                          )
+                    }
+    
+                      
+                    
+    
+                })
+            }
+        )
+        .catch( err => {console.log(err)}) 
+        
+    
+      }, []);
+      if (loading) {
+        return (
+          <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+           <ActivityIndicator  size="large" color="#51087E" />
+          </View>
+        );
+      }
     return (
         <ScrollView style= {styles.container}>
-            <View style= {styles.imageContainer}>
-                <DoctorCard 
-                college= "Obstetricians/Gynecologists"
-                experience= "23 years experience overall"
-                image= {require('../../../assets/sliders/images/doctor.png')}
-                name= "Dr Jonathan Doe" />
-            </View>
-            <View style= {styles.flexContainer}>
-                <View style= {styles.textContainer}>
-                    <MyAppText style= {styles.label}>
-                        Type
-                    </MyAppText>
-                    <MyAppText style= {styles.content}>
-                    Virtual (General Practice)
-                    </MyAppText>
-                </View>
-                <View style= {styles.textContainer}>
-                    <MyAppText style= {{...styles.label, ...styles.textRight}}>
-                        Date and Time
-                    </MyAppText>
-                    <MyAppText style= {styles.content}>
-                    20 Jul, 2020 1:00am
-                    </MyAppText>
-                </View>
-            </View>
             <View style= {styles.noteContainer}>
-                        <ProfileCard>
-                        <View>
-                            <MyAppText>
-                            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
-                            </MyAppText>
-                            <MyAppText style= {styles.docText}>
-                                Dr Doctor Joe
-                            </MyAppText>
-                        </View>
-                        </ProfileCard>
+                        {notes.map((note, index) => {
+                            const doctors_name = `${note.title} ${note.name} ${note.last_name}`
+                            return (
+                                <View key= {index}>
+                            <TouchableOpacity onPress= {() => props.navigation.navigate('ViewNotes', {name: doctors_name, notes: note.notes, date: note.created_at,recommendation: note.recommendation }) }>
+                                    <ProfileCard>
+                                    <View style= {styles.textContainer}>
+                                        <MyAppText style= {styles.label}>
+                                            Date
+                                        </MyAppText>
+                                        <MyAppText style= {styles.content}>
+                                       {note.created_at.slice(0, 10)}
+                                        </MyAppText>
+                                    </View>
+                                    <View style= {styles.textContainer}>
+                                        <MyAppText style= {{...styles.label, ...styles.textRight}}>
+                                            By
+                                        </MyAppText>
+                                        <MyAppText style= {styles.content}>
+                                       {doctors_name}
+                                        </MyAppText>
+                                    </View>
+                                </ProfileCard>
+                                </TouchableOpacity>
+                                </View>
+
+                            )
+                        })}
                 </View>
         </ScrollView>
     )
