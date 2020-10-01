@@ -17,6 +17,7 @@ import MyDoctorNavigator from './Navigators/MyDoctorNavigator';
 import MedicalsNavigator from './Navigators/MedicalsNavigator';
 import VitalsNavigator from './Navigators/VitalsNavigator';
 import EmergencyNavigator from './Navigators/EmergencyNavigator';
+import SecondOpinionNavigator from './Navigators/SecondOpinNavigator';
 
 
 
@@ -194,6 +195,14 @@ const DrawerNav = (props) => {
                       size={22}
                       color= "#6C0BA9"
                       name={Platform.OS === 'android' ? 'md-medkit' : 'ios-medkit'}></Icon>
+                    }}
+                    />
+                    <Drawer.Screen name="Second Opinion" component= {SecondOpinionNavigator}
+                     options= {{
+                      drawerIcon: config => <Icon
+                      size={22}
+                      color= "#6C0BA9"
+                      name={Platform.OS === 'android' ? 'md-contrast' : 'ios-contrast'}></Icon>
                     }}
                     />
                       <Drawer.Screen name="Instant Consultation" component= {EmergencyNavigator}

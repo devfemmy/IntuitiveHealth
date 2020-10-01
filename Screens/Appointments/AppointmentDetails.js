@@ -14,23 +14,94 @@ const AppointmentDetails = (props) => {
     const [callBtn, setCallBtn] = useState(true);
     const [sessionActive, setSession] = useState(true);
     const [color_code, setColorCode] = useState('black');
+    const [token, setToken] = useState('');
+    const [session, setVideoSession] = useState('');
+    const [apiKey, setKey] = useState('');
+
+    let interval = null;
+
+
+    const getToken = () => {
+        const id = AsyncStorage.getItem('Mytoken').then(
+            res => {
+                axios.get(`https://conduit.detechnovate.net/public/api/user/my/slots/token/${slot_id}`, {headers: {Authorization: res}})
+                .then(
+                  
+                    res => { 
+                        console.log('token fetch', res.data)  
+                        setColorCode('#58C315');
+                        //   setCancelBtn(false);
+                          setCallBtn(false)
+                          setCancelBtn(false);
+                          setSession(true);
+                                           
+                    }
+                )
+                .catch(err => {
+                    console.log(err.response, "error")
+                    const message = err.response.data.message
+                    setLoading(false)      
+                    const code = err.response.status;
+                    if (code === 401) {
+                        Alert.alert(
+                            'Error!',
+                            'Expired Token',
+                            [
+                              {text: 'OK', onPress: () => signOut()},
+                            ],
+                            { cancelable: false }
+                          )
+                      
+                    } else if (code === 400) {
+                      setLoading(false)
+                        // Alert.alert(
+                        //     'Error!',
+                        //     message,
+                        //     [
+                        //       {text: 'OK', onPress: () =>  setLoading(false)},
+                        //     ],
+                        //     { cancelable: false }
+                        //   )
+                    } else {
+                        // alert('Please try again')
+                    }
+    
+                      
+                      console.log(err.response.status)
+    
+                })
+            }
+        )
+        .catch( err => {console.log(err)}) 
+    }
+    
+    
     useEffect(() => { 
         if (status === 'Booked') {
             setColorCode('#FC7E00')
         } else if (status === 'Cancelled') {
             setColorCode('#D30C0C')
             setCancelBtn(false)
-        }else if (status === "Confirmed") {
+        }else if (status === "Confirmed" && patient_session === 0) {
             setColorCode('#58C315');
             setCancelBtn(false);
             // setCallBtn(false)
         } else if (status === "Confirmed" && patient_session >= 0) {
-            setColorCode('#6C0BA9')
+            // setColorCode('#6C0BA9')
+            setColorCode('#58C315');
             setCancelBtn(false);
-            setSession(false)
+            setSession(false);
+            interval = setInterval(() => getToken(), 30000);
            
         } 
-    }, [])
+        const unsubscribe = props.navigation.addListener('blur', () => {
+            clearInterval(interval)
+         //    cancelAppointment()
+         //    clearInterval()
+         });
+
+        return unsubscribe
+    }, [props.navigation])
 
    
     const alertUser = () => {

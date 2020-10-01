@@ -32,6 +32,8 @@ const ProfileInput = (props) => {
         </MyAppText>
         <TextInput style= {styles.inputStyle} 
             placeholder= {props.placeholder} 
+            multiline={props.multiline}
+            numberOfLines={props.lines}
             placeholderTextColor= {props.placeholderTextColor}
             selectionColor = 'black'
             editable= {props.editable}

@@ -275,7 +275,7 @@ const UploadDocument = (props) => {
                     </View>
             </View>
             <View style= {styles.btnContainer}>
-                <InnerBtn onPress= {newUploadImage} bg= "#51087E" color= "white" text= "Upload Document" />
+                <InnerBtn onPress= {() => "pressed"} bg= "#51087E" color= "white" text= "Upload Document" />
             </View>
         </ScrollView>
     )

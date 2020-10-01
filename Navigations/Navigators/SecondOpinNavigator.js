@@ -16,16 +16,18 @@ import ViewList from '../../Screens/Records/Document/ViewList';
 import ViewNotes from '../../Screens/Records/Medicals/Views/ViewNotes';
 import ViewPrescription from '../../Screens/Records/Medicals/Views/ViewPres';
 import ViewVitals from '../../Screens/Records/Medicals/Views/ViewVitals';
+import SecondOpinion from '../../Screens/SecondOpinion/SecondOpinion';
+import OpinionTitle from '../../Screens/SecondOpinion/SecondOpinionTitle';
 
 
 const Stack = createStackNavigator();
 
-const MedicalsNavigator = (props) => {
+const SecondOpinionNavigator = (props) => {
     return (
         <>
         <Stack.Navigator>
-          <Stack.Screen name="Medicals" component={MedicalRecords}
-          options={{ title: 'Medical Records', headerStyle: {
+          <Stack.Screen name="SecondOpinion" component={SecondOpinion}
+          options={{ title: 'Second Opinion', headerStyle: {
               
               backgroundColor: '#51087E',
           
@@ -53,8 +55,8 @@ const MedicalsNavigator = (props) => {
           headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
         }}
           />
-          <Stack.Screen name="History" component={MedicalHistory}
-          options={{ title: 'Medical History', headerStyle: {
+          <Stack.Screen name="Title" component={OpinionTitle}
+          options={{ title: 'Title', headerStyle: {
               
               backgroundColor: '#51087E',
           
@@ -252,4 +254,4 @@ const MedicalsNavigator = (props) => {
 }
 
 
-export default MedicalsNavigator;
+export default SecondOpinionNavigator;
