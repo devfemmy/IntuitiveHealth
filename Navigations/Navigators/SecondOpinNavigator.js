@@ -18,6 +18,7 @@ import ViewPrescription from '../../Screens/Records/Medicals/Views/ViewPres';
 import ViewVitals from '../../Screens/Records/Medicals/Views/ViewVitals';
 import SecondOpinion from '../../Screens/SecondOpinion/SecondOpinion';
 import OpinionTitle from '../../Screens/SecondOpinion/SecondOpinionTitle';
+import Summary from '../../Screens/SecondOpinion/Summary';
 
 
 const Stack = createStackNavigator();
@@ -57,6 +58,22 @@ const SecondOpinionNavigator = (props) => {
           />
           <Stack.Screen name="Title" component={OpinionTitle}
           options={{ title: 'Title', headerStyle: {
+              
+              backgroundColor: '#51087E',
+          
+              
+              
+
+          },
+          headerTitleStyle: {
+            fontFamily: 'HammersmithOne-Regular',
+            fontSize: 20
+          },
+          headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
+        }}
+          />  
+          <Stack.Screen name="Summary" component={Summary}
+          options={{ title: 'Summary', headerStyle: {
               
               backgroundColor: '#51087E',
           

@@ -9,7 +9,7 @@ const SecondOpinion = (props) => {
     return (
         <View style= {styles.container}>
         <View>
-            <TouchableOpacity onPress= {() => props.navigation.navigate('Consult')} style= {styles.videoContainer}>
+            <TouchableOpacity onPress= {() => props.navigation.navigate('Title')} style= {styles.videoContainer}>
                 <Icon width= {300} height= {250} />
                 <MyAppText  style= {styles.textStyle}>Second Opinion</MyAppText>
                 <MyAppText style= {styles.textStyle2}>Let us get your second opinion</MyAppText>

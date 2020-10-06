@@ -17,7 +17,9 @@ const OpinionTitle = (props) => {
                 </View>
             </ScrollView>
             <View style= {styles.footer}>
-            <InnerBtn onPress= {() => props.navigation.navigate('Upload')} width= "100%" text= "Next" color= "white" bg= "#51087E" />
+            <InnerBtn onPress= {() => props.navigation.navigate('Summary', {
+                title: title, comment: comment
+            })} width= "100%" text= "Next" color= "white" bg= "#51087E" />
             </View>
 
         </View>

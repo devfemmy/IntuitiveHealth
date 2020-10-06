@@ -70,7 +70,7 @@ PODS:
   - OpenSSL-Universal (1.0.2.19):
     - OpenSSL-Universal/Static (= 1.0.2.19)
   - OpenSSL-Universal/Static (1.0.2.19)
-  - OpenTok (2.18.0)
+  - OpenTok (2.18.1)
   - opentok-react-native (0.14.0):
     - OpenTok
     - React
@@ -498,7 +498,7 @@ SPEC CHECKSUMS:
   Folly: b73c3869541e86821df3c387eb0af5f65addfab4
   glog: 40a13f7840415b9a77023fbcae0f1e6f43192af3
   OpenSSL-Universal: 8b48cc0d10c1b2923617dfe5c178aa9ed2689355
-  OpenTok: bf4c81ff741e7976542c61b8f317882f8076eede
+  OpenTok: 2a816f5d77fbf2e2ebb5aec841bd21fb7dc7737b
   opentok-react-native: 94f76268b310825f787c4d2401f8a2d933288b65
   RCTRequired: f13f25e7b12f925f1f6a6a8c69d929a03c0129fe
   RCTTypeSafety: 44982c5c8e43ff4141eb519a8ddc88059acd1f3a

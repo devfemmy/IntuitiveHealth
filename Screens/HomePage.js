@@ -10,6 +10,7 @@ import Arrow from '../assets/sliders/images/arrow2.svg';
 import axios from 'axios';
 import Carousel from 'react-native-snap-carousel';
 import HomeOverlay from '../Components/HomeOverlay';
+import { Container, Header, Content, Button, Toast } from "native-base"
 // import Card from '../assets/sliders/images/placard.svg'
 
 const HomeScreen = (props) => {
@@ -21,7 +22,8 @@ const HomeScreen = (props) => {
     const [Sliders, setSliders] = React.useState([]);
     const [visible, setVisible] = React.useState(false);
     const [welcome, setWelcome] = React.useState('Welcome Back');
-
+    const [loaded, setLoaded] = React.useState(false)
+    let showWelcome = null;
     const toggleOverlay = () => {
         setVisible(true);
       };
@@ -97,7 +99,8 @@ const HomeScreen = (props) => {
              res => {
                  console.log("home2", res.data)
                  const mental_sliders = res.data.data;
-                 setMentalSliders(mental_sliders)
+                 setMentalSliders(mental_sliders);
+                 setLoaded(true)
                  
            
                 
@@ -222,17 +225,21 @@ const HomeScreen = (props) => {
             </View>
         );
     }
+
     return (
         <ScrollView style= {styles.container}>
-        <View>
-            <Overlay isVisible={visible} onBackdropPress={removeModal}>
-                <HomeOverlay pressed= {removeModal} welcome= {welcome} name= {firstname} >
-                    {/* <TouchableOpacity onPress= {() => setVisible(false)} style= {styles.btnContainer}>
-                        <MyAppText style= {{color: 'white'}}>Continue</MyAppText>
-                    </TouchableOpacity> */}
-                </HomeOverlay>
-            </Overlay>
-        </View>
+        {/* <View style= {{marginHorizontal: 20}}> */}
+        <Content padder>
+            {Toast.show({
+                text: `Welcome ${firstname}`,
+                position: 'top',
+                textStyle: {textAlign: 'center', fontWeight: 'bold'},
+                duration: 3000,
+                style: {marginHorizontal: 25, borderRadius: 10}
+            
+              })}
+        </Content>
+        {/* </View> */}
         <TouchableOpacity onPress= {()=> props.navigation.navigate('Profile')}>
         <View style= {styles.firstCont}>
                     <View style= {styles.circle}>

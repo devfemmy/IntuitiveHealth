@@ -1,26 +1,24 @@
 import React, {useState, useEffect} from 'react';
-import { View, StyleSheet, ScrollView,ActivityIndicator, AsyncStorage } from 'react-native';
+import { View, StyleSheet, ScrollView,ActivityIndicator,Alert, AsyncStorage } from 'react-native';
 import InnerBtn from '../../Components/InnerBtn';
 import ProfileInput from '../../Components/ProfileInput';
 import axios from '../../axios-req';
+import { Container, Header, Content, DatePicker,Icon, Picker, Form } from 'native-base'
+import MyAppText from '../../Components/MyAppText';
 
 const Personal = (props) => {
-    const [dob, setDob] = React.useState('java');
-    const [isEnabled, setIsEnabled] = React.useState(false);
-    const toggleSwitch = () => setIsEnabled(previousState => !previousState);
-    const [isEnabled2, setIsEnabled2] = React.useState(false);
-    const toggleSwitch2 = () => setIsEnabled2(previousState => !previousState);
+    // const [dob, setDob] = React.useState('java');
     const [firstname, setFirstname] = useState('');
     const [lastname, setLastname] = useState('');
     const [email, setEmail] = useState('');
     const [occupation, setOccupation] = useState('');
-    const [showLoaded, setShowLoaded] = useState(false);
     const [location, setLocation] = useState('');
     const [showBtn, setShowBtn] = useState(true);
-    const [height, setHeight] = useState('');
-    const [weight, setWeight] = useState('');
-    const [bmi, setBmi] = useState('');
-    const [loading, setLoading] = useState(true)
+    const [dob, setDob] = useState('');
+    const [gender, setGender] = useState('')
+    const [loading, setLoading] = useState(true);
+    const [date, setChosenDate] = useState(new Date);
+    const [selected, setSelected] = useState(undefined);
     
     
     useEffect(() => {
@@ -90,6 +88,8 @@ const Personal = (props) => {
                    first_name: firstname,
                    location: location,
                    occupation: occupation,
+                   gender: selected,
+                   dob: date
                }
                axios.post('update', data, {headers: {Authorization: res}})
                .then(
@@ -101,6 +101,7 @@ const Personal = (props) => {
                    }
                )
                .catch(err => {
+                 console.log('error', err.response)
                    const code = err.response.status;
                    if (code === 401) {
                        Alert.alert(
@@ -132,6 +133,17 @@ const Personal = (props) => {
        )
        .catch( err => {console.log(err)})
      }
+
+   const setDate = (newDate) => {
+     const date = newDate;
+     const realDate = date.toISOString().substr(0, 10);
+     setChosenDate(realDate)
+
+     
+    }
+    const onValueChange =(value) => {
+      setSelected(value)
+    }
      if (loading) {
       return (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -148,6 +160,42 @@ const Personal = (props) => {
                         <ProfileInput onChangeText = {(value) => setFirstname(value)}  value= {firstname} width= "45%" label= "First name" />
                         <ProfileInput onChangeText = {(value) => setLastname(value)} value= {lastname} width= "45%"  label= "Last name" />
                     </View>
+                    <Content style= {styles.dateContainer}>
+                    <MyAppText style= {styles.labelStyle}>Gender</MyAppText>
+                  <Form>
+                    <Picker
+                      mode="dropdown"
+                      // iosIcon={<Icon name="arrow-down" />}
+                      placeholder="Select your Gender"
+                      placeholderStyle={{ color: "#bfc6ea" }}
+                      placeholderIconColor="#007aff"
+                      style={{ width: undefined }}
+                      selectedValue={selected}
+                      onValueChange={onValueChange}
+                    >
+                      <Picker.Item label="Male" value="M" />
+                      <Picker.Item label="Female" value="F" />
+                    </Picker>
+                  </Form>
+               </Content>
+                    <Content style= {styles.dateContainer}>
+                      <MyAppText style= {styles.labelStyle}>Date of Birth</MyAppText>
+                    <DatePicker
+                      defaultDate={new Date(2018, 4, 4)}
+                      // minimumDate={new Date(2018, 1, 1)}
+                      // maximumDate={new Date(2018, 12, 31)}
+                      locale={"en"}
+                      timeZoneOffsetInMinutes={undefined}
+                      modalTransparent={false}
+                      animationType={"fade"}
+                      androidMode={"default"}
+                      placeHolderText="Select date of birth"
+                      textStyle={{ color: "black" }}
+                      placeHolderTextStyle={{ color: "#bfc6ea" }}
+                      onDateChange={setDate}
+                      disabled={false}
+                      />
+                  </Content>
                     {/* <ProfileInput value= {08120202020} keyboardType= "numeric" label= "Phone Number" /> */}
                     <ProfileInput editable= {false} value= {email} keyboardType= "email-address" label= "Email Address" />
                     <ProfileInput  onChangeText = {(value) => setLocation(value)} value= {location} keyboardType= "default" label= "Location" />
@@ -225,7 +273,14 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
     labelStyle: {
-      fontFamily: 'HammersmithOne-Regular' 
+      fontFamily: 'HammersmithOne-Regular',
+      opacity: 0.2
+    },
+    dateContainer: {
+      // margin: 8,
+      marginVertical: 8,
+      borderBottomColor: 'black',
+      borderBottomWidth: 1
     },
     switchContainer: {
       display: 'flex',
