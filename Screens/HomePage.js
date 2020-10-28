@@ -51,6 +51,7 @@ const HomeScreen = (props) => {
            setLastName(res)
         }
       ).catch(err => console.log(err));
+    //   console.log('Doctors', doctors)
       useEffect(() => {
         toggleOverlay()
         const id = AsyncStorage.getItem('Mytoken').then(
@@ -94,7 +95,7 @@ const HomeScreen = (props) => {
                   console.log(err.response.status)
 
             });
-            axios.get('http://conduit.detechnovate.net/public/api/conduithealth/mental/sliders', {headers: {Authorization: res}})
+            axios.get('https://conduit.detechnovate.net/public/api/conduithealth/mental/sliders', {headers: {Authorization: res}})
             .then(
              res => {
                  console.log("home2", res.data)
@@ -304,9 +305,12 @@ const HomeScreen = (props) => {
             <ScrollView showsHorizontalScrollIndicator= {false}  horizontal>
                 {doctors.map(
                     (doctor, index) => {
+                        const doctor_id = parseInt(doctor.id)
                         return (
                             <View key= {index}>
-                                <DescriptionCard source= {{uri: doctor.image}}
+                                <DescriptionCard 
+                                onPress = {() => props.navigation.navigate('Slot', {doctor_id: doctor_id, group_id: 1})}
+                                source= {{uri: doctor.image}}
                                 name= {`${doctor.name} ${doctor.last_name}`}
                                 thumbimg = {styles.thumbimg}
                                 defaultSource= {require('../assets/sliders/images/placeholder.png')}
@@ -380,7 +384,8 @@ const styles = StyleSheet.create({
     imageDim: {
         width: '100%',
         height: 240,
-        borderRadius: 8
+        borderRadius: 8,
+        resizeMode: 'contain'
     },
     textContainer: {
         width: '60%'

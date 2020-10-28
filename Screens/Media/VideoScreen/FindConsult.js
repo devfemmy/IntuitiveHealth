@@ -11,7 +11,7 @@ const FindConsult = (props) => {
             <MyAppText style= {styles.textStyle}>
             What kind of consultation do you want?
             </MyAppText>
-            <TouchableOpacity onPress= {() => props.navigation.navigate('Practise', {name: 'General Practise', id: 1})}>
+            <TouchableOpacity onPress= {() => props.navigation.navigate('Practise', {name: 'General Practice', id: 1})}>
                     <View style= {styles.card}>
                         <View style= {styles.imgCont}>
                         <Icon width= {120} height= {120} />

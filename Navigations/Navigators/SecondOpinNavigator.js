@@ -19,6 +19,9 @@ import ViewVitals from '../../Screens/Records/Medicals/Views/ViewVitals';
 import SecondOpinion from '../../Screens/SecondOpinion/SecondOpinion';
 import OpinionTitle from '../../Screens/SecondOpinion/SecondOpinionTitle';
 import Summary from '../../Screens/SecondOpinion/Summary';
+import ViewSecondOpinion from '../../Screens/SecondOpinion/ViewSO';
+import Comments from '../../Screens/SecondOpinion/Comments';
+import ViewDeNotes from '../../Screens/SecondOpinion/ViewDNotes';
 
 
 const Stack = createStackNavigator();
@@ -71,6 +74,55 @@ const SecondOpinionNavigator = (props) => {
           },
           headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
         }}
+          />  
+          <Stack.Screen name="ViewSo" component={ViewSecondOpinion}
+          options={{ title: 'Second Opinion History', headerStyle: {
+              
+              backgroundColor: '#51087E',
+          
+              
+              
+
+          },
+          headerTitleStyle: {
+            fontFamily: 'HammersmithOne-Regular',
+            fontSize: 20
+          },
+          headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
+        }}
+          />  
+          <Stack.Screen name="ViewDeNote" component={ViewDeNotes}
+          options={{ title: 'Note Details', headerStyle: {
+              
+              backgroundColor: '#51087E',
+          
+              
+              
+
+          },
+          headerTitleStyle: {
+            fontFamily: 'HammersmithOne-Regular',
+            fontSize: 20
+          },
+          headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
+        }}
+          />  
+          <Stack.Screen name="Comments" component={Comments}
+                  options={
+                    ({ route }) => ({ title: route.params.title, 
+                      headerStyle: {
+              
+                        backgroundColor: '#51087E',
+                    
+                        },
+                        headerTitleStyle: {
+                          fontFamily: 'HammersmithOne-Regular',
+                          fontSize: 20
+                        },
+                    headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
+                    })
+            
+                }
           />  
           <Stack.Screen name="Summary" component={Summary}
           options={{ title: 'Summary', headerStyle: {

@@ -87,7 +87,7 @@ const Summary = (props) => {
             const id = AsyncStorage.getItem('Mytoken').then(
                 res => {
                     const data = selectedItems
-                    axios.post('/second/save', {response:data, title: title, comments: comment}, {headers: {Authorization: res}})
+                    axios.post('second/save', {response:data, title: title, comments: comment}, {headers: {Authorization: res}})
                     .then(
                         res => {
                             setLoading(false) 

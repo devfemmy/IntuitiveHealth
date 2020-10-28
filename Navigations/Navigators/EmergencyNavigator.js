@@ -15,6 +15,7 @@ import VirtualCall from '../../Screens/Appointments/VirtualCall';
 import VoiceCall from '../../Screens/Appointments/VoiceCall';
 import WaitingRoom from '../../Screens/Emergency/WaitingRoom';
 import EndCallIcon from '../../assets/sliders/images/end_call.svg';
+import Ratings from '../../Screens/Appointments/RatingPage';
 
 
 const Stack = createStackNavigator();
@@ -108,6 +109,22 @@ const EmergencyNavigator = (props) => {
             //   color="red"
             // />
           ),
+          headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
+        }}
+          />
+          <Stack.Screen name="Review" component={Ratings}
+          options={{ title: 'Send Review', headerStyle: {
+              
+              backgroundColor: '#51087E',
+          
+              
+              
+
+          },
+          headerTitleStyle: {
+            fontFamily: 'HammersmithOne-Regular',
+            fontSize: 20
+          },
           headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
         }}
           />

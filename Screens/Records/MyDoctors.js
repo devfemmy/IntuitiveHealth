@@ -15,7 +15,8 @@ const MyDoctors = (props) => {
                     res => {
                         setLoading(false)
                         const doctors = res.data.data;
-                        setDoctors(doctors);
+                        // console.log('doctors', doctors)
+                        setDoctors(doctors)
                         // console.log("appointments", res.data)
                         // const profile = res.data.data;
                         // const lastname = profile.last_name;
@@ -65,7 +66,7 @@ const MyDoctors = (props) => {
         .catch( err => {console.log(err)}) 
         
     
-      });
+      }, []);
       if (loading) {
         return (
           <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -78,12 +79,13 @@ const MyDoctors = (props) => {
             <View>
                 {doctors.map(
                     (doctor, index) => {
+                        const doctor_id = parseInt(doctor.id)
                         return (
                             <MyDoctorsCard
                             key= {index}
                             image= {{uri: doctor.image}}
                             experience = {`${doctor.experience} years experience`}
-                            pressed= {()=> props.navigation.navigate('Consult')}
+                            pressed= {()=> props.navigation.navigate('Slot', {doctor_id: doctor_id, group_id:1 })}
                             language= {doctor.qualification}
                             section= {doctor.specialty} 
                             name= {`${doctor.title} ${doctor.name} ${doctor.last_name} `} />

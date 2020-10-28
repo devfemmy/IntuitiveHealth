@@ -152,8 +152,6 @@ const LifeStyle = (props) => {
                       (question, index) =>  {
                         let options = question.options;
                         const PROP = options;
-                        console.log('femiii', options)
-                        console.log('answers', question.question)
                         return (
                           <View key = {index}>
                           <MyAppText style= {styles.headerText}>

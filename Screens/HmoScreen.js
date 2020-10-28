@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, FlatList, ActivityIndicator } from 'react-native';
 import { ListItem, SearchBar } from 'react-native-elements';
-import axios from 'axios';
+
 class FlatListDemo extends Component {
   constructor(props) {
     super(props);
@@ -33,7 +33,6 @@ class FlatListDemo extends Component {
           loading: false,
         });
         this.arrayholder = res.data;
-        console.log("array", this.arrayholder)
       })
       .catch(error => {
         this.setState({ error, loading: false });

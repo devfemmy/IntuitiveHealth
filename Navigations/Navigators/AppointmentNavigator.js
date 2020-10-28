@@ -13,6 +13,9 @@ import AppointmentPage from '../../Screens/Appointments/MyAppointment';
 import AppointmentDetails from '../../Screens/Appointments/AppointmentDetails';
 import VirtualCall from '../../Screens/Appointments/VirtualCall';
 import VoiceCall from '../../Screens/Appointments/VoiceCall';
+import EndCallIcon from '../../assets/sliders/images/end_call.svg';
+import Ratings from '../../Screens/Appointments/RatingPage';
+
 
 
 const Stack = createStackNavigator();
@@ -66,7 +69,7 @@ const AppointmentNavigator = (props) => {
           headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
         }}
           />
-        <Stack.Screen name="Virtual" component={VirtualCall}
+          <Stack.Screen name="Virtual" component={VirtualCall}
           options={{ title: 'Virtual Call', headerStyle: {
               
               backgroundColor: '#51087E',
@@ -80,10 +83,8 @@ const AppointmentNavigator = (props) => {
             fontSize: 20
           },
           headerRight: () => (
-            <TouchableOpacity onPress= {() => props.navigation.popToTop()}>
-              <Image 
-              style= {{width:25, height: 25, marginRight: 20}}
-              source= {require('./../../assets/sliders/images/mail.png')} />
+            <TouchableOpacity style= {{marginRight: 10}} onPress= {() => props.navigation.navigate('Review', {history_id: 10})}>
+                <EndCallIcon width= {30} height= {30} />
             </TouchableOpacity>
 
             // <Button
@@ -108,6 +109,23 @@ const AppointmentNavigator = (props) => {
             fontFamily: 'HammersmithOne-Regular',
             fontSize: 20
           },
+          headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
+        }}
+          />
+          <Stack.Screen name="Review" component={Ratings}
+          options={{ title: 'Send Review', headerStyle: {
+              
+              backgroundColor: '#51087E',
+          
+              
+              
+
+          },
+          headerTitleStyle: {
+            fontFamily: 'HammersmithOne-Regular',
+            fontSize: 20
+          },
+          headerLeft: null,
           headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
         }}
           />

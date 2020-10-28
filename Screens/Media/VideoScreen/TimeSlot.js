@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { View, StyleSheet,Text, ScrollView,AsyncStorage, Image, Platform, ActivityIndicator } from 'react-native';
+import { View, StyleSheet,Text,Alert, ScrollView,AsyncStorage, Image, Platform, ActivityIndicator } from 'react-native';
 import DoctorCard from '../../../Components/DoctorCard';
 import IconText from '../../../Components/IconText';
 import VoiceIcon from '../../../assets/sliders/images/vchat.svg';
@@ -48,8 +48,9 @@ const TimeSlot = (props) => {
                     }
                 )
                 .catch(err => {
+                    console.log(err.response)
                     const code = err.response.status;
-                    const message = err.response.message
+                    const message = err.response.data.message
                     if (code === 401) {
                         Alert.alert(
                             'Error!',
@@ -64,9 +65,9 @@ const TimeSlot = (props) => {
                       setLoading(false)
                         Alert.alert(
                             message,
-                            'Please Try Again',
+                            'Please Try Another',
                             [
-                              {text: 'OK', onPress: () => setShowBtn(true)},
+                              {text: 'OK', onPress: () => props.navigation.popToTop()},
                             ],
                             { cancelable: false }
                           )

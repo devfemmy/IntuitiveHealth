@@ -2,12 +2,17 @@ import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import MyAppText from './MyAppText';
 
-const ProfileCard = (props) => {
+const StatusCard = (props) => {
     return (
         <View style= {styles.container}>
-            {/* <MyAppText>{props.second}</MyAppText> */}
             <View style= {styles.flexContainer}>
                 {props.children}
+            </View>
+            <View style= {{paddingHorizontal: 15, paddingVertical: 8}}>
+            {/* <MyAppText style= {{opacity: 0.5}}>{props.status} */}
+            <MyAppText style= {{color: props.color, textAlign: 'right'}}>{props.second}</MyAppText>
+            {/* </MyAppText> */}
+           
             </View>
             {/* <Text style= {styles.textStyle}>
                 {props.textDes}
@@ -38,7 +43,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        padding: 15,
+        paddingHorizontal: 15,
+        paddingVertical: 10
       
     },
     textStyle: {
@@ -47,4 +53,4 @@ const styles = StyleSheet.create({
     
 });
 
-export default ProfileCard;
+export default StatusCard;

@@ -1,21 +1,108 @@
-import React from 'react';
-import { View, StyleSheet, ScrollView, Text, Dimensions } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, StyleSheet, ScrollView,Alert,
+    AsyncStorage,ActivityIndicator,
+    Text, Dimensions } from 'react-native';
 import Icon from '../../../assets/sliders/images/videoicon.svg';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import MyAppText from '../../../Components/MyAppText';
 import InnerBtn from '../../../Components/InnerBtn';
+import axios from 'axios';
+
+
+
 const VideoPage = (props) => {
+    const [token, setToken] = useState('');
+    const [session, setVideoSession] = useState('');
+    const [apiKey, setKey] = useState('');
+    const [loader, setLoading] = useState(false);
+    const {patient_session} = props.route.params;
+
+    let interval = null;
+
+    const getToken = () => {
+        setLoading(false)
+        const id = AsyncStorage.getItem('Mytoken').then(
+            res => {
+                axios.get(`https://conduit.detechnovate.net/public/api/user/my/slots/token/${patient_session}`, {headers: {Authorization: res}})
+                .then(
+                  
+                    res => { 
+                        console.log('token fetch', res.data);
+                        const data = res.data.data;
+                        const session = data.session_id;
+                        const token = data.token;
+                        const apiKey = data.api_key;
+                        const time_left = data.time_left;
+                        const history_id = data.history_id;
+                        props.navigation.navigate('Virtual', {key: apiKey, sessionId: session, token: token, time_left: time_left, history_id: history_id})
+                        // setToken(token);
+                        // setKey(apiKey);
+                        // setVideoSession(session);
+                        setLoading(true)
+                                           
+                    }
+                )
+                .catch(err => {
+                    console.log(err.response, "error")
+                    const message = err.response.data.message
+                    setLoading(true)      
+                    const code = err.response.status;
+                    if (code === 401) {
+                        Alert.alert(
+                            'Error!',
+                            'Expired Token',
+                            [
+                              {text: 'OK', onPress: () => signOut()},
+                            ],
+                            { cancelable: false }
+                          )
+                      
+                    } else if (code === 400) {
+                      setLoading(false)
+                        Alert.alert(
+                            'Error!',
+                            message,
+                            [
+                              {text: 'OK', onPress: () =>  setLoading(false)},
+                            ],
+                            { cancelable: false }
+                          )
+                    } else {
+                        alert('Please try again')
+                    }
+    
+                      
+                      console.log(err.response.status)
+    
+                })
+            }
+        )
+        .catch( err => {console.log(err)}) 
+    }
+    useEffect(() => { 
+
+        const subscribe = props.navigation.addListener('focus', () => {
+            getToken()
+
+        });
+        const unsubscribe = props.navigation.addListener('blur', () => {
+           clearInterval(interval)
+        });
+
+        return unsubscribe, subscribe
+    }, [props.navigation])
     return (
         <View style= {styles.container}>
         <View>
-            <TouchableOpacity onPress= {() => props.navigation.navigate('Consult')} style= {styles.videoContainer}>
+            <TouchableOpacity onPress= {() => props.navigation.navigate('Active')} style= {styles.videoContainer}>
                 <Icon width= {300} height= {250} />
-                <MyAppText  style= {styles.textStyle}>Virtual Consultations</MyAppText>
-                <MyAppText style= {styles.textStyle2}>Skip the traffic and wrong rooms. Get an expert medical opinion using online virtual consultation without disrupting your daily life.</MyAppText>
+                <MyAppText  style= {styles.textStyle}>Video Consultations</MyAppText>
+                <MyAppText style= {styles.textStyle2}>Please wait while we try to fetch your session token.</MyAppText>
             </TouchableOpacity>
         </View>
         <View style= {styles.btnContainer}>
-        <InnerBtn onPress= {() => props.navigation.navigate('Consult')} width= "100%" text= "Start a new consultation" color= "white" bg= "#51087E" />
+        {loader ?   <InnerBtn onPress= {getToken} width= "100%" text= "Retry" color= "white" bg= "#51087E" /> : <ActivityIndicator size= "large" color= "#000075"/>}
+       
         </View>
         </View>
     )

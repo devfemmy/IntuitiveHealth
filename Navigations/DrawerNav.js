@@ -18,6 +18,7 @@ import MedicalsNavigator from './Navigators/MedicalsNavigator';
 import VitalsNavigator from './Navigators/VitalsNavigator';
 import EmergencyNavigator from './Navigators/EmergencyNavigator';
 import SecondOpinionNavigator from './Navigators/SecondOpinNavigator';
+import ConsultationNavigator from './Navigators/ConsultationNavigator';
 
 
 
@@ -165,7 +166,15 @@ const DrawerNav = (props) => {
                       name={Platform.OS === 'android' ? 'md-archive' : 'ios-archive'}></Icon>
                     }}
                     />
-                    <Drawer.Screen name="Video Consultation" component={VideoNavigator}
+                    <Drawer.Screen name="Find A Doctor" component={VideoNavigator}
+                     options= {{
+                      drawerIcon: config => <Icon
+                      size={22}
+                      color= "#6C0BA9"
+                      name={Platform.OS === 'android' ? 'md-person-add' : 'ios-person-add'}></Icon>
+                    }}
+                    />
+                    <Drawer.Screen name="Consultation" component= {ConsultationNavigator}
                      options= {{
                       drawerIcon: config => <Icon
                       size={22}
