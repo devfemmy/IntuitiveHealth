@@ -40,6 +40,7 @@ const ProfileInput = (props) => {
             autoCorrect= {false}
             defaultValue= {props.defaultValue}
             keyboardType= {props.keyboardType}
+            // keyboardType= "number-pad"
             autoCapitalize= 'none'
             secureTextEntry = {props.secureTextEntry}
             onChangeText={props.onChangeText}

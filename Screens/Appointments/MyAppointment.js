@@ -122,7 +122,45 @@ const AppointmentPage = (props) => {
                                        color= "#FC7E00" status= {appointment.status_name} appid= {appointment.my_id} />
                                 </View>
                             )
-                        }else if (status === 3) {
+                        }
+                        else if (status === 5) {
+                            return (
+                                <View key= {index}>
+                                      <AppointmentCard
+
+                                      onPress= {()=> props.navigation.navigate('Details', 
+                                      {doctor: appointment.doctor_name, lastname: appointment.doctor_last_name,
+                                        patient_session: patient_session,
+                                        image: appointment.image, slot_id: appointment.slot_id, time: appointment.appointment_start, status: appointment.status_name}
+                                        )}
+
+                                      appdate= {appointment.appointment_start}
+                                       doctor= {`${appointment.doctor_name} ${appointment.doctor_last_name}`} 
+                                       appdate= {appointment.appointment_start} image= {appointment.image}
+                                       color= "#FC7E00" status= {appointment.status_name} appid= {appointment.my_id} />
+                                </View>
+                            )
+                        }
+                        else if (status === 6) {
+                            return (
+                                <View key= {index}>
+                                      <AppointmentCard
+
+                                      onPress= {()=> props.navigation.navigate('Details', 
+                                      {doctor: appointment.doctor_name, lastname: appointment.doctor_last_name,
+                                        patient_session: patient_session,
+                                        image: appointment.image, slot_id: appointment.slot_id, time: appointment.appointment_start, status: appointment.status_name}
+                                        )}
+
+                                      appdate= {appointment.appointment_start}
+                                       doctor= {`${appointment.doctor_name} ${appointment.doctor_last_name}`} 
+                                       appdate= {appointment.appointment_start} image= {appointment.image}
+                                       color= "purple" status= {appointment.status_name} appid= {appointment.my_id} />
+                                </View>
+                            )
+                        }
+                        
+                        else if (status === 3) {
                             return (
                                 <View key= {index}>
                                       <AppointmentCard 

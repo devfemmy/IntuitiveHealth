@@ -224,8 +224,10 @@ const IntakeForm = (props) => {
                                 <View>
                                 <ProfileInput
                                 // value= {question.options}
-                                 onChangeText = {(value) => saveInputChange(value, question.id)}
-                                label= {question.question} />
+                                onChangeText = {(value) => saveInputChange(value, question.id)}
+                                label= {question.question}
+                                
+                                />
                                 </View>
                             )
                         }

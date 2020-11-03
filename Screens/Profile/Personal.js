@@ -11,6 +11,7 @@ const Personal = (props) => {
     const [firstname, setFirstname] = useState('');
     const [lastname, setLastname] = useState('');
     const [email, setEmail] = useState('');
+    const [phone, setPhone] = useState('');
     const [occupation, setOccupation] = useState('');
     const [location, setLocation] = useState('');
     const [showBtn, setShowBtn] = useState(true);
@@ -24,7 +25,7 @@ const Personal = (props) => {
     useEffect(() => {
       const id = AsyncStorage.getItem('Mytoken').then(
           res => {
-             console.log('synch', res)
+            //  console.log('synch', res)
               axios.get('details', {headers: {Authorization: res}})
               .then(
                 
@@ -37,11 +38,13 @@ const Personal = (props) => {
                       const email = profile.email;
                       const occupation = profile.occupation;
                       const location = profile.location;
+                      const phone = profile.phone
                       setFirstname(firstname);
                       setLastname(lastname);
                       setEmail(email);
                       setOccupation(occupation)
-                      setLocation(location)
+                      setLocation(location);
+                      setPhone(phone)
                      
                   }
               )
@@ -80,58 +83,64 @@ const Personal = (props) => {
   
     }, []);
     const  editProfile = () => {
+      if (phone === '' || lastname === '' || firstname === '' || selected === undefined ) {
+        alert ('Fill details correctly')
+      } else {
         setShowBtn(false)
-       const id = AsyncStorage.getItem('Mytoken').then(
-           res => {
-               const data = {
-                   last_name:  lastname,
-                   first_name: firstname,
-                   location: location,
-                   occupation: occupation,
-                   gender: selected,
-                   dob: date
-               }
-               axios.post('update', data, {headers: {Authorization: res}})
-               .then(
-                   res => {  
-                      console.log(res)
-                       const message = res.data.message; 
-                       alert(message);
-                       setShowBtn(true)
-                   }
-               )
-               .catch(err => {
-                 console.log('error', err.response)
-                   const code = err.response.status;
-                   if (code === 401) {
-                       Alert.alert(
-                           'Error!',
-                           'Expired Token',
-                           [
-                             {text: 'OK', onPress: () => signOut()},
-                           ],
-                           { cancelable: false }
-                         )
-                     
-                   } else {
-                       setShowBtn(true)
-                       Alert.alert(
-                           'Network Error',
-                           'Please Try Again',
-                           [
-                             {text: 'OK', onPress: () => setShowBtn(true)},
-                           ],
-                           { cancelable: false }
-                         )
-                   }
-    
-                     
-               
-    
-               })
-           }
-       )
-       .catch( err => {console.log(err)})
+        const id = AsyncStorage.getItem('Mytoken').then(
+            res => {
+                const data = {
+                    last_name:  lastname,
+                    first_name: firstname,
+                    location: location,
+                    occupation: occupation,
+                    phone: phone,
+                    gender: selected,
+                    dob: date
+                }
+                axios.post('update', data, {headers: {Authorization: res}})
+                .then(
+                    res => {  
+                       console.log(res)
+                        const message = res.data.message; 
+                        alert(message);
+                        setShowBtn(true)
+                    }
+                )
+                .catch(err => {
+                  console.log('error', err.response)
+                    const code = err.response.status;
+                    if (code === 401) {
+                        Alert.alert(
+                            'Error!',
+                            'Expired Token',
+                            [
+                              {text: 'OK', onPress: () => signOut()},
+                            ],
+                            { cancelable: false }
+                          )
+                      
+                    } else {
+                        setShowBtn(true)
+                        Alert.alert(
+                            'Validation Error',
+                            'Please Try Again',
+                            [
+                              {text: 'OK', onPress: () => setShowBtn(true)},
+                            ],
+                            { cancelable: false }
+                          )
+                    }
+     
+                      
+                
+     
+                })
+            }
+        )
+        .catch( err => {console.log(err)})
+      }
+
      }
 
    const setDate = (newDate) => {
@@ -196,8 +205,11 @@ const Personal = (props) => {
                       disabled={false}
                       />
                   </Content>
-                    {/* <ProfileInput value= {08120202020} keyboardType= "numeric" label= "Phone Number" /> */}
-                    <ProfileInput editable= {false} value= {email} keyboardType= "email-address" label= "Email Address" />
+                   
+                    <View style= {styles.flexContainer}>
+                    <ProfileInput onChangeText = {(value) => setPhone(value)}  value= {phone} width= "45%" keyboardType= "numeric" label= "Phone Number" />
+                    <ProfileInput editable= {false} value= {email} width= "45%" keyboardType= "email-address" label= "Email Address" />
+                    </View>
                     <ProfileInput  onChangeText = {(value) => setLocation(value)} value= {location} keyboardType= "default" label= "Location" />
                     <View style= {styles.flexContainer}>
                         <ProfileInput  onChangeText = {(value) => setOccupation(value)} value= {occupation} width= "100%" label= "Occupation" />

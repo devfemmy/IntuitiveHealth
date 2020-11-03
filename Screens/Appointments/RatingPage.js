@@ -42,7 +42,7 @@ const Ratings = (props) => {
                              'Alert!',
                              message,
                              [
-                               {text: 'OK', onPress: () => props.navigation.popToTop()},
+                               {text: 'OK', onPress: () => props.navigation.navigate('Appointment')},
                              ],
                              { cancelable: false }
                            )

@@ -11,9 +11,9 @@ import axios from 'axios';
 
 
 const VideoPage = (props) => {
-    const [token, setToken] = useState('');
-    const [session, setVideoSession] = useState('');
-    const [apiKey, setKey] = useState('');
+    // const [token, setToken] = useState('');
+    // const [session, setVideoSession] = useState('');
+    // const [apiKey, setKey] = useState('');
     const [loader, setLoading] = useState(false);
     const {patient_session} = props.route.params;
 
@@ -34,7 +34,19 @@ const VideoPage = (props) => {
                         const apiKey = data.api_key;
                         const time_left = data.time_left;
                         const history_id = data.history_id;
-                        props.navigation.navigate('Virtual', {key: apiKey, sessionId: session, token: token, time_left: time_left, history_id: history_id})
+                        if (time_left > 0) {
+                            props.navigation.navigate('Virtual', {key: apiKey, sessionId: session, token: token, time_left: time_left, history_id: history_id})
+                        }else {
+                            Alert.alert(
+                                'Error!',
+                                'Session has Ended',
+                                [
+                                  {text: 'OK', onPress: () => props.navigation.popToTop()},
+                                ],
+                                { cancelable: false }
+                              )
+                        }
+                        // props.navigation.navigate('Virtual', {key: apiKey, sessionId: session, token: token, time_left: time_left, history_id: history_id})
                         // setToken(token);
                         // setKey(apiKey);
                         // setVideoSession(session);

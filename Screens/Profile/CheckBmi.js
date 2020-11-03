@@ -250,8 +250,8 @@ const CheckBmi = (props) => {
               <MyAppText style= {styles.bmiText}>
               BMI (Body Mass Index)
               </MyAppText>
-              <VitalInput value= {height} onChangeText= {(value) => setHeight(value) }  indicator= "Cm" keyboardType= "numeric" label= "Height" />
-              <VitalInput value= {weight} onChangeText = {(value) => setWeight(value) } indicator= "Kg" keyboardType= "numeric" label= "Weight" />
+              <VitalInput value= {height} onChangeText= {(value) => setHeight(value) }  indicator= "Cm" keyboardType= "number-pad" label= "Height" />
+              <VitalInput value= {weight} onChangeText = {(value) => setWeight(value) } indicator= "Kg" keyboardType= "number-pad" label= "Weight" />
               <InnerBtn onPress= {calculateBmi} text= "Calculate BMI" border= "#51087E" bg= "#fff" color= "#51087E" />
               {result ? null : (
                                 <View style= {styles.resultContainer}>

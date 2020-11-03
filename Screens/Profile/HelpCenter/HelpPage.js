@@ -19,9 +19,7 @@ const HelpPage = (props) => {
                             <MyAppText style= {styles.boldText}>
                                 Contact Us
                             </MyAppText>
-                            <MyAppText style= {styles.colorText}>Continue
-                                {/* <Keyback width= {15} height= {15} /> */}
-                            </MyAppText>
+
                         </View>
                     </View>
             </TouchableOpacity>
@@ -34,9 +32,7 @@ const HelpPage = (props) => {
                             <MyAppText style= {styles.boldText}>
                                 FAQs
                             </MyAppText>
-                            <MyAppText style= {styles.colorText}>Continue
-                                {/* <Keyback width= {15} height= {15} /> */}
-                            </MyAppText>
+
                         </View>
                     </View>
             </TouchableOpacity>

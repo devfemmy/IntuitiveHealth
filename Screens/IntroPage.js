@@ -23,7 +23,7 @@ const IntroPage = (props) => {
                         </View>
                         <View style= {styles.textCont}>
                             <MyAppText style= {styles.boldText}>Self Pay</MyAppText>
-                            <MyAppText style= {styles.colorText}>Continue</MyAppText>
+                            {/* <MyAppText style= {styles.colorText}>Continue</MyAppText> */}
                         </View>
                     </View>
                     </TouchableOpacity>
@@ -35,7 +35,7 @@ const IntroPage = (props) => {
                         <View style= {styles.textCont}>
                             <MyAppText style= {styles.boldText}>HMO Member/Corporate
                             </MyAppText>
-                            <MyAppText style= {styles.colorText}>Continue</MyAppText>
+                            {/* <MyAppText style= {styles.colorText}>Continue</MyAppText> */}
                         </View>
                     </View>
                     </TouchableOpacity>

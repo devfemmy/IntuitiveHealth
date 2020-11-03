@@ -92,7 +92,13 @@ const AppointmentDetails = (props) => {
         } else if (status === 'Cancelled') {
             setColorCode('#D30C0C')
             setCancelBtn(false)
-        }else if (status === "Confirmed" && patient_session === 0) {
+        }
+        else if (status === 'Complete') {
+            setColorCode('purple')
+            setCancelBtn(false)
+        }
+        
+        else if (status === "Confirmed" && patient_session === 0) {
             setColorCode('#58C315');
             setCancelBtn(false);
             // setCallBtn(false)
@@ -192,7 +198,19 @@ const AppointmentDetails = (props) => {
         .catch( err => {console.log(err)}) 
     }
     const fetchSessionToken = () => {
-        props.navigation.navigate('Virtual', {key: apiKey, sessionId: session, token: token, time_left: time_left, history_id: history_id})
+        if (time_left > 0) {
+            props.navigation.navigate('Virtual', {key: apiKey, sessionId: session, token: token, time_left: time_left, history_id: history_id})
+        }else {
+            Alert.alert(
+                'Error!',
+                'Session has Ended',
+                [
+                  {text: 'OK', onPress: () => props.navigation.popToTop()},
+                ],
+                { cancelable: false }
+              )
+        }
+      
     }
     
     const styles = StyleSheet.create({

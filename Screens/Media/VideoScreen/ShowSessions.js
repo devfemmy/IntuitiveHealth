@@ -14,6 +14,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 const ShowActiveSessions = (props) => {
     const [doctors, setDoctors] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [showDoctor, showNoDoctor] = useState(false)
 
       const fetchActiveSessions = () => {
         const id = AsyncStorage.getItem('Mytoken').then(
@@ -24,9 +25,16 @@ const ShowActiveSessions = (props) => {
                     res => {
                         setLoading(false)
                         const doctors = res.data;
-                        console.log('doctors', doctors);
-                        setDoctors(doctors)
-
+                        const length = doctors.length;
+                        if (length > 0) {
+                            setDoctors(doctors);
+                            showNoDoctor(false)
+                        } else {
+                            console.log('doctors', doctors);
+                            showNoDoctor(true)
+                        }
+                       
+                       
                        
                     }
                 )
@@ -80,6 +88,9 @@ const ShowActiveSessions = (props) => {
       }
     return (
         <ScrollView style= {styles.container}>
+            {showDoctor ? <View>
+                <MyAppText style= {styles.textStyle4}>No Active Sessions</MyAppText>
+            </View>: null}
             <View>
                 {doctors.map(
                     (doctor, index) => {
@@ -131,7 +142,7 @@ const ShowActiveSessions = (props) => {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: '#F7F7FA',
-        margin: 25
+        padding: 25
     },
     textStyle: {
         opacity: 0.5
@@ -142,6 +153,9 @@ const styles = StyleSheet.create({
     },
     textStyle3: {
         textAlign: 'right'
+    },
+    textStyle4: {
+        textAlign: 'center'
     }
 });
 

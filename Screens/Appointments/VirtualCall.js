@@ -1,32 +1,64 @@
-import React, { Component } from 'react';
-import { View, Text, Dimensions, StyleSheet, Alert } from 'react-native';
+import React, { Component, useEffect, useState } from 'react';
+import { View, Text, Dimensions, StyleSheet,AsyncStorage, Alert } from 'react-native';
 import { OTSession, OTPublisher, OTSubscriber } from 'opentok-react-native';
 import CountDown from 'react-native-countdown-component';
+import axios from 'axios';
 
-export default class VirtualCall extends Component {
-  constructor(props) {
-    super(props);
-    this.apiKey = '46930374';
-    this.sessionId = '1_MX40NjkzMDM3NH5-MTYwMTM3MDU2MjAzM343TFl5TWNvZVpuZHE0eUZEVTNON0E2OGl-fg';
-    this.token = 'T1==cGFydG5lcl9pZD00NjkzMDM3NCZzaWc9NWQyOTY5MjEyZTdmM2EzYmRiMTgyNGRiNjNhZmVlOGQ1MDJmZjhlNjpzZXNzaW9uX2lkPTFfTVg0ME5qa3pNRE0zTkg1LU1UWXdNVE0zTURVMk1qQXpNMzQzVEZsNVRXTnZaVnB1WkhFMGVVWkVWVE5PTjBFMk9HbC1mZyZjcmVhdGVfdGltZT0xNjAxMzcwNTg4Jm5vbmNlPTAuNDA2NjU4OTcyNTI1Mjc5NiZyb2xlPXB1Ymxpc2hlciZleHBpcmVfdGltZT0xNjAxMzc0MTg4JmluaXRpYWxfbGF5b3V0X2NsYXNzX2xpc3Q9';
+const VirtualCall = (props) =>  {
+  const {key, sessionId, token, time_left, history_id} = props.route.params;
+  const [unique_id, setHistoryId] = useState('');
+
+  const cancelMyAppointment = () => {
+    const id = AsyncStorage.getItem('Mytoken').then(
+      res => {
+        const data = {
+          history_id: unique_id
+        }
+          axios.post('https://conduit.detechnovate.net/public/api/user/checkout/history',data, {headers: {Authorization: res}})
+          .then(
+              res => {
+             
+                console.log(res)
+              
+                  
+                 
+              }
+          )
+          .catch(err => {
+            console.log(err.response)
+          });
+  
+      }
+  )
+  .catch( err => {console.log(err)});
+  props.navigation.navigate('Review', {history_id: unique_id})
   }
-  sendUsReview = (history_id) => {
-    const history = parseInt(history_id)
+  useEffect(() => {
+    console.log('history_id', history_id)
+    const stringHistory = history_id.toString();
+    AsyncStorage.setItem('history', stringHistory);
+
+},
+  []);
+
+
+ const sendUsReview = (history_id) => {
+    const history = parseInt(history_id);
+   
+    cancelMyAppointment()
+
     Alert.alert(
       'Alert',
       'Your Session has ended',
       [
-        {text: 'OK', onPress: () => this.props.navigation.navigate('Review', {history_id: history})},
+        {text: 'OK', onPress: () => props.navigation.navigate('Review', {history_id: history})},
       ],
       { cancelable: false }
     )
   }
 
-  render() {
-    const {key, sessionId, token, time_left, history_id} = this.props.route.params
-    // console.log(key)
-    // console.log(sessionId)
-    // console.log(token)
+ 
+  
     return (
       <View style={{ flex: 1}}>
         {/* <OTSession apiKey={key} sessionId={sessionId} token={token}>
@@ -37,7 +69,7 @@ export default class VirtualCall extends Component {
         <CountDown
           until={time_left}
           size={30}
-          onFinish={() => this.sendUsReview(history_id)}
+          onFinish={() => sendUsReview(history_id)}
           digitStyle={{backgroundColor: '#FFF', height: 35}}
           digitTxtStyle={{color: '#51087E', fontSize: 20}}
           timeToShow={['M', 'S']}
@@ -59,7 +91,7 @@ export default class VirtualCall extends Component {
       </View>
     );
   }
-}
+
 const styles = StyleSheet.create({
   container: {
     position: 'relative',
@@ -88,4 +120,6 @@ const styles = StyleSheet.create({
     zIndex: 10,
 
   }
-})
+});
+
+export default VirtualCall

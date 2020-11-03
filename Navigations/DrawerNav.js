@@ -190,14 +190,14 @@ const DrawerNav = (props) => {
                       name={Platform.OS === 'android' ? 'md-calendar' : 'ios-calendar'}></Icon>
                     }}
                     />
-                    <Drawer.Screen name="My Doctors" component= {MyDoctorNavigator}
+                    {/* <Drawer.Screen name="My Doctors" component= {MyDoctorNavigator}
                      options= {{
                       drawerIcon: config => <Icon
                       size={22}
                       color= "#6C0BA9"
                       name={Platform.OS === 'android' ? 'md-medical' : 'ios-medical'}></Icon>
                     }}
-                    />
+                    /> */}
                       <Drawer.Screen name="Medical Records" component= {MedicalsNavigator}
                      options= {{
                       drawerIcon: config => <Icon

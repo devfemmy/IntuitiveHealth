@@ -300,7 +300,7 @@ const HomeScreen = (props) => {
         <View style= {styles.lowerContainer}>
             <View style= {styles.pageDesc}>
                 <MyAppText style= {{...styles.bolderText, ...styles.textColor}}>Doctors You Have Contacted</MyAppText>
-                <MyAppText onPress= {()=> props.navigation.navigate('My Doctors')} style= {{...styles.bolderText, ...styles.textStyle2}}>View All</MyAppText>
+                {/* <MyAppText onPress= {()=> props.navigation.navigate('My Doctors')} style= {{...styles.bolderText, ...styles.textStyle2}}>View All</MyAppText> */}
             </View>
             <ScrollView showsHorizontalScrollIndicator= {false}  horizontal>
                 {doctors.map(

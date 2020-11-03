@@ -20,9 +20,6 @@ const FindConsult = (props) => {
                             <MyAppText style= {styles.boldText}>
                                 General Practice
                             </MyAppText>
-                            <MyAppText style= {styles.colorText}>Continue
-                                {/* <Keyback width= {18} height= {18} /> */}
-                            </MyAppText>
                         </View>
                     </View>
             </TouchableOpacity>
@@ -34,9 +31,6 @@ const FindConsult = (props) => {
                         <View style= {styles.textCont}>
                             <MyAppText style= {styles.boldText}>
                                 Mental Health Specialist
-                            </MyAppText>
-                            <MyAppText style= {styles.colorText}>Continue
-                            {/* <Keyback width= {15} height= {15} /> */}
                             </MyAppText>
                         </View>
                     </View>
