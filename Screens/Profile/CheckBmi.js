@@ -161,8 +161,8 @@ const CheckBmi = (props) => {
   
     }, []);
     const calculateBmi = () => {
-        const intergerHeight = parseInt(height);
-        const intergerWeight = parseInt(weight);
+        const intergerHeight = parseInt(Math.abs(height));
+        const intergerWeight = parseInt(Math.abs(weight));
         const heightSquare = intergerHeight * intergerHeight;
         const myBmi = ((intergerWeight/heightSquare) * 10000).toFixed(1)
         setBmi(myBmi);

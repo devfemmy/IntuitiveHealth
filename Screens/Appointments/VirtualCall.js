@@ -1,18 +1,19 @@
 import React, { Component, useEffect, useState } from 'react';
-import { View, Text, Dimensions, StyleSheet,AsyncStorage, Alert } from 'react-native';
+import { View, Text, Dimensions, StyleSheet,AsyncStorage, Alert, TouchableOpacity } from 'react-native';
 import { OTSession, OTPublisher, OTSubscriber } from 'opentok-react-native';
 import CountDown from 'react-native-countdown-component';
 import axios from 'axios';
+import EndCallIcon from '../../assets/sliders/images/end_call.svg';
 
 const VirtualCall = (props) =>  {
   const {key, sessionId, token, time_left, history_id} = props.route.params;
-  const [unique_id, setHistoryId] = useState('');
+  // const [unique_id, setHistoryId] = useState('');
 
   const cancelMyAppointment = () => {
     const id = AsyncStorage.getItem('Mytoken').then(
       res => {
         const data = {
-          history_id: unique_id
+          history_id: parseInt(history_id)
         }
           axios.post('https://conduit.detechnovate.net/public/api/user/checkout/history',data, {headers: {Authorization: res}})
           .then(
@@ -31,17 +32,31 @@ const VirtualCall = (props) =>  {
       }
   )
   .catch( err => {console.log(err)});
-  props.navigation.navigate('Review', {history_id: unique_id})
+  props.navigation.navigate('Review', {history_id: parseInt(history_id)})
   }
-  useEffect(() => {
-    console.log('history_id', history_id)
-    const stringHistory = history_id.toString();
-    AsyncStorage.setItem('history', stringHistory);
-
-},
-  []);
 
 
+const checkoutSession = () => {
+  Alert.alert(
+    'Exit Page?',
+    'Are you sure you want to leave Room?',
+    [
+      { text: "Don't leave", style: 'cancel', onPress: () => {} },
+      {
+        text: 'Leave',
+        style: 'destructive',
+        // If the user confirmed, then we dispatch the action we blocked earlier
+        // This will continue the action that had triggered the removal of the screen
+        onPress: () => {
+                // props.navigation.dispatch(e.data.action)
+                cancelMyAppointment()
+            
+
+        },
+      },
+    ]
+  );
+}
  const sendUsReview = (history_id) => {
     const history = parseInt(history_id);
    
@@ -65,7 +80,7 @@ const VirtualCall = (props) =>  {
           <OTPublisher style={{ width: 100, height: 100 }} />
           <OTSubscriber style={{ width: 100, height: 100 }} />
         </OTSession> */}
-      <View style= {{marginVertical: 10, alignItems: 'flex-end'}}>
+      <View style= {{marginVertical: 10, alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between'}}>
         <CountDown
           until={time_left}
           size={30}
@@ -75,6 +90,9 @@ const VirtualCall = (props) =>  {
           timeToShow={['M', 'S']}
           timeLabels={{m: 'min', s: 'sec'}}
         />
+          <TouchableOpacity style= {{marginRight: 10}} onPress= {checkoutSession}>
+                <EndCallIcon width= {40} height= {40} />
+          </TouchableOpacity>
       </View>
 
       <View style={{ flexDirection: 'row' }}>

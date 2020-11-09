@@ -30,7 +30,7 @@ const ShowActiveSessions = (props) => {
                             setDoctors(doctors);
                             showNoDoctor(false)
                         } else {
-                            console.log('doctors', doctors);
+                            console.log('my doctors', doctors);
                             showNoDoctor(true)
                         }
                        
@@ -90,8 +90,9 @@ const ShowActiveSessions = (props) => {
         <ScrollView style= {styles.container}>
             {showDoctor ? <View>
                 <MyAppText style= {styles.textStyle4}>No Active Sessions</MyAppText>
-            </View>: null}
-            <View>
+            </View>: 
+            (
+                <View>
                 {doctors.map(
                     (doctor, index) => {
                         const patient_session = parseInt(doctor.patient_session)
@@ -135,6 +136,9 @@ const ShowActiveSessions = (props) => {
                     }
                 )}
             </View>
+            )
+            }
+
         </ScrollView>
     )
 }

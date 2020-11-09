@@ -17,6 +17,7 @@ import VirtualCall from '../../Screens/Appointments/VirtualCall';
 import VoiceCall from '../../Screens/Appointments/VoiceCall';
 import Ratings from '../../Screens/Appointments/RatingPage';
 import axios from 'axios';
+import AppointmentPage from '../../Screens/Appointments/MyAppointment';
 
 
 
@@ -24,73 +25,85 @@ const Stack = createStackNavigator();
 
 
 const ConsultationNavigator = (props) => {
-      const [history_id, setHistory_id] = useState('')
-      
-      useEffect(() => {
-        const history = AsyncStorage.getItem('history').then(
-          res => {
-            setHistory_id(res)
-            console.log('response_history', res)
-          }
-        ).catch(err => console.log(err));
-      }, []);
+//   const [history_id, setHistory_id] = useState('')
+
+//   console.log('HISTORYIF', history_id)
+//   const getToken = () => {
+//     const history = AsyncStorage.getItem('history').then(
+//       res => {
+//         setHistory_id(res)
+//         console.log('response_history', res)
+//       }
+//     ).catch(err => console.log(err));
+//   }
+//   useEffect(() => { 
+
+//     const subscribe = props.navigation.addListener('focus', () => {
+//         getToken()
+
+//     });
+//     const unsubscribe = props.navigation.addListener('blur', () => {
+//     });
+
+//     return unsubscribe, subscribe
+// }, [props.navigation])
 
 
 
-  const cancelMyAppointment = () => {
-    const id = AsyncStorage.getItem('Mytoken').then(
-      res => {
-        const data = {
-          history_id: parseInt(history_id)
-        }
-        console.log('data to send', data)
-          axios.post('https://conduit.detechnovate.net/public/api/user/checkout/history',data, {headers: {Authorization: res}})
-          .then(
-              res => {
+// const cancelMyAppointment = () => {
+// const id = AsyncStorage.getItem('Mytoken').then(
+//   res => {
+//     const data = {
+//       history_id: parseInt(history_id)
+//     }
+//     console.log('data to send', data)
+//       axios.post('https://conduit.detechnovate.net/public/api/user/checkout/history',data, {headers: {Authorization: res}})
+//       .then(
+//           res => {
+         
+//             console.log(res)
+          
+              
              
-                console.log(res)
-              
-                  
-                 
-              }
-          )
-          .catch(err => {
-            console.log(err.response)
-          });
-  
-      }
-  )
-  .catch( err => {console.log(err)});
-  props.navigation.navigate('Review', {history_id: parseInt(history_id)})
-  }
+//           }
+//       )
+//       .catch(err => {
+//         console.log(err.response)
+//       });
 
-  const checkOutsession = () => {
-    const history = AsyncStorage.getItem('history').then(
-      res => {
-        setHistory_id(res)
-        console.log('response_history', res)
-      }
-    ).catch(err => console.log(err));
-    Alert.alert(
-      'Exit Page?',
-      'Are you sure you want to leave Room?',
-      [
-        { text: "Don't leave", style: 'cancel', onPress: () => {} },
-        {
-          text: 'Leave',
-          style: 'destructive',
-          // If the user confirmed, then we dispatch the action we blocked earlier
-          // This will continue the action that had triggered the removal of the screen
-          onPress: () => {
-                  // props.navigation.dispatch(e.data.action)
-                  cancelMyAppointment()
+//   }
+// )
+// .catch( err => {console.log(err)});
+// props.navigation.navigate('Review', {history_id: parseInt(history_id)})
+// }
+
+//   const checkOutsession = () => {
+//     const history = AsyncStorage.getItem('history').then(
+//       res => {
+//         setHistory_id(parseInt(res))
+//         console.log('response_history', res)
+//       }
+//     ).catch(err => console.log(err));
+//     Alert.alert(
+//       'Exit Page?',
+//       'Are you sure you want to leave Room?',
+//       [
+//         { text: "Don't leave", style: 'cancel', onPress: () => {} },
+//         {
+//           text: 'Leave',
+//           style: 'destructive',
+//           // If the user confirmed, then we dispatch the action we blocked earlier
+//           // This will continue the action that had triggered the removal of the screen
+//           onPress: () => {
+//                   // props.navigation.dispatch(e.data.action)
+//                   cancelMyAppointment()
               
 
-          },
-        },
-      ]
-    );
-  }
+//           },
+//         },
+//       ]
+//     );
+//   }
     return (
         <>
         <Stack.Navigator>
@@ -135,7 +148,36 @@ const ConsultationNavigator = (props) => {
               },
           headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
         }}
-          />    
+          />  
+          <Stack.Screen name="Appointment" component={AppointmentPage}
+          options={{ title: 'My Appointments', headerStyle: {
+              
+              backgroundColor: '#51087E',
+          
+              
+              
+
+          },
+          headerTitleStyle: {
+            fontFamily: 'HammersmithOne-Regular',
+            fontSize: 20
+          },
+          headerLeft: () => (
+            <HeaderButtons HeaderButtonComponent= {ProfileButton}>
+              <Item title= "Menu"
+                iconName= "ios-menu"
+                onPress= {() => {props.navigation.openDrawer();}} />
+            </HeaderButtons>
+
+            // <Button
+            //   onPress={() => alert('This is a button!')}
+            //   title="Info"
+            //   color="red"
+            // />
+          ), 
+          headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
+        }}
+          />  
         <Stack.Screen name="Virtual" component={VirtualCall}
           options={{ title: 'Virtual Call', headerStyle: {
               
@@ -149,17 +191,11 @@ const ConsultationNavigator = (props) => {
             fontFamily: 'HammersmithOne-Regular',
             fontSize: 20
           },
-          headerRight: () => (
-            <TouchableOpacity style= {{marginRight: 10}} onPress= {checkOutsession}>
-                <EndCallIcon width= {30} height= {30} />
-            </TouchableOpacity>
-
-            // <Button
-            //   onPress={() => alert('This is a button!')}
-            //   title="Info"
-            //   color="red"
-            // />
-          ),
+          // headerRight: () => (
+          //   <TouchableOpacity style= {{marginRight: 10}} onPress= {checkOutsession}>
+          //       <EndCallIcon width= {30} height= {30} />
+          //   </TouchableOpacity>
+          // ),
           headerLeft: null,
           headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
         }}

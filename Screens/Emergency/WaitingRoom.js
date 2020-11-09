@@ -159,7 +159,7 @@ const WaitingRoom = (props) => {
                             const session = res.data.data.session_id;
                             const token = res.data.data.token;
                             const time_left = res.data.data.time_left;
-                            const history_id = res.data.data.history_id
+                            const history_id = res.data.data.history_id;
                             props.navigation.navigate('Virtual', {key: key, sessionId: session, token: token, 
                                 time_left: time_left, history_id: history_id})
                         }

@@ -18,8 +18,9 @@ const Personal = (props) => {
     const [dob, setDob] = useState('');
     const [gender, setGender] = useState('')
     const [loading, setLoading] = useState(true);
-    const [date, setChosenDate] = useState(new Date);
-    const [selected, setSelected] = useState(undefined);
+    const [chosenDate, setChosenDate] = useState(new Date);
+    const [dateToBeSent, setDateToBeSent] = useState(new Date);
+    const [selected, setSelected] = useState("M");
     
     
     useEffect(() => {
@@ -38,13 +39,19 @@ const Personal = (props) => {
                       const email = profile.email;
                       const occupation = profile.occupation;
                       const location = profile.location;
-                      const phone = profile.phone
+                      const phone = profile.phone;
+                      const dob = profile.dob;
+                      const realDob = new Date (dob);
+                      const gender = profile.gender;
+                      console.log('set dob', dob)
+                      setChosenDate(dob)
                       setFirstname(firstname);
                       setLastname(lastname);
                       setEmail(email);
                       setOccupation(occupation)
                       setLocation(location);
-                      setPhone(phone)
+                      setPhone(phone);
+                      setSelected(gender)
                      
                   }
               )
@@ -82,8 +89,30 @@ const Personal = (props) => {
       
   
     }, []);
+
     const  editProfile = () => {
-      if (phone === '' || lastname === '' || firstname === '' || selected === undefined ) {
+      // alert(chosenDate)
+      // const slicedDate = chosenDate.toString().slice(0, -45);
+      function formatDate(date) {
+        var d = new Date(date),
+            month = '' + (d.getMonth() + 1),
+            day = '' + d.getDate(),
+            year = d.getFullYear();
+    
+        if (month.length < 2) 
+            month = '0' + month;
+        if (day.length < 2) 
+            day = '0' + day;
+    
+        return [year, month, day].join('-');
+    }
+    const formattedDate = formatDate(chosenDate);
+    // console.log('Format', formattedDate)
+    // alert(formattedDate)
+      // const concatDate = `${slicedDate}`;
+      // const newDateCreated2 = new Date(concatDate)
+      // const realDate = newDateCreated2.toISOString().substring(0, 10);
+      if (phone === '' || lastname === '' || firstname === '' ) {
         alert ('Fill details correctly')
       } else {
         setShowBtn(false)
@@ -96,7 +125,7 @@ const Personal = (props) => {
                     occupation: occupation,
                     phone: phone,
                     gender: selected,
-                    dob: date
+                    dob: formattedDate
                 }
                 axios.post('update', data, {headers: {Authorization: res}})
                 .then(
@@ -124,7 +153,7 @@ const Personal = (props) => {
                         setShowBtn(true)
                         Alert.alert(
                             'Validation Error',
-                            'Please Try Again',
+                            'Please enter a valid Date',
                             [
                               {text: 'OK', onPress: () => setShowBtn(true)},
                             ],
@@ -144,9 +173,12 @@ const Personal = (props) => {
      }
 
    const setDate = (newDate) => {
-     const date = newDate;
-     const realDate = date.toISOString().substr(0, 10);
-     setChosenDate(realDate)
+    // const subDate = newDate.subString(0, 10)
+     setChosenDate(newDate);
+     console.log('chosenDate', newDate)
+
+    //  setDateToBeSent(realDate)
+    //  console.log('real Date', new Date())
 
      
     }
@@ -188,29 +220,34 @@ const Personal = (props) => {
                   </Form>
                </Content>
                     <Content style= {styles.dateContainer}>
-                      <MyAppText style= {styles.labelStyle}>Date of Birth</MyAppText>
+                      {/* <MyAppText style= {styles.labelStyle}>Date of Birth</MyAppText> */}
                     <DatePicker
-                      defaultDate={new Date(2018, 4, 4)}
+                      // defaultDate={chosenDate}
+                      // value= {chosenDate}
                       // minimumDate={new Date(2018, 1, 1)}
                       // maximumDate={new Date(2018, 12, 31)}
+                      mode= "date"
+                      maximumDate={new Date()}
                       locale={"en"}
-                      timeZoneOffsetInMinutes={undefined}
-                      modalTransparent={false}
+                      timeZoneOffsetInMinutes={60}
+                      modalTransparent={true}
                       animationType={"fade"}
-                      androidMode={"default"}
-                      placeHolderText="Select date of birth"
+                      androidMode={"calendar"}
+                      placeHolderText={"Select Date of Birth"}
                       textStyle={{ color: "black" }}
-                      placeHolderTextStyle={{ color: "#bfc6ea" }}
+                      placeHolderTextStyle={{ color: "#9B9B9B" }}
                       onDateChange={setDate}
                       disabled={false}
                       />
+                    <MyAppText>
+                    {chosenDate.toString().substr(0, 16)}
+                  </MyAppText>
                   </Content>
-                   
+                  <ProfileInput editable= {false} value= {email} width= "100%" keyboardType= "email-address" label= "Email Address" />
                     <View style= {styles.flexContainer}>
                     <ProfileInput onChangeText = {(value) => setPhone(value)}  value= {phone} width= "45%" keyboardType= "numeric" label= "Phone Number" />
-                    <ProfileInput editable= {false} value= {email} width= "45%" keyboardType= "email-address" label= "Email Address" />
+                    <ProfileInput  onChangeText = {(value) => setLocation(value)} value= {location} width= "45%" keyboardType= "default" label= "Location" />
                     </View>
-                    <ProfileInput  onChangeText = {(value) => setLocation(value)} value= {location} keyboardType= "default" label= "Location" />
                     <View style= {styles.flexContainer}>
                         <ProfileInput  onChangeText = {(value) => setOccupation(value)} value= {occupation} width= "100%" label= "Occupation" />
                     </View>
