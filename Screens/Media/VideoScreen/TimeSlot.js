@@ -141,7 +141,8 @@ const TimeSlot = (props) => {
                             return (
                                 <View key= {index}>
                                 <SlotBtn 
-                                onPress= {() => showAvailable(slot.slots, slot.appointment_date, slot.appointment_day, slot.count)}
+                                onPress= {() => showAvailable(slot.slots, slot.appointment_date, 
+                                    slot.appointment_day, slot.count)}
                                 date= {`${slot.appointment_day}, ${slot.appointment_date}`}
                                 name= {`${slot.count} Slot Available`}
                                 border= "#BBC2CC"
@@ -167,7 +168,8 @@ const TimeSlot = (props) => {
                         return (
                             <View key= {index}>
                            
-                                <SlotPicker onPress = {()=> props.navigation.navigate('Patient',{slots: show, image: image, 
+                                <SlotPicker 
+                                onPress = {()=> props.navigation.navigate('Patient',{slots: show, image: image, 
                                 group_id: group_id,
                                 title: title, name: name, last_name: last_name})} 
                                 border= "#51087E" color= "#51087E" time= {tConvert(sliceTime)} />                                

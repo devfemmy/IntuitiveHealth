@@ -199,13 +199,13 @@ const PatientDetails = (props) => {
           </View>
           <View style= {styles.bookingPurpose}>
                 <MyAppText style= {styles.label}>Date of Booking</MyAppText>
-                <MyAppText style= {styles.textStyle}>
+                <MyAppText onPress= {() => props.navigation.goBack()}  style= {styles.textStyle}>
                         {displayDate}
                 </MyAppText>
           </View>
           <View style= {styles.dateContainer}>
           <MyAppText style= {styles.label}>Appointment Time</MyAppText>
-                <MyAppText style= {styles.textStyle}>
+                <MyAppText onPress= {() => props.navigation.goBack()} style= {styles.textStyle}>
                     {appTime}
                 </MyAppText>
           </View>
