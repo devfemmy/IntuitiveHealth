@@ -44,7 +44,7 @@ const Personal = (props) => {
                       const realDob = new Date (dob);
                       const gender = profile.gender;
                       console.log('set dob', dob)
-                      setChosenDate(dob)
+                      setChosenDate(realDob)
                       setFirstname(firstname);
                       setLastname(lastname);
                       setEmail(email);
