@@ -11,6 +11,7 @@ import axios from 'axios';
 
 const LoginScreen = (props) => {
   const {signIn} = useContext(AuthContext);
+  const {hmo_id} = props.route.params;
   const [email, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [hidePassword, setHidePassword] = useState(true);
@@ -40,9 +41,82 @@ const LoginScreen = (props) => {
       AsyncStorage.setItem('email', email);
       setBtn(true)
       // signIn({email:email.email,password:email.password});
-      const data = {
+      if (hmo_id === 0) {
+        const data = {
           email: email,
-          password: password
+          password: password,
+          // hmo_id: hmo_id
+      }
+      console.log('33', data)
+      axios.post('https://conduit.detechnovate.net/public/api/conduithealth/user/login', data)
+      .then( res => {
+          setBtn(false)
+          console.log('API', res.data)
+        const response = res.data;
+        if (response.status === 1) {
+          const token = response.data.token;
+          const firstname = response.data.name;
+          const member_no = response.data.member_no;
+          const lastname = response.data.last_name;
+          const subscript = response.data.subscription.subscription;
+          const color = response.data.subscription.color;
+          const firstLogin = response.data.first_login;
+          // const memberId = response.success.user.Membership_id;
+          // const currentBal = response.success.user.Available_balance;
+          // const blockedPts = response.success.user.Blocked_points;
+          AsyncStorage.setItem('membershipId', member_no);
+          AsyncStorage.setItem('firstname', firstname);
+          AsyncStorage.setItem('lastname', lastname);
+          // console.log('Subscript', subscript)
+          AsyncStorage.setItem('subscript', subscript);
+          AsyncStorage.setItem('color', color);
+          AsyncStorage.setItem('login', firstLogin);
+          // AsyncStorage.setItem('currentBal', currentBal);
+          // AsyncStorage.setItem('blockedpts', blockedPts);
+          AsyncStorage.setItem('Mytoken', "Bearer "+token);
+      
+          signIn({token:token});
+
+        }else {
+         
+     
+          alert('incorrect username or password')
+        }
+        
+      }).catch(err => {
+        setBtn(false)
+          const code = err.response.status;
+          console.log("error", err.response.data.message);
+          const errMsg = err.response.data.message
+          if (code === 400) {
+            alert(errMsg)
+          }
+         else if (code === 401) {
+              Alert.alert(
+                  'Error!',
+                  'Expired Token',
+                  [
+                    {text: 'OK', onPress: () => signOut()},
+                  ],
+                  { cancelable: false }
+                )
+            
+          } else {
+              Alert.alert(
+                  'Network Error',
+                  'Please Try Again',
+                  [
+                    {text: 'OK', onPress: () =>  setBtn(false)},
+                  ],
+                  { cancelable: false }
+                )
+          }
+      })
+      }else {
+        const data = {
+          email: email,
+          password: password,
+          hmo_id: hmo_id
       }
       console.log('33', data)
       axios.post('https://conduit.detechnovate.net/public/api/conduithealth/user/login/hmo', data)
@@ -83,8 +157,9 @@ const LoginScreen = (props) => {
       }).catch(err => {
         setBtn(false)
           const code = err.response.status;
+          const errMsg = err.response.data.message
           if (code === 400) {
-            alert('Password is Incorrect')
+            alert(errMsg)
           }
          else if (code === 401) {
               Alert.alert(
@@ -107,8 +182,7 @@ const LoginScreen = (props) => {
                 )
           }
       })
-     
-
+      }
 
   }
   }
@@ -157,7 +231,7 @@ const LoginScreen = (props) => {
                         <MyBtn onPress= {logInUser} btnText = "Sign In" />
                     }
                       <MyAppText style= {{textAlign: 'center', color: '#9B9B9B'}}>Dont have an account?</MyAppText>
-                       <MyAppText style= {{color: '#51087E',textAlign: 'center', fontWeight: 'bold'}}> Register Now</MyAppText>
+                       <MyAppText onPress= {() => props.navigation.navigate('Register')} style= {{color: '#51087E',textAlign: 'center', fontWeight: 'bold'}}> Register Now</MyAppText>
                       <View style= {styles.lowerText}>
                       <MyAppText style= {{textAlign: 'center', fontSize: 16, color: '#9B9B9B'}}>
                         Trouble signing in?

@@ -12,6 +12,8 @@ import PatientDetails from '../../Screens/Media/VideoScreen/PatientDetails';
 import axios from 'axios';
 import Read from '../../assets/sliders/images/mes.svg';
 import Read2 from '../../assets/sliders/images/new-mes.svg';
+import PaymentPage from '../../Screens/PaymentPage';
+import BuyPlan from '../../Screens/BuyPlan';
 
 
 const Stack = createStackNavigator();
@@ -126,6 +128,32 @@ const [flag, setFlag] = useState(true)
             // />
           ), 
           headerTintColor: Platform.OS === 'android' ? 'black' : 'black'
+        }}
+          />
+                    <Stack.Screen name="Selfpay" component={PaymentPage}
+          options={{ title: 'Self Pay', headerStyle: {
+              backgroundColor: Platform.OS === 'android' ? '#51087E' : '#51087E',
+
+          },
+          headerTitleStyle: {
+            fontFamily: 'HammersmithOne-Regular',
+            fontSize: 20
+          },
+    
+          headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
+        }}
+          />
+          <Stack.Screen name="Buyplan" component={BuyPlan}
+          options={{ title: 'Buy Plan', headerStyle: {
+              backgroundColor: Platform.OS === 'android' ? '#51087E' : '#51087E',
+
+          },
+          headerTitleStyle: {
+            fontFamily: 'HammersmithOne-Regular',
+            fontSize: 20
+          },
+    
+          headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
         }}
           />
           <Stack.Screen name="Notification" component={Notification}

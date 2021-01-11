@@ -96,7 +96,7 @@ class FlatListDemo extends Component {
           data={this.state.data}
           renderItem={({ item }) => (
             <ListItem
-            onPress= {() => this.props.navigation.navigate('Login')}
+              onPress= {() => this.props.navigation.navigate('Login', {hmo_id: item.id})}
               leftAvatar={{ source: { uri: item.image} }}
               title={`${item.hmo}`}
               // subtitle= {item.created_at}

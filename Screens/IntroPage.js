@@ -16,7 +16,7 @@ const IntroPage = (props) => {
                     <MyAppText style= {styles.textStyle2}>Kindly select from the login option below to continue</MyAppText>
                 </View>
                 <View style= {styles.cardContainer}>
-                    <TouchableOpacity onPress= {() => alert('This option is not yet available')}>
+                    <TouchableOpacity onPress= {() => props.navigation.navigate('Login', {hmo_id: 0})}>
                     <View style= {styles.card}>
                         <View style= {styles.imgCont}>
                         <Image style= {styles.imageStyle} source= {require('../assets/sliders/images/imageicon2.png')} />

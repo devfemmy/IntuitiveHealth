@@ -322,7 +322,7 @@ const HomeScreen = (props) => {
             </ScrollView>
         </View>
         <View style= {styles.imageStyleContainer}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress= {() => props.navigation.navigate('Selfpay')}>
             <Image 
                 style= {styles.imageDim}
                 defaultSource= {require('../assets/sliders/images/placeholder2.png')}

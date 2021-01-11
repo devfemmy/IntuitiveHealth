@@ -81,7 +81,7 @@ import MyAppText from '../../Components/MyAppText';
                     </MyAppText>
                   </TouchableOpacity>
                 </View>
-                <MyAppText>Manage Your Subscriptions</MyAppText>
+                <MyAppText onPress= {() => props.navigation.navigate('Selfpay')}>Manage Your Subscriptions</MyAppText>
                   {/* <Text style={{fontSize: 32}}>LO</Text> */}
                   </View>
             <DrawerItemList {...props} />

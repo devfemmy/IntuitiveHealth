@@ -17,6 +17,9 @@ import HelpPage from '../../Screens/Profile/HelpCenter/HelpPage';
 import ContactUs from '../../Screens/Contact';
 import ConfirmToken from '../../Screens/ConfirmToken';
 import ResetToken from '../../Screens/ResetToken';
+import PaymentPage from '../../Screens/PaymentPage';
+import BuyPlan from '../../Screens/BuyPlan';
+import RegisterUser from '../../Screens/RegisterUser';
 
 const Stack = createStackNavigator();
 
@@ -62,6 +65,43 @@ const LoginNavigator = (props) => {
           headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
         }}
           />
+          <Stack.Screen name="Selfpay" component={PaymentPage}
+          options={{ title: 'Self Pay', headerStyle: {
+              backgroundColor: Platform.OS === 'android' ? '#51087E' : '#51087E',
+
+          },
+          headerTitleStyle: {
+            fontFamily: 'HammersmithOne-Regular',
+            fontSize: 20
+          },
+    
+          headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
+        }}
+          />
+          <Stack.Screen name="Buyplan" component={BuyPlan}
+          options={{ title: 'Buy Plan', headerStyle: {
+              backgroundColor: Platform.OS === 'android' ? '#51087E' : '#51087E',
+
+          },
+          headerTitleStyle: {
+            fontFamily: 'HammersmithOne-Regular',
+            fontSize: 20
+          },
+    
+          headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
+        }}
+          />
+        <Stack.Screen name="Register" options={{ title: 'Register', headerStyle: {
+              backgroundColor: Platform.OS === 'android' ? '#51087E' : '#51087E',
+
+          },
+          headerTitleStyle: {
+            fontFamily: 'HammersmithOne-Regular',
+            fontSize: 20
+          },
+          headerTintColor: Platform.OS === 'android' ? 'white' : 'white',
+          headerTransparent: true
+        }} component={RegisterUser} />
         <Stack.Screen name="ForgotPass" options={{ title: 'Forgot Password', headerStyle: {
               backgroundColor: Platform.OS === 'android' ? '#51087E' : '#51087E',
 

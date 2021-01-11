@@ -12,6 +12,8 @@ import HelpCenter from '../../Screens/Settings/settings';
 import Personal from '../../Screens/Profile/Personal';
 import CheckBmi from '../../Screens/Profile/CheckBmi';
 import LifeStyle from '../../Screens/Profile/LifeStyle';
+import BuyPlan from '../../Screens/BuyPlan';
+import PaymentPage from '../../Screens/PaymentPage';
 
 
 const Stack = createStackNavigator();
@@ -107,6 +109,32 @@ const ProfileNavigator = (props) => {
             fontFamily: 'HammersmithOne-Regular',
             fontSize: 20
           },
+          headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
+        }}
+          />
+                    <Stack.Screen name="Selfpay" component={PaymentPage}
+          options={{ title: 'Self Pay', headerStyle: {
+              backgroundColor: Platform.OS === 'android' ? '#51087E' : '#51087E',
+
+          },
+          headerTitleStyle: {
+            fontFamily: 'HammersmithOne-Regular',
+            fontSize: 20
+          },
+    
+          headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
+        }}
+          />
+          <Stack.Screen name="Buyplan" component={BuyPlan}
+          options={{ title: 'Buy Plan', headerStyle: {
+              backgroundColor: Platform.OS === 'android' ? '#51087E' : '#51087E',
+
+          },
+          headerTitleStyle: {
+            fontFamily: 'HammersmithOne-Regular',
+            fontSize: 20
+          },
+    
           headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
         }}
           />
