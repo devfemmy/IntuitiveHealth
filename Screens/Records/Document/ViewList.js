@@ -8,12 +8,14 @@ import MedIcon from '../../../assets/sliders/images/medycon.svg';
 import ProfileCard from '../../../Components/ProfileCard';
 import axios from '../../../axios-req';
 import RNFetchBlob from 'rn-fetch-blob';
+import errorHandler from '../../ErrorHandler/errorHandler';
 
 const ViewList = (props) => {
     const [documents, setDocuments] = useState([]);
     const [loading, setLoading] = useState(true);
     const [uri, setUri] = useState(null);
     const {path} = props.route.params;
+    const [error, setError] = useState(false)
     let base64Icon = `data:image/png;base64,${uri}`;
 
     useEffect(() => {
@@ -49,6 +51,9 @@ const ViewList = (props) => {
                   // Something went wrong:
                   .catch((errorMessage, statusCode) => {
                     // error handling
+                    console.log('success', res)
+                    setError(true)
+                    
                   })
             }
         )
@@ -132,4 +137,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default ViewList;
+export default errorHandler (ViewList, axios);

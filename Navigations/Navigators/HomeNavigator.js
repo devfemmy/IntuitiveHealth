@@ -14,6 +14,7 @@ import Read from '../../assets/sliders/images/mes.svg';
 import Read2 from '../../assets/sliders/images/new-mes.svg';
 import PaymentPage from '../../Screens/PaymentPage';
 import BuyPlan from '../../Screens/BuyPlan';
+import GetOtp from '../../Screens/ErrorHandler/getOtp';
 
 
 const Stack = createStackNavigator();
@@ -153,6 +154,19 @@ const [flag, setFlag] = useState(true)
             fontSize: 20
           },
     
+          headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
+        }}
+          />
+          <Stack.Screen name="GetToken" component={GetOtp}
+          options={{ title: 'Get Token', headerStyle: {
+              backgroundColor: Platform.OS === 'android' ? '#51087E' : '#51087E',
+
+          },
+          headerTitleStyle: {
+            fontFamily: 'HammersmithOne-Regular',
+            fontSize: 20
+          },
+          headerTransparent: true,
           headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
         }}
           />

@@ -91,6 +91,10 @@ const BuyPlan = (props) => {
                         setLoading(false)
                         const response = res.data;
                         console.log('completed', response)  
+                        const subscript = response.data.subscription.subscription;
+                        const color = response.data.subscription.color;
+                        AsyncStorage.setItem('subscript', subscript);
+                        AsyncStorage.setItem('color', color);
                         // props.navigation.popToTop()                   
                     }
                 )

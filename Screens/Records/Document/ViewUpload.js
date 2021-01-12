@@ -10,10 +10,12 @@ import axios from '../../../axios-req';
 import RNFetchBlob from 'rn-fetch-blob';
 import ImageIcon from '../../../assets/sliders/images/imageicon.svg';
 import PDFIcon from '../../../assets/sliders/images/pdficon.svg';
+import errorHandler from '../../ErrorHandler/errorHandler'
 
 const ViewUploads = (props) => {
     const [documents, setDocuments] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(false)
 
     const [myToken, setToken] = useState(null)
 
@@ -49,6 +51,7 @@ const ViewUploads = (props) => {
                     }
                 )
                 .catch(err => {
+                    setError(true)
                     setLoading(false)
                     const code = err.response.status;
                     if (code === 401) {
@@ -62,12 +65,12 @@ const ViewUploads = (props) => {
                           )
                       
                     } else {
-                        showLoaded(true)
+                        // showLoaded(true)
                         Alert.alert(
                             'Network Error',
                             'Please Try Again',
                             [
-                              {text: 'OK', onPress: () => setShowBtn(true)},
+                              {text: 'OK', onPress: () => null},
                             ],
                             { cancelable: false }
                           )
@@ -239,4 +242,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default ViewUploads
+export default errorHandler(ViewUploads, axios)

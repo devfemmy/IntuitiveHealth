@@ -10,7 +10,8 @@ import Arrow from '../assets/sliders/images/arrow2.svg';
 import axios from 'axios';
 import Carousel from 'react-native-snap-carousel';
 import HomeOverlay from '../Components/HomeOverlay';
-import { Container, Header, Content, Button, Toast } from "native-base"
+import { Container, Header, Content, Button, Toast } from "native-base";
+import errorHandler from './ErrorHandler/errorHandler';
 // import Card from '../assets/sliders/images/placard.svg'
 
 const HomeScreen = (props) => {
@@ -22,7 +23,8 @@ const HomeScreen = (props) => {
     const [Sliders, setSliders] = React.useState([]);
     const [visible, setVisible] = React.useState(false);
     const [welcome, setWelcome] = React.useState('Welcome Back');
-    const [loaded, setLoaded] = React.useState(false)
+    const [loaded, setLoaded] = React.useState(false);
+    const [error, setError] = React.useState(false);
     let showWelcome = null;
     const toggleOverlay = () => {
         setVisible(true);
@@ -68,6 +70,7 @@ const HomeScreen = (props) => {
                 }
             )
             .catch(err => {
+                setError(true)
                 const code = err.response.status;
                 if (code === 401) {
                     Alert.alert(
@@ -503,4 +506,4 @@ const styles = StyleSheet.create({
     }
 
 })
-export default HomeScreen
+export default errorHandler(HomeScreen, axios)
