@@ -11,7 +11,7 @@ import axios from 'axios';
 import Carousel from 'react-native-snap-carousel';
 import HomeOverlay from '../Components/HomeOverlay';
 import { Container, Header, Content, Button, Toast } from "native-base";
-import errorHandler from './ErrorHandler/errorHandler';
+// import errorHandler from './ErrorHandler/errorHandler';
 // import Card from '../assets/sliders/images/placard.svg'
 
 const HomeScreen = (props) => {
@@ -24,7 +24,7 @@ const HomeScreen = (props) => {
     const [visible, setVisible] = React.useState(false);
     const [welcome, setWelcome] = React.useState('Welcome Back');
     const [loaded, setLoaded] = React.useState(false);
-    const [error, setError] = React.useState(false);
+    // const [error, setError] = React.useState(false);
     let showWelcome = null;
     const toggleOverlay = () => {
         setVisible(true);
@@ -70,7 +70,7 @@ const HomeScreen = (props) => {
                 }
             )
             .catch(err => {
-                setError(true)
+                // setError(true)
                 const code = err.response.status;
                 if (code === 401) {
                     Alert.alert(
@@ -308,10 +308,15 @@ const HomeScreen = (props) => {
             <ScrollView showsHorizontalScrollIndicator= {false}  horizontal>
                 {doctors.map(
                     (doctor, index) => {
-                        const doctor_id = parseInt(doctor.id)
+                        const doctor_id = parseInt(doctor.id);
+                        // console.log("i need this", doctor)
                         return (
                             <View key= {index}>
-                                <DescriptionCard 
+                                <DescriptionCard
+                                    // pressed = {
+                                    //     (item.slots === null) ? ()=> alert('Doctor Not Available') : ()=> this.props.navigation.navigate('Slot', {doctor_id: item.id, group_id:id })
+                                        
+                                    // } 
                                 onPress = {() => props.navigation.navigate('Slot', {doctor_id: doctor_id, group_id: 1})}
                                 source= {{uri: doctor.image}}
                                 name= {`${doctor.name} ${doctor.last_name}`}
@@ -506,4 +511,4 @@ const styles = StyleSheet.create({
     }
 
 })
-export default errorHandler(HomeScreen, axios)
+export default HomeScreen

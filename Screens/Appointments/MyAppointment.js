@@ -197,7 +197,7 @@ const AppointmentPage = (props) => {
                 <AppointmentCard color= "#58C315" status= "Completed" appid= {236578} />
                 <AppointmentCard color= "#D30C0C" status= "Cancelled" appid= {236578} /> */}
                 <View style= {styles.btnContainer}>
-                    <InnerBtn onPress= {() => props.navigation.navigate('Practise')} color= "white" bg= "#51087E" text= "Start a new conversation" />
+                    <InnerBtn onPress= {() => props.navigation.navigate('Consult')} color= "white" bg= "#51087E" text= "Start a new conversation" />
                 </View>
             </View>
         </ScrollView>

@@ -16,6 +16,7 @@ import ViewList from '../../Screens/Records/Document/ViewList';
 import ViewNotes from '../../Screens/Records/Medicals/Views/ViewNotes';
 import ViewPrescription from '../../Screens/Records/Medicals/Views/ViewPres';
 import ViewVitals from '../../Screens/Records/Medicals/Views/ViewVitals';
+import getOtp from '../../Screens/ErrorHandler/getOtp';
 
 
 const Stack = createStackNavigator();
@@ -68,7 +69,20 @@ const MedicalsNavigator = (props) => {
           },
           headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
         }}
-          />  
+          /> 
+        <Stack.Screen name="GetToken" component={getOtp}
+          options={{ title: 'Get Token', headerStyle: {
+              backgroundColor: Platform.OS === 'android' ? '#51087E' : '#51087E',
+
+          },
+          headerTitleStyle: {
+            fontFamily: 'HammersmithOne-Regular',
+            fontSize: 20
+          },
+          // headerTransparent: true,
+          headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
+        }}
+          /> 
           <Stack.Screen name="HistoryDetails" component={MedicalHistoryDetails}
           options={{ title: 'Medical History Details', headerStyle: {
               

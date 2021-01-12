@@ -24,7 +24,8 @@ const ViewUploads = (props) => {
             setToken(res)
         }
       ).catch(err => console.log(err));
-    useEffect(() => {
+
+    const getDocuments = () => {
         const id = AsyncStorage.getItem('Mytoken').then(
             res => {
 
@@ -35,57 +36,24 @@ const ViewUploads = (props) => {
                         const documents = res.data.data;
                         console.log('documents', documents)
                         setDocuments(documents);
-                        // console.log("appointments", res.data)
-                        // const profile = res.data.data;
-                        // const lastname = profile.last_name;
-                        // const firstname = profile.name;
-                        // const email = profile.email;
-                        // const occupation = profile.occupation;
-                        // const location = profile.location;
-                        // setFirstname(firstname);
-                        // setLastname(lastname);
-                        // setEmail(email);
-                        // setOccupation(occupation)
-                        // setLocation(location)
                        
                     }
                 )
                 .catch(err => {
                     setError(true)
-                    setLoading(false)
-                    const code = err.response.status;
-                    if (code === 401) {
-                        Alert.alert(
-                            'Error!',
-                            'Expired Token',
-                            [
-                              {text: 'OK', onPress: () => signOut()},
-                            ],
-                            { cancelable: false }
-                          )
-                      
-                    } else {
-                        // showLoaded(true)
-                        Alert.alert(
-                            'Network Error',
-                            'Please Try Again',
-                            [
-                              {text: 'OK', onPress: () => null},
-                            ],
-                            { cancelable: false }
-                          )
-                    }
-    
-                      
-                    
+                    setLoading(false)                    
     
                 })
             }
         )
         .catch( err => {console.log(err)}) 
-        
-    
-      }, []);
+    }
+    useEffect(() => {
+        const unsubscribe = props.navigation.addListener('focus', () => {
+          getDocuments()       
+          });     
+        return unsubscribe;
+      }, [props.navigation]);
 
      const actualDownload = (path, name) => {
          setLoading(true)
@@ -145,6 +113,7 @@ const ViewUploads = (props) => {
                     </MyAppText>
             </View>
                 <View>
+                {documents.length === 0 ? (<MyAppText style= {{textAlign: 'center'}}>No document present</MyAppText>) : null}
                 {documents.map((doc, index) => {
                     const docType_id = parseInt(doc.type_id);
                     if (docType_id === 1) {

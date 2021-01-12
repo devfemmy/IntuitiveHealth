@@ -67,6 +67,7 @@ const DoctorsVitals = (props) => {
       }
     return (
         <ScrollView style= {styles.container}>
+              {notes.length === 0 ? (<MyAppText style= {{textAlign: 'center'}}>No data present</MyAppText>) : null}
             <View style= {styles.noteContainer}>
                         {notes.map((note, index) => {
                             const doctors_name = `${note.title} ${note.name} ${note.last_name}`

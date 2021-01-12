@@ -5,60 +5,70 @@ import { View, StyleSheet,Text,Alert,
 // import MyBtn from '../Components/MyBtn';
 // import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 // import CustomHeaderButton from '../Components/HeaderButton';
-import axios from 'axios';
+import axios from '../../axios-req';
 import FormInput from '../../Components/FormInput';
 import MyAppText from '../../Components/MyAppText';
 import InnerBtn from '../../Components/InnerBtn';
+import errorHandler from '../ErrorHandler/errorHandler'
 
 const GetOtp = (props) => {
   const [token, setUsername] = useState('');
   const [button, setButton] = useState(false);
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const [resendOtp, setResend] = useState(true)
 
   const retriveOTP = () => {
+    setLoading(true)
     const id = AsyncStorage.getItem('Mytoken').then(
         res => {
-            const data = {
-                subscription_name: plan
-            }
-            axios.post('payment/initiate', data, {headers: {Authorization: res}})
+
+            axios.get('send/otp',  {headers: {Authorization: res}})
             .then(
                 res => {
+                    const otp = res; 
+                    console.log("otp success", otp) 
+                    const message = res.data.message;
                     setLoading(false)
-                    const payment_plans = res.data.data;
-                    setPaymentPlans(payment_plans);  
-                    const amount = payment_plans.amount_to_pay;
-                    const trans_id = payment_plans.tran_id;
-                    setAmount(amount);
-                    setReferenceNum(trans_id)
-                    console.log('payment_plans', payment_plans)                     
-                }
-            )
-            .catch(err => {
-                setLoading(false)
-                const code = err.response.status;
-                if (code === 401) {
-                    Alert.alert(
-                        'Error!',
-                        'Expired Token',
+                        Alert.alert(
+                        'Alert!',
+                        message,
                         [
                           {text: 'OK', onPress: () => null},
                         ],
                         { cancelable: false }
                       )
-                  
-                } else {
-                    // showLoaded(true)
-                    Alert.alert(
-                        'Network Error',
-                        'Please Try Again',
-                        [
-                          {text: 'OK', onPress: () => setShowBtn(true)},
-                        ],
-                        { cancelable: false }
-                      )
+                     
+                 
                 }
+            )
+            .catch(err => {
+                setError(true)
+                setLoading(false)
+                // console.log("otp error", err.response) 
+                // const code = err.response.status;
+                // if (code === 401) {
+                //     Alert.alert(
+                //         'Error!',
+                //         'Expired Token',
+                //         [
+                //           {text: 'OK', onPress: () => null},
+                //         ],
+                //         { cancelable: false }
+                //       )
+                  
+                // } else {
+                //     // showLoaded(true)
+                //     Alert.alert(
+                //         'Network Error',
+                //         'Please Try Again',
+                //         [
+                //           {text: 'OK', onPress: () => setShowBtn(true)},
+                //         ],
+                //         { cancelable: false }
+                //       )
+                // }
 
                   
                 
@@ -70,79 +80,79 @@ const GetOtp = (props) => {
 }
 useEffect(() => {
     const unsubscribe = props.navigation.addListener('focus', () => {
-        const email_address = AsyncStorage.getItem('email').then(
-            res => {
-              setEmail(res)
-              retriveOTP(res)
-            }
-        ).catch(
-            err => {}
-        )
-       
+      retriveOTP()       
       });     
     return unsubscribe;
   }, [props.navigation]);
 
-
+  const resendConfirmToken = () => {
+    setResend(false)
+    retriveOTP()
+  }
   const confirmToken = () => {
     if (token === '') {
       alert("Please fill in token sent to you")
   } else {
      setButton(true)
       const data = {
-          token: token
+        otp: token
       }
-      axios.post('https://conduit.detechnovate.net/public/api/conduithealth/user/verify_token', data)
-      .then( res => {
-        setButton(false)
-          console.log('password', res.data)
-        const response = res.data.message;
-        const reset_token = res.data.data.reset_token;
-        const email = res.data.data.email
-        Alert.alert(
-          'Alert',
-          response,
-          [
-            {text: 'OK', onPress: () =>  props.navigation.navigate('ConfirmToken', {token: reset_token, email: email})},
-          ],
-          { cancelable: false }
-        )
-        // if (response.status === 1) {
+      const id = AsyncStorage.getItem('Mytoken').then(
+        res => {
 
-        // }else {
-        //   setButton(false)
-     
-        //   alert('incorrect email')
-        // }
-        
-      }).catch(err => {
-          setButton(false)
-          const code = err.response.status;
-          if (code === 400) {
-            alert('Incorrect Token')
-          }
-          if (code === 401) {
-              Alert.alert(
-                  'Error!',
-                  'Expired Token',
-                  [
-                    {text: 'OK', onPress: () => signOut()},
-                  ],
-                  { cancelable: false }
-                )
+          axios.post('verify/otp', data,  {headers: {Authorization: res}})
+          .then( res => {
+            setButton(false)
+            console.log('password', res.data)
+            const response = res.data.message;
+            Alert.alert(
+              'Alert',
+              response,
+              [
+                {text: 'OK', onPress: () =>  props.navigation.navigate('History')},
+              ],
+              { cancelable: false }
+            )
+            // if (response.status === 1) {
+    
+            // }else {
+            //   setButton(false)
+         
+            //   alert('incorrect email')
+            // }
             
-          } else {
-            //   setBtn(false)
-              Alert.alert(
-                  'Network Error',
-                  'Please Try Again',
-                  [
-                    {text: 'OK', onPress: () =>  setButton(false)},
-                  ],
-                  { cancelable: false }
-                )
-          }
-      })
+          }).catch(err => {
+              setButton(false)
+              const code = err.response.status;
+              if (code === 400) {
+                alert('Incorrect Token')
+              }
+              if (code === 401) {
+                  Alert.alert(
+                      'Error!',
+                      'Expired Token',
+                      [
+                        {text: 'OK', onPress: () => signOut()},
+                      ],
+                      { cancelable: false }
+                    )
+                
+              } else {
+                //   setBtn(false)
+                  Alert.alert(
+                      'Network Error',
+                      'Please Try Again',
+                      [
+                        {text: 'OK', onPress: () =>  setButton(false)},
+                      ],
+                      { cancelable: false }
+                    )
+              }
+          })
+        }
+    )
+    .catch( err => {console.log(err)}) 
+
      
 
 
@@ -151,7 +161,7 @@ useEffect(() => {
   if (loading) {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-       <ActivityIndicator  size="large" color="#fff" />
+       <ActivityIndicator  size="large" color="#51087E" />
       </View>
     );
   }
@@ -181,7 +191,10 @@ useEffect(() => {
                     value={token}
                     onChangeText={setUsername}
                     />
-                    <MyAppText style= {styles.otpText}>Resend OTP</MyAppText>
+                    {resendOtp ? (
+                       <MyAppText onPress= {resendConfirmToken} style= {styles.otpText}>Resend OTP</MyAppText>
+                    ): null}
+                   
                      {button ? <ActivityIndicator  size="large" color="#fff" /> :
                    <InnerBtn onPress= {confirmToken} text= "Continue" bg= "white" color= "#51087E" />}
                     </View>               
@@ -267,4 +280,4 @@ const styles = StyleSheet.create({
     resizeMode: 'contain'
   }
 })
-export default GetOtp
+export default errorHandler(GetOtp, axios)

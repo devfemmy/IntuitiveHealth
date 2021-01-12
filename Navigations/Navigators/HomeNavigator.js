@@ -14,13 +14,14 @@ import Read from '../../assets/sliders/images/mes.svg';
 import Read2 from '../../assets/sliders/images/new-mes.svg';
 import PaymentPage from '../../Screens/PaymentPage';
 import BuyPlan from '../../Screens/BuyPlan';
-import GetOtp from '../../Screens/ErrorHandler/getOtp';
-
+import errorHandler from '../../Screens/ErrorHandler/errorHandler'
 
 const Stack = createStackNavigator();
 
 const HomeNavigator = (props) => {
-const [flag, setFlag] = useState(true)
+const [flag, setFlag] = useState(true);
+const [error, setError] = useState(false)
+
   const fetchActiveNotification = () => {
     const id = AsyncStorage.getItem('Mytoken').then(
       res => {
@@ -40,35 +41,36 @@ const [flag, setFlag] = useState(true)
               }
           )
           .catch(err => {
-              console.log(err.response, "error")
-              const message = err.response.data.message;  
-              const code = err.response.status;
-              if (code === 401) {
-                  Alert.alert(
-                      'Error!',
-                      'Expired Token',
-                      [
-                        {text: 'OK', onPress: () => signOut()},
-                      ],
-                      { cancelable: false }
-                    )
+            // setError(true)
+              // console.log(err.response, "error")
+              // const message = err.response.data.message;  
+              // const code = err.response.status;
+              // if (code === 401) {
+              //     Alert.alert(
+              //         'Error!',
+              //         'Expired Token',
+              //         [
+              //           {text: 'OK', onPress: () => signOut()},
+              //         ],
+              //         { cancelable: false }
+              //       )
                 
-              } else if (code === 400) {
-                setLoading(false)
-                  Alert.alert(
-                      'Error!',
-                      message,
-                      [
-                        {text: 'OK', onPress: () =>  setLoading(false)},
-                      ],
-                      { cancelable: false }
-                    )
-              } else {
-                  // alert('Please try again')
-              }
+              // } else if (code === 400) {
+              //   setLoading(false)
+              //     Alert.alert(
+              //         'Error!',
+              //         message,
+              //         [
+              //           {text: 'OK', onPress: () =>  setLoading(false)},
+              //         ],
+              //         { cancelable: false }
+              //       )
+              // } else {
+              //     // alert('Please try again')
+              // }
 
                 
-                console.log(err.response.status)
+              //   console.log(err.response.status)
 
           })
       }
@@ -86,7 +88,7 @@ const [flag, setFlag] = useState(true)
   // }, [props.navigation]);
   useEffect(() => {
     fetchActiveNotification()
-  });
+  }, [flag]);
     return (
         <>
         <Stack.Navigator>
@@ -131,7 +133,7 @@ const [flag, setFlag] = useState(true)
           headerTintColor: Platform.OS === 'android' ? 'black' : 'black'
         }}
           />
-                    <Stack.Screen name="Selfpay" component={PaymentPage}
+          <Stack.Screen name="Selfpay" component={PaymentPage}
           options={{ title: 'Self Pay', headerStyle: {
               backgroundColor: Platform.OS === 'android' ? '#51087E' : '#51087E',
 
@@ -157,19 +159,7 @@ const [flag, setFlag] = useState(true)
           headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
         }}
           />
-          <Stack.Screen name="GetToken" component={GetOtp}
-          options={{ title: 'Get Token', headerStyle: {
-              backgroundColor: Platform.OS === 'android' ? '#51087E' : '#51087E',
 
-          },
-          headerTitleStyle: {
-            fontFamily: 'HammersmithOne-Regular',
-            fontSize: 20
-          },
-          headerTransparent: true,
-          headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
-        }}
-          />
           <Stack.Screen name="Notification" component={Notification}
           options={{ title: 'Notification', headerStyle: {
               
