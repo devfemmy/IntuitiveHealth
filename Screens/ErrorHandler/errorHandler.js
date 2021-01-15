@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { View } from 'react-native';
+import { View, Alert } from 'react-native';
 import MyAppText from '../../Components/MyAppText';
 // import Modal from '../../components/UI/Modal/Modal';
 // import Supx from '../Supx'
@@ -18,7 +18,43 @@ const errorHandler = (WrappedComponent, axios) => {
             this.resInterceptors = axios.interceptors.response.use(res => res, (error) => {
                 console.log("this is the errors", error.response )
                this.setState({error: error});
-               this.props.navigation.navigate('GetToken')
+               const errorData = error.response.data;
+               const status = error.response.status;
+               const errorCode = errorData.error_code;
+               const userType = parseInt(errorData.user_type);
+               const msg = errorData.message;
+               if (status === 403 && errorCode === 102) {
+                    if (userType === 1) {
+                            Alert.alert(
+                                "Error",
+                                msg,
+                                [
+                                  {text: 'OK', onPress: () => this.props.navigation.navigate('Selfpay')},
+                                ],
+                                { cancelable: false }
+                              )
+                    }else {
+                        Alert.alert(
+                            "Error",
+                            msg,
+                            [
+                              {text: 'OK', onPress: () => this.props.navigation.navigate('ExpiredSub')},
+                            ],
+                            { cancelable: false }
+                          )
+                    }
+               }else if (status === 403 && errorCode === 101) {
+                Alert.alert(
+                    "Error",
+                    msg,
+                    [
+                      {text: 'OK', onPress: () =>   this.props.navigation.navigate('GetToken')},
+                    ],
+                    { cancelable: false }
+                  )
+              
+               }
+ 
             });
         }
         componentWillUnmount() {
@@ -37,12 +73,12 @@ const errorHandler = (WrappedComponent, axios) => {
                 {/* <View> */}
                 {this.state.error ?
 
-                ( 
-                <View>
-                <MyAppText>
-                    {this.state.error ? this.state.error.message : null}
-                </MyAppText>
-                </View>
+                ( null
+                // <View>
+                // <MyAppText>
+                //     {this.state.error ? this.state.error.message : null}
+                // </MyAppText>
+                // </View>
 
                     
                 ) : null

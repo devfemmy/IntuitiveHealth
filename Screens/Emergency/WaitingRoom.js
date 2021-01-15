@@ -4,11 +4,14 @@ import { View, StyleSheet, ScrollView,Alert,AsyncStorage, ActivityIndicator } fr
 import axios from '../../axios-req'
 import InnerBtn from '../../Components/InnerBtn';
 import MyAppText from '../../Components/MyAppText';
+import errorHandler from '../ErrorHandler/errorHandler';
 
 const WaitingRoom = (props) => {
     const [doctors, setDoctors] = useState([]);
     const [loading, setLoading] = useState(true);
     const [display_id, setMyId] = useState(0);
+    const [error, setError] = useState(false);
+    
     let interval = null
  
 
@@ -20,7 +23,7 @@ const WaitingRoom = (props) => {
                 .then(
                     res => {
                         setLoading(false)
-                        console.log(res, "waiting room")
+                        console.log(res.data.data, "waiting room")
                         const appid = res.data.data.id;
                         console.log('join', appid)
                         interval = setInterval(() => getToken(appid), 30000);
@@ -39,14 +42,12 @@ const WaitingRoom = (props) => {
                     }
                 )
                 .catch(err => {
-                    console.log("error", err.response)
-                    setLoading(false)
+                    console.log("error", err.response);
+                    const errorData = err.response.data;
+                    // const status = err.response.status;
+                    setLoading(false);
                     const code = err.response.status;
-                    const message = err.response.data.message;
-                    const request_id = parseInt(err.response.data.data.id);
-                    console.log('request_id ID', request_id)
-                    interval = setInterval(() => getToken(request_id), 30000);
-                    setMyId(request_id)
+
                     
                     // setInterval(() => getToken(appid), 60000);
                     if (code === 401) {
@@ -59,7 +60,37 @@ const WaitingRoom = (props) => {
                             { cancelable: false }
                           )
                       
-                    } else {
+                    } else if (code === 403) {
+                        const errorCode = errorData.error_code;
+                        const userType = parseInt(errorData.user_type);
+                        const msg = errorData.message;
+                        if (userType === 1) {
+                            Alert.alert(
+                                "Error",
+                                msg,
+                                [
+                                  {text: 'OK', onPress: () => props.navigation.navigate('Selfpay')},
+                                ],
+                                { cancelable: false }
+                              )
+                    }else {
+                        Alert.alert(
+                            "Error",
+                            msg,
+                            [
+                              {text: 'OK', onPress: () => props.navigation.navigate('ExpiredSub')},
+                            ],
+                            { cancelable: false }
+                          )
+                    }
+                    }
+                    
+                    else {
+                        const message = err.response.data.message;
+                        const request_id = parseInt(err.response.data.data.id);
+                        console.log('request_id ID', request_id)
+                        interval = setInterval(() => getToken(request_id), 30000);
+                        setMyId(request_id)
                         
 
                         Alert.alert(
@@ -99,7 +130,7 @@ const WaitingRoom = (props) => {
                             message,
                          
                             [
-                              {text: 'OK'},
+                              {text: 'OK', onPress: () => props.navigation.goBack()},
                             ],
                             { cancelable: false }
                           )
@@ -213,7 +244,7 @@ const WaitingRoom = (props) => {
         'Exit Room?',
         'Exiting room will cancel any unsaved session. Are you sure you want to leave?',
         [
-          { text: "Don't leave", style: 'cancel', onPress: () => {} },
+          { text: "Don't leave", style: 'cancel', onPress: () =>  joinWaitingRoom() },
           {
             text: 'Leave',
             style: 'destructive',

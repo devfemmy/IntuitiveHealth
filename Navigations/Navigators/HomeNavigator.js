@@ -15,6 +15,10 @@ import Read2 from '../../assets/sliders/images/new-mes.svg';
 import PaymentPage from '../../Screens/PaymentPage';
 import BuyPlan from '../../Screens/BuyPlan';
 import errorHandler from '../../Screens/ErrorHandler/errorHandler'
+import SubscriptionHistory from '../../Screens/SubscriptionHistory';
+import ExpiredSubscription from '../../Screens/ErrorHandler/ExpiredSub';
+import MentalHealth from '../../Screens/Media/VideoScreen/MentalHealth/MentalHealth';
+import IntakeForm from '../../Screens/Media/VideoScreen/MentalHealth/IntakeForm';
 
 const Stack = createStackNavigator();
 
@@ -88,7 +92,7 @@ const [error, setError] = useState(false)
   // }, [props.navigation]);
   useEffect(() => {
     fetchActiveNotification()
-  }, [flag]);
+  });
     return (
         <>
         <Stack.Navigator>
@@ -146,6 +150,33 @@ const [error, setError] = useState(false)
           headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
         }}
           />
+          <Stack.Screen name="SubHistory" component={SubscriptionHistory}
+          options={{ title: 'Subscription History', headerStyle: {
+              backgroundColor: Platform.OS === 'android' ? '#51087E' : '#51087E',
+
+          },
+          headerTitleStyle: {
+            fontFamily: 'HammersmithOne-Regular',
+            fontSize: 20
+          },
+    
+          headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
+        }}
+          />
+          <Stack.Screen name="ExpiredSub" component={ExpiredSubscription}
+          options={{ title: 'Subscription Expired', headerStyle: {
+              backgroundColor: Platform.OS === 'android' ? '#51087E' : '#51087E',
+
+          },
+          headerTitleStyle: {
+            fontFamily: 'HammersmithOne-Regular',
+            fontSize: 20
+          },
+          headerLeft: null,
+    
+          headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
+        }}
+          />
           <Stack.Screen name="Buyplan" component={BuyPlan}
           options={{ title: 'Buy Plan', headerStyle: {
               backgroundColor: Platform.OS === 'android' ? '#51087E' : '#51087E',
@@ -194,15 +225,45 @@ const [error, setError] = useState(false)
           headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
         }}
           />
-          <Stack.Screen name="Practise" component={GeneralPractise}
-          options={{ title: 'General Practise', headerStyle: {
+        <Stack.Screen name="Practise" component={GeneralPractise}
+                  options={
+                    ({ route }) => ({ title: route.params.name, 
+                      headerStyle: {
+              
+                        backgroundColor: '#51087E',
+                    
+                        },
+                        headerTitleStyle: {
+                          fontFamily: 'HammersmithOne-Regular',
+                          fontSize: 20
+                        },
+                    headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
+                    })
+            
+                }
+          />   
+       <Stack.Screen name="Mental" component={MentalHealth}
+          options={{ title: 'Mental Health Specialist', headerStyle: {
               
               backgroundColor: '#51087E',
           
               },
               headerTitleStyle: {
                 fontFamily: 'HammersmithOne-Regular',
-                fontSize: 20
+                fontSize: 18
+              },
+          headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
+        }}
+          />  
+            <Stack.Screen name="IntakeForm" component={IntakeForm}
+          options={{ title: 'Intake Form', headerStyle: {
+              
+              backgroundColor: '#51087E',
+          
+              },
+              headerTitleStyle: {
+                fontFamily: 'HammersmithOne-Regular',
+                fontSize: 18
               },
           headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
         }}

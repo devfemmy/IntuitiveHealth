@@ -101,7 +101,7 @@ const LoginNavigator = (props) => {
             fontSize: 20
           },
           headerTintColor: Platform.OS === 'android' ? 'white' : 'white',
-          headerTransparent: true
+          // headerTransparent: true
         }} component={RegisterUser} />
         <Stack.Screen name="ForgotPass" options={{ title: 'Forgot Password', headerStyle: {
               backgroundColor: Platform.OS === 'android' ? '#51087E' : '#51087E',

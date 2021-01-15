@@ -7,13 +7,18 @@ import ProfileInput from '../../../Components/ProfileInput';
 import InnerBtn from '../../../Components/InnerBtn';
 import OverLayContent from '../../../Components/OverlayContent';
 import axios from 'axios';
+import errorHandler from '../../ErrorHandler/errorHandler';
+
+
 
 const PatientDetails = (props) => {
     const [visible, setVisible] = useState(false);
     const { title, name, last_name, image, slots, group_id} = props.route.params;
     const [showBtn, setShowBtn] = useState(true);
     const [email, setEmail] = useState('')
-    const [id_slot, setSlot] = useState('')
+    const [id_slot, setSlot] = useState('');
+    const [error, setError] = useState(false);
+    
 
     const id = AsyncStorage.getItem('email').then(
         res => {
@@ -48,9 +53,11 @@ const PatientDetails = (props) => {
         return time.join (''); // return adjusted time or original string
       }
     const appTime = tConvert(slots.app_time.slice(0,5));
+
     const toggleOverlay = () => {
       setVisible(true);
     };
+    
     const confirmAppointment = () => {
         setShowBtn(false)
         console.log('slot', slots)
@@ -68,49 +75,50 @@ const PatientDetails = (props) => {
                     axios.post('https://conduit.detechnovate.net/public/api/user/book/slot', data, {headers: {Authorization: res}})
                     .then(
                         res => {  
-                           console.log(res)
                             const message = res.data.message; 
                            toggleOverlay()
                             setShowBtn(true)
                         }
                     )
                     .catch(err => {
-                        console.log(err.response)
-                        const code = err.response.status;
-                        const message = err.response.message
-                        if (code === 400) {
-                            setShowBtn(true)
-                            Alert.alert(
-                                message,
-                                'Please Try Another',
-                                [
-                                  {text: 'OK', onPress: () => setShowBtn(true)},
-                                ],
-                                { cancelable: false }
-                              )
-                        }
-                        else if (code === 401) {
-                            Alert.alert(
-                                'Error!',
-                                'Expired Token',
-                                [
-                                  {text: 'OK', onPress: () => signOut()},
-                                ],
-                                { cancelable: false }
-                              )
+//(err.response);
+                        setError(true);
+                        setShowBtn(true)
+                        // const code = err.response.status;
+                        // const message = err.response.message
+                        // if (code === 400) {
+                        //     setShowBtn(true)
+                        //     Alert.alert(
+                        //         message,
+                        //         'Please Try Another',
+                        //         [
+                        //           {text: 'OK', onPress: () => setShowBtn(true)},
+                        //         ],
+                        //         { cancelable: false }
+                        //       )
+                        // }
+                        // else if (code === 401) {
+                        //     Alert.alert(
+                        //         'Error!',
+                        //         'Expired Token',
+                        //         [
+                        //           {text: 'OK', onPress: () => signOut()},
+                        //         ],
+                        //         { cancelable: false }
+                        //       )
                           
-                        } else {
-                            console.log(err)
-                            setShowBtn(true)
-                            Alert.alert(
-                                'Network Error',
-                                'Please Try Again',
-                                [
-                                  {text: 'OK', onPress: () => setShowBtn(true)},
-                                ],
-                                { cancelable: false }
-                              )
-                        }
+                        // } else {
+                        //     console.log(err)
+                        //     setShowBtn(true)
+                        //     Alert.alert(
+                        //         'Network Error',
+                        //         'Please Try Again',
+                        //         [
+                        //           {text: 'OK', onPress: () => setShowBtn(true)},
+                        //         ],
+                        //         { cancelable: false }
+                        //       )
+                        // }
          
                           
                     
@@ -128,53 +136,53 @@ const PatientDetails = (props) => {
                         intake_id: parseInt(id_slot)
                       
                     }
-                    console.log("data to send", data)
                     axios.post('https://conduit.detechnovate.net/public/api/user/book/group/slot', data, {headers: {Authorization: res}})
                     .then(
                         res => {  
-                           console.log(res, "success")
                             const message = res.data.message; 
                            toggleOverlay()
                             setShowBtn(true)
                         }
                     )
                     .catch(err => {
-                        console.log(err.response)
-                        const code = err.response.status;
-                        const message = err.response.message
-                        if (code === 400) {
-                            setShowBtn(true)
-                            Alert.alert(
-                                message,
-                                'Please Try Another',
-                                [
-                                  {text: 'OK', onPress: () => setShowBtn(true)},
-                                ],
-                                { cancelable: false }
-                              )
-                        }
-                        else if (code === 401) {
-                            Alert.alert(
-                                'Error!',
-                                'Expired Token',
-                                [
-                                  {text: 'OK', onPress: () => signOut()},
-                                ],
-                                { cancelable: false }
-                              )
+                        setError(true);
+                        setShowBtn(true)
+                        // console.log(err.response)
+                        // const code = err.response.status;
+                        // const message = err.response.message
+                        // if (code === 400) {
+                        //     setShowBtn(true)
+                        //     Alert.alert(
+                        //         message,
+                        //         'Please Try Another',
+                        //         [
+                        //           {text: 'OK', onPress: () => setShowBtn(true)},
+                        //         ],
+                        //         { cancelable: false }
+                        //       )
+                        // }
+                        // else if (code === 401) {
+                        //     Alert.alert(
+                        //         'Error!',
+                        //         'Expired Token',
+                        //         [
+                        //           {text: 'OK', onPress: () => signOut()},
+                        //         ],
+                        //         { cancelable: false }
+                        //       )
                           
-                        } else {
-                            console.log(err)
-                            setShowBtn(true)
-                            Alert.alert(
-                                'Network Error',
-                                'Please Try Again',
-                                [
-                                  {text: 'OK', onPress: () => setShowBtn(true)},
-                                ],
-                                { cancelable: false }
-                              )
-                        }
+                        // } else {
+                        //     console.log(err)
+                        //     setShowBtn(true)
+                        //     Alert.alert(
+                        //         'Network Error',
+                        //         'Please Try Again',
+                        //         [
+                        //           {text: 'OK', onPress: () => setShowBtn(true)},
+                        //         ],
+                        //         { cancelable: false }
+                        //       )
+                        // }
          
                           
                     
@@ -223,7 +231,8 @@ const PatientDetails = (props) => {
           </View>
           </View>
           <View style= {styles.btnContainer}>
-          {showBtn ?   <InnerBtn onPress={confirmAppointment} color= "white" bg= "#51087E" text= "Confirm" /> : <ActivityIndicator size= "large" color= "#000075"/>}
+          {showBtn ?   <InnerBtn onPress={confirmAppointment} color= "white" bg= "#51087E" text= "Confirm" /> 
+          : <ActivityIndicator size= "large" color= "#000075"/>}
                
           </View>
           <View>
@@ -297,4 +306,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default PatientDetails
+export default errorHandler(PatientDetails, axios)

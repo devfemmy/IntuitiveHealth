@@ -13,17 +13,29 @@ import GoldIcon from '../assets/sliders/images/gold.svg';
 
 const PaymentPage = (props) => {
     const [paymentPlans, setPaymentPlans] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
+    const [subscription, setSub] = useState('');
+    const [expiry_date, setExpiry] = useState('');
+    const [color, setColor] = useState('');
 
     const fetchPaymentPlans = () => {
+        setLoading(true)
         const id = AsyncStorage.getItem('Mytoken').then(
             res => {
 
-                axios.get('subscription/active', {headers: {Authorization: res}})
+                axios.get('subscription', {headers: {Authorization: res}})
                 .then(
                     res => {
                         setLoading(false)
-                        const payment_plans = res.data.data;
+                        // const expiry_data = res.data.data
+                        const payment_plans = res.data.data.plan;
+                        const subscription = res.data.data.subscription;
+                        const expiry_date = new Date(res.data.data.expiry_date.slice(0, 10));
+                        const stringedDate = expiry_date.toString().slice(0, 15);
+                        const color = res.data.data.color;
+                        setSub(subscription);
+                        setColor(color); 
+                        setExpiry(stringedDate)
                         setPaymentPlans(payment_plans);  
                         console.log('payment_plans', payment_plans)                     
                     }
@@ -77,6 +89,12 @@ const PaymentPage = (props) => {
       }
     return (
         <View style= {styles.container}>
+            {subscription !== '' && paymentPlans.length !== 0 ? (
+                <MyAppText style= {styles.expiry_date}>
+                    {`You are on ${subscription} plan which expires on ${expiry_date}`}
+                </MyAppText>
+            ): null}
+            {paymentPlans.length === 0 ? (<MyAppText style= {{textAlign: 'center'}}>No Subscription present</MyAppText>) : null}
             {paymentPlans.map(
                 (plan, index) => {
                     const sub = plan.subscription;
@@ -202,6 +220,9 @@ const styles = StyleSheet.create({
         paddingRight: 30,
         marginBottom: 20,
     },
+    expiry_date: {
+        marginBottom: 25
+    }
 })
 
 export default PaymentPage

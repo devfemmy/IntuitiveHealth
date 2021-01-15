@@ -109,13 +109,14 @@ const IntakeForm = (props) => {
                   .catch(err => {
                     // console.log("error", err.response)
                      setShowBtn(true)
-                     // console.log(err.response)
+                     console.log(err.response)
+                     const message = err.response.data.message
                       const code = err.response.status;
                       // const message = err.response.message;
                      if (code === 400) {
                        Alert.alert(
                         'Error',
-                        'Please refill questions correctly',
+                        message,
                         [
                           {text: 'OK', onPress: () => props.navigation.goBack()},
                         ],

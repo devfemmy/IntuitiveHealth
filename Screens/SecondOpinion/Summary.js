@@ -5,6 +5,7 @@ import MyAppText from '../../Components/MyAppText';
 import ProfileInput from '../../Components/ProfileInput';
 import MultiSelect from 'react-native-multiple-select';
 import axios from '../../axios-req';
+import errorHandler from '../ErrorHandler/errorHandler';
 
 const Summary = (props) => {
 
@@ -12,6 +13,8 @@ const Summary = (props) => {
     const [selectedItems, setSelectedItems] = useState([]);
     const [documents, setDocuments] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(false);
+    
 
     const fetchDocuments = () => {
         const id = AsyncStorage.getItem('Mytoken').then(
@@ -106,29 +109,30 @@ const Summary = (props) => {
                     )
                     .catch(err => {
                         console.log(err.response)
-                        setLoading(false)
-                        const code = err.response.status;
-                        if (code === 401) {
-                            Alert.alert(
-                                'Error!',
-                                'Expired Token',
-                                [
-                                  {text: 'OK', onPress: () => signOut()},
-                                ],
-                                { cancelable: false }
-                              )
+                        setLoading(false);
+                        setError(true)
+                        // const code = err.response.status;
+                        // if (code === 401) {
+                        //     Alert.alert(
+                        //         'Error!',
+                        //         'Expired Token',
+                        //         [
+                        //           {text: 'OK', onPress: () => signOut()},
+                        //         ],
+                        //         { cancelable: false }
+                        //       )
                           
-                        } else {
-                            // showLoaded(true)
-                            Alert.alert(
-                                'Error',
-                                'Please Try Again',
-                                [
-                                  {text: 'OK'},
-                                ],
-                                { cancelable: false }
-                              )
-                        }
+                        // } else {
+                        //     // showLoaded(true)
+                        //     Alert.alert(
+                        //         'Error',
+                        //         'Please Try Again',
+                        //         [
+                        //           {text: 'OK'},
+                        //         ],
+                        //         { cancelable: false }
+                        //       )
+                        // }
         
                           
                         
@@ -204,4 +208,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default Summary
+export default errorHandler(Summary, axios)

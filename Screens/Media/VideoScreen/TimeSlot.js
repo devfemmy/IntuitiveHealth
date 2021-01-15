@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { View, StyleSheet,Text,Alert, ScrollView,AsyncStorage, Image, Platform, ActivityIndicator } from 'react-native';
 import DoctorCard from '../../../Components/DoctorCard';
+import { Button, Overlay } from 'react-native-elements';
 import IconText from '../../../Components/IconText';
 import VoiceIcon from '../../../assets/sliders/images/vchat.svg';
 import SchoolIcon from '../../../assets/sliders/images/school.svg';
@@ -11,6 +12,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import SlotPicker from '../../../Components/SlotPicker';
 import { useLinkProps } from '@react-navigation/native';
 import axios from 'axios';
+import UnavailableDoctor from '../../../Components/UnavailableDoc';
 
 const TimeSlot = (props) => {
     const { doctor_id, group_id } = props.route.params;
@@ -23,6 +25,8 @@ const TimeSlot = (props) => {
     const [showSlot, setShowSlot] = useState([]);
     const [slotDate, setSlotDate] = useState('');
     const [count, setCount] = useState('');
+    const [visible, setVisible] = useState(false);
+    const [message, setMessage] = useState('')
     useEffect(() => {
         const id = AsyncStorage.getItem('Mytoken').then(
             res => {
@@ -62,15 +66,17 @@ const TimeSlot = (props) => {
                           )
                       
                     } else {
-                      setLoading(false)
-                        Alert.alert(
-                            message,
-                            'Please Try Another',
-                            [
-                              {text: 'OK', onPress: () => props.navigation.popToTop()},
-                            ],
-                            { cancelable: false }
-                          )
+                      setLoading(false);
+                      setMessage(message)
+                      toggleOverlay()
+                        // Alert.alert(
+                        //     message,
+                        //     'Please Try Another',
+                        //     [
+                        //       {text: 'OK', onPress: () => props.navigation.popToTop()},
+                        //     ],
+                        //     { cancelable: false }
+                        //   )
                     }
     
                       
@@ -83,6 +89,13 @@ const TimeSlot = (props) => {
         
     
       }, []);
+
+      const toggleOverlay = () => {
+        setVisible(true);
+        setTimeout(function(){ moveToHome() }, 1500);
+        
+      };
+
       function tConvert (time) {
         // Check correct time format and split into components
         time = time.toString ().match (/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time];
@@ -101,6 +114,10 @@ const TimeSlot = (props) => {
         const concatCount = `${count} Slots`
         setCount(concatCount)
         
+    }
+    const moveToHome = () => {
+        setVisible(false)
+        props.navigation.popToTop()
     }
     // alert(doctor_id)
     if (loading) {
@@ -179,6 +196,11 @@ const TimeSlot = (props) => {
                     }
                 )}
                 </View>
+                <View>
+            <Overlay isVisible={visible} onBackdropPress={moveToHome}>
+                <UnavailableDoctor message= {message} />
+            </Overlay>
+            </View>
                
             </View>
         </ScrollView>

@@ -4,6 +4,7 @@ import { View, StyleSheet,Alert, ScrollView, ActivityIndicator, AsyncStorage } f
 import VitalInput from '../../../Components/VitalInput';
 import InnerBtn from '../../../Components/InnerBtn';
 import axios from '../../../axios-req';
+import errorHandler from '../../ErrorHandler/errorHandler';
 
 const InputVitals = () => {
     const [pulse, setPulse] = useState('');
@@ -18,7 +19,9 @@ const InputVitals = () => {
     const [color, setColor] = useState('white')
     const [color2, setColor2] = useState('white')
     const [color3, setColor3] = useState('white');
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(false);
+    
 
     const setPulseFunc = (value) => {
         setPulse(value)
@@ -140,35 +143,36 @@ const InputVitals = () => {
                   }
               )
               .catch(err => {
-                console.log(err.response)
-                setLoading(false)
-                  const code = err.response.status;
-                  const message = err.response.message;
-                  if (code === 401) {
-                      Alert.alert(
-                          'Error!',
-                          'Expired Token',
-                          [
-                            {text: 'OK', onPress: () => signOut()},
-                          ],
-                          { cancelable: false }
-                        )
+                console.log(err.response);
+                setLoading(false);
+                setError(true)
+                  // const code = err.response.status;
+                  // const message = err.response.message;
+                  // if (code === 401) {
+                  //     Alert.alert(
+                  //         'Error!',
+                  //         'Expired Token',
+                  //         [
+                  //           {text: 'OK', onPress: () => signOut()},
+                  //         ],
+                  //         { cancelable: false }
+                  //       )
                     
-                  } else if (code === 400) {
-                    // setLoading(false)
-                    console.log(err)
-                      Alert.alert(
-                          message,
-                          'Please Try Again',
-                          [
-                            {text: 'OK'},
-                          ],
-                          { cancelable: false }
-                        )
-                  }
+                  // } else if (code === 400) {
+                  //   // setLoading(false)
+                  //   console.log(err)
+                  //     Alert.alert(
+                  //         message,
+                  //         'Please Try Again',
+                  //         [
+                  //           {text: 'OK'},
+                  //         ],
+                  //         { cancelable: false }
+                  //       )
+                  // }
   
                     
-                    console.log(err.response.status)
+                  //   console.log(err.response.status)
   
               })
           }
@@ -246,4 +250,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default InputVitals;
+export default errorHandler(InputVitals, axios);

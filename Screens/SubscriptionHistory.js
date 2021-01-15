@@ -3,21 +3,24 @@ import { View, StyleSheet,ActivityIndicator,AsyncStorage,
     Alert,
     TouchableOpacity, ScrollView, Button } from 'react-native';
 import axios from '../axios-req';
+import MyAppText from '../Components/MyAppText';
+import SubscriptionCard from '../Components/SubscriptionCard';
 
 const SubscriptionHistory = (props) => {
     const [loading, setLoading] = useState(true);
+    const [history, setHistory] = useState([]);
 
 
-    const inititatePayment = () => {
+    const getSubHistory = () => {
         const id = AsyncStorage.getItem('Mytoken').then(
             res => {
-                const data = {
-                    subscription_name: plan
-                }
-                axios.post('payment/initiate', data, {headers: {Authorization: res}})
+                axios.get('payment/history', {headers: {Authorization: res}})
                 .then(
                     res => {
-                        setLoading(false)                  
+                        setLoading(false) ;
+                        console.log("history", res.data);
+                        const history = res.data.data.slice(0, 10); 
+                        setHistory(history)             
                     }
                 )
                 .catch(err => {
@@ -55,7 +58,7 @@ const SubscriptionHistory = (props) => {
     }
     useEffect(() => {
         const unsubscribe = props.navigation.addListener('focus', () => {
-            inititatePayment()
+          getSubHistory()
           });     
         return unsubscribe;
       }, [props.navigation]);
@@ -69,6 +72,30 @@ const SubscriptionHistory = (props) => {
       }
     return (
         <ScrollView style= {styles.container}>
+           {history.length === 0 ? (<MyAppText style= {{textAlign: 'center'}}>No data present</MyAppText>) : null}
+            {history.map(
+              (item, index) => {
+                let color = null;
+                if (item.status_name === 'Success') {
+                  color = "green"
+                } else if (item.status_name === 'Pending') {
+                  color= "orange"
+                } else if (item.status_name === 'Expired') {
+                  color= "red"
+                } else {
+                  color = "black"
+                }
+                return (
+                  <SubscriptionCard 
+                  key= {index} date= {item.created_at}
+                  amount = {item.amount}
+                  status = {item.status_name}
+                  color= {color}
+                  plan= {item.plan}
+                   />
+                )
+              }
+            )}
         </ScrollView>
     )
 }
@@ -76,7 +103,7 @@ const SubscriptionHistory = (props) => {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: '#F7F7FA',
-        padding: 25
+        padding: 25,
     },
     btnStyle: {
         color: '#6C0BA9',

@@ -30,7 +30,7 @@ const ShowActiveSessions = (props) => {
                             setDoctors(doctors);
                             showNoDoctor(false)
                         } else {
-                            console.log('my doctors', doctors);
+    //('my doctors', doctors);
                             showNoDoctor(true)
                         }
                        
