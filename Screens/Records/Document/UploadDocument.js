@@ -43,8 +43,9 @@ const UploadDocument = (props) => {
             }
             else {
               setImageUri(res.uri)
-              // const results = await RNFetchBlob.fs.readFile(res.uri, 'base64');
-              // console.log('base643', results)
+              const results = await RNFetchBlob.fs.readFile(res.uri, 'base64');
+              console.log('base643', results)
+              setBlob(results)
             
             }
             setFileName(res.name)
@@ -60,15 +61,21 @@ const UploadDocument = (props) => {
     const rfbSending = () => {
         alert('hey');
                
-        RNFetchBlob.fetch('POST', 'https://conduit.detechnovate.net/public/api/user/doc/upload', {
+        RNFetchBlob.fetch('POST', 'https://conduit.detechnovate.net/public/api/user/image/upload', {
             Authorization : myToken,
-            // otherHeader : "pdf",
+            otherHeader : "foo",
             'Content-Type' : 'multipart/form-data',
           }, [
             // part file from storage
-            { name : 'test3', upload_file : filename, type: fileType, data: pdfUri
+            { name : 'avatar-foo', filename : filename, type:'image/foo', data: 
+            JSON.stringify({
+              name : filename,
+              upload_file : imageUri
+            })
+          },
+        //     { name : 'test3', upload_file : filename, type: fileType, data: pdfUri
           
-        },
+        // },
             // elements without property `filename` will be sent as plain text
           ]).then((resp) => {
             // ...
@@ -111,21 +118,23 @@ const UploadDocument = (props) => {
           const data = new FormData();
           data.append('name', 'Imageupload');
           data.append('upload_file', fileToUpload)
-          
+          console.log(data, "data to be sent")
           fetch(
             'https://conduit.detechnovate.net/public/api/user/doc/upload',
             {
               method: 'post',
               data: data,
               headers: {
-                'Content-Type': 'application/json',
+                'Content-Type': 'multipart/form-data',
                 'Accept': 'application/json',
                 'Authorization': myToken,
               },
             }
-          ).then( (res) => {
-            alert("Here")
-            console.log('res', res)
+          ).then(res => res.json())
+          .then((res) => {
+            console.log('res', res.data)
+            alert("Successful")
+         
           }).catch(err => {
             alert("error")
             console.log(err, "error")
@@ -165,9 +174,12 @@ const UploadDocument = (props) => {
                         //     name: filename
                         // };
                         var formData = new FormData();
-                        formData.append("upload_file",imageUri)
-                        formData.append("name",filename)
-                        alert('senttt');
+                        // var base64 = require('base-64');
+                        // var encodedData = base64.encode(imageUri);
+                        formData.append("name",filename);
+                        formData.append("upload_file", RNFetchBlob.wrap(blob))
+                        // formData.append("upload_file", 'data:image/png;,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')
+                        // alert('senttt');
                         console.log('formd', formData)
                         axios.post('image/upload', formData,
                          {headers: {Authorization: res}})
@@ -275,7 +287,7 @@ const UploadDocument = (props) => {
                     </View>
             </View>
             <View style= {styles.btnContainer}>
-                <InnerBtn onPress= {() => "pressed"} bg= "#51087E" color= "white" text= "Upload Document" />
+                <InnerBtn onPress= {sendDocument} bg= "#51087E" color= "white" text= "Upload Document" />
             </View>
         </ScrollView>
     )
