@@ -12,6 +12,9 @@ import SettingPage from '../../Screens/Settings/settings';
 import About from '../../Screens/Settings/About/About';
 import Terms from '../../Screens/Settings/About/Terms';
 import ChangePassword from '../../Screens/Settings/ChangePassword/ChangePassword';
+import HelpPage from '../../Screens/Profile/HelpCenter/HelpPage';
+import Faq from '../../Screens/Faq';
+import ContactUs from '../../Screens/Contact';
 
 
 const Stack = createStackNavigator();
@@ -90,6 +93,62 @@ const SettingsNavigator = (props) => {
               
 
           },
+          headerTitleStyle: {
+            fontFamily: 'HammersmithOne-Regular',
+            fontSize: 20
+          },
+          headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
+        }}
+          />
+          <Stack.Screen name="Faq" component={HelpPage}
+          options={{ title: 'Help Center', headerStyle: {
+              
+              backgroundColor: '#51087E',
+          
+              
+              
+
+          },
+          // headerLeft: () => (
+          //   <HeaderButtons HeaderButtonComponent= {ProfileButton}>
+          //     <Item title= "Menu"
+          //       iconName= "ios-menu"
+          //       onPress= {() => {props.navigation.openDrawer();}} />
+          //   </HeaderButtons>
+
+          // ), 
+          headerTitleStyle: {
+            fontFamily: 'HammersmithOne-Regular',
+            fontSize: 20
+          },
+          headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
+        }}
+          />
+          <Stack.Screen name="Faqs" component={Faq}
+          options={{ title: 'FAQ', headerStyle: {
+              
+              backgroundColor: '#51087E',
+          
+              
+              
+
+          }, 
+          headerTitleStyle: {
+            fontFamily: 'HammersmithOne-Regular',
+            fontSize: 20
+          },
+          headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
+        }}
+          />
+          <Stack.Screen name="Contact" component={ContactUs}
+          options={{ title: 'Contact Us', headerStyle: {
+              
+              backgroundColor: '#51087E',
+          
+              
+              
+
+          }, 
           headerTitleStyle: {
             fontFamily: 'HammersmithOne-Regular',
             fontSize: 20

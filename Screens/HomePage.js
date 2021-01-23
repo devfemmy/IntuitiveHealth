@@ -274,7 +274,7 @@ const HomeScreen = (props) => {
                 />
         </View>
         <View style= {styles.secondCont}>
-            <TouchableOpacity onPress= {()=> props.navigation.navigate('Practise', {name: 'General Practice', id: 1})}>
+            <TouchableOpacity onPress= {()=> props.navigation.navigate('Consult')}>
                     <View style= {styles.card}>
                         <View style= {styles.imgCont}>
                             <Logo width= {100} height= {120} />
@@ -330,7 +330,7 @@ const HomeScreen = (props) => {
             </ScrollView>
         </View>
         <View style= {styles.imageStyleContainer}>
-            <TouchableOpacity onPress= {() => props.navigation.navigate('Selfpay')}>
+            <TouchableOpacity onPress= {() => props.navigation.navigate('ManagePlan')}>
             <Image 
                 style= {styles.imageDim222}
                 defaultSource= {require('../assets/sliders/images/placeholder2.png')}

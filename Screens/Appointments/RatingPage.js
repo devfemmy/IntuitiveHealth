@@ -19,17 +19,17 @@ const Ratings = (props) => {
         setRatings(rating)
       }
       const submitReview = () => {
-        if (rating === '' || title === '' || email === '' || name === '' || review === '') {
-            alert('Please fill in your correct details')
+        if (rating === 0) {
+            alert('Please fill in your rating')
         } else {
             setShowBtn(false)
             const id = AsyncStorage.getItem('Mytoken').then(
                 res => {
                     const data = {
-                        title:  title,
-                        email: email,
+                        // title:  title,
+                        // email: email,
                         review: review,
-                        name: name,
+                        // name: name,
                         rating: rating,
                         history_id: history_id
                     }
@@ -42,7 +42,7 @@ const Ratings = (props) => {
                              'Alert!',
                              message,
                              [
-                               {text: 'OK', onPress: () => props.navigation.popToTop()},
+                               {text: 'OK', onPress: () => props.navigation.navigate('Home')},
                              ],
                              { cancelable: false }
                            )
@@ -101,11 +101,12 @@ const Ratings = (props) => {
                     />
                 </View>
                 <View style= {styles.feedBackForm}>
-                    <ProfileInput value= {title} onChangeText= {setTitle}  label= "Title of your review" />
+                    {/* <ProfileInput value= {title} onChangeText= {setTitle}  label= "Title of your review" /> */}
                     <ProfileInput value= {review} multiline = {true} lines= {5} onChangeText= {setReview}  label= "Your Review" />
-                    <ProfileInput value= {name} onChangeText= {setName}  label= "Name" />
-                    <ProfileInput value= {email} onChangeText= {setEmail}  label= "Email Address" />
+                    {/* <ProfileInput value= {name} onChangeText= {setName}  label= "Name" /> */}
+                    {/* <ProfileInput value= {email} onChangeText= {setEmail}  label= "Email Address" /> */}
                 </View>
+                <MyAppText onPress= {() => props.navigation.navigate('Home')} style= {styles.textStyle2}>Skip Feedback</MyAppText>
             </ScrollView>
             <View style= {styles.footer}>
             {showBtn ?   <InnerBtn onPress= {submitReview} text= "Submit" color= "white" border= "#51087E" bg= "#51087E" /> : <ActivityIndicator size= "large" color= "#000075"/>}
@@ -127,6 +128,10 @@ const styles = StyleSheet.create({
         fontSize: 25,
         textAlign: 'center',
         marginBottom: 10
+    },
+    textStyle2: {
+        textAlign: 'center',
+        marginVertical: 25
     },
     feedBackForm: {
         marginVertical: 25

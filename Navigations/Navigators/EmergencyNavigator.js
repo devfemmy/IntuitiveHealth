@@ -203,6 +203,7 @@ const EmergencyNavigator = (props) => {
             fontFamily: 'HammersmithOne-Regular',
             fontSize: 20
           },
+          headerLeft: null,
           headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
         }}
           />

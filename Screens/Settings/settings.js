@@ -15,6 +15,11 @@ const SettingPage = (props) => {
                         <MyAppText style= {styles.textStyle}>About Conduit Telehealth</MyAppText>
                     </ProfileCard>
                </TouchableOpacity>
+               <TouchableOpacity onPress= {()=> props.navigation.navigate('Faq')}>
+                <ProfileCard>
+                        <MyAppText style= {styles.textStyle}>Help Center</MyAppText>
+                    </ProfileCard>
+               </TouchableOpacity>
                <TouchableOpacity onPress= {()=> props.navigation.navigate('Terms')}>
                 <ProfileCard>
                         <MyAppText style= {styles.textStyle}>Privacy Policy</MyAppText>

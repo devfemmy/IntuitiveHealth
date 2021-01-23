@@ -14,6 +14,7 @@ import CheckBmi from '../../Screens/Profile/CheckBmi';
 import LifeStyle from '../../Screens/Profile/LifeStyle';
 import BuyPlan from '../../Screens/BuyPlan';
 import PaymentPage from '../../Screens/PaymentPage';
+import InputVitals from '../../Screens/Profile/Vitals/InputVitals';
 
 
 const Stack = createStackNavigator();
@@ -77,6 +78,22 @@ const ProfileNavigator = (props) => {
             //   color="red"
             // />
           ), 
+          headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
+        }}
+          />
+        <Stack.Screen name="Input" component={InputVitals}
+          options={{ title: 'Input Vitals', headerStyle: {
+              
+              backgroundColor: '#51087E',
+          
+              
+              
+
+          },
+          headerTitleStyle: {
+            fontFamily: 'HammersmithOne-Regular',
+            fontSize: 20
+          },
           headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
         }}
           />

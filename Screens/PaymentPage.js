@@ -89,7 +89,7 @@ const PaymentPage = (props) => {
       }
     return (
         <View style= {styles.container}>
-            {subscription !== '' && paymentPlans.length !== 0 ? (
+            {subscription !== 'None' && paymentPlans.length !== 0 ? (
                 <MyAppText style= {styles.expiry_date}>
                     {`You are on ${subscription} plan which expires on ${expiry_date}`}
                 </MyAppText>

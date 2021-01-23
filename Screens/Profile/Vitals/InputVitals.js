@@ -205,7 +205,7 @@ const InputVitals = () => {
                 placeholder= "mm"
                 // color= {color} 
                 // indicator= {indicator} 
-                label= "Blood Pressure(mm/Hg)" />
+                label= "Blood Pressure" />
                   <VitalInput
                   width= "50%"
                 onChangeText= {(value)=> calculatePressure(value)}

@@ -14,7 +14,7 @@ const VitalInput = (props) => {
         indicatorStyle: {
           color: props.color,
           textAlign: 'right',
-          fontSize: props.size
+          // fontSize: props.size
         },
         textStyle2: {
           color: props.color2

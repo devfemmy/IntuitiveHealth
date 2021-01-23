@@ -6,8 +6,7 @@ import MyAppText from '../../Components/MyAppText';
 import UploadIcon from '../../assets/sliders/images/profile1.svg';
 import UploadIcon2 from '../../assets/sliders/images/profile2.svg';
 import UploadIcon3 from '../../assets/sliders/images/profile3.svg';
-import UploadIcon4 from '../../assets/sliders/images/subscription.svg';
-import UploadIcon5 from '../../assets/sliders/images/history.svg';
+
 
 const Profilepage = (props) => {
     console.log('Value Component', props.value)
@@ -58,29 +57,14 @@ const Profilepage = (props) => {
                         </View>
                     </View>
             </TouchableOpacity>
-            <TouchableOpacity onPress= {() => props.navigation.navigate('Selfpay') }>
+            <TouchableOpacity onPress= {() => props.navigation.navigate('Input') }>
                     <View style= {styles.card}>
                         <View style= {styles.imgCont}>
-                        <UploadIcon4 width= {120} height= {80} />
+                        <UploadIcon width= {130} height= {130} />
                         </View>
                         <View style= {styles.textCont}>
                             <MyAppText style= {styles.boldText}>
-                                Subscription
-                            </MyAppText>
-                            {/* <MyAppText style= {styles.colorText}>Continue */}
-                                {/* <Keyback width= {15} height= {15} /> */}
-                            {/* </MyAppText> */}
-                        </View>
-                    </View>
-            </TouchableOpacity>
-            <TouchableOpacity onPress= {() => props.navigation.navigate('SubHistory') }>
-                    <View style= {styles.card}>
-                        <View style= {styles.imgCont}>
-                        <UploadIcon5 width= {120} height= {80} />
-                        </View>
-                        <View style= {styles.textCont}>
-                            <MyAppText style= {styles.boldText}>
-                                Subscription History
+                                Vitals
                             </MyAppText>
                             {/* <MyAppText style= {styles.colorText}>Continue */}
                                 {/* <Keyback width= {15} height= {15} /> */}

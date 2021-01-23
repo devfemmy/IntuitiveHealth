@@ -158,14 +158,14 @@ const DrawerNav = (props) => {
                       name={Platform.OS === 'android' ? 'md-person' : 'ios-person'}></Icon>
                     }}
                     />
-                    <Drawer.Screen name="Vitals" component={VitalsNavigator}
+                    {/* <Drawer.Screen name="Vitals" component={VitalsNavigator}
                      options= {{
                       drawerIcon: config => <Icon
                       size={22}
                       color= "#6C0BA9"
                       name={Platform.OS === 'android' ? 'md-archive' : 'ios-archive'}></Icon>
                     }}
-                    />
+                    /> */}
                     <Drawer.Screen name="Find A Doctor" component={VideoNavigator}
                      options= {{
                       drawerIcon: config => <Icon
@@ -222,14 +222,14 @@ const DrawerNav = (props) => {
                       name={Platform.OS === 'android' ? 'md-help-buoy' : 'ios-help-buoy'}></Icon>
                     }}
                     />
-                    <Drawer.Screen name="Help Center" component={ConfigureNavigator}
+                    {/* <Drawer.Screen name="Help Center" component={ConfigureNavigator}
                      options= {{
                       drawerIcon: config => <Icon
                       size={22}
                       color= "#9B9B9B"
                       name={Platform.OS === 'android' ? 'md-help' : 'ios-help'}></Icon>
                     }}
-                    />
+                    /> */}
                     <Drawer.Screen name="Settings" component={SettingsNavigator}
                      options= {{
                       drawerIcon: config => <Icon

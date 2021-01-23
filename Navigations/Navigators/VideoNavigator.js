@@ -36,11 +36,6 @@ const VideoNavigator = (props) => {
                 onPress= {() => {props.navigation.openDrawer();}} />
             </HeaderButtons>
 
-            // <Button
-            //   onPress={() => alert('This is a button!')}
-            //   title="Info"
-            //   color="red"
-            // />
           ), 
           headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
         }}

@@ -19,6 +19,8 @@ import SubscriptionHistory from '../../Screens/SubscriptionHistory';
 import ExpiredSubscription from '../../Screens/ErrorHandler/ExpiredSub';
 import MentalHealth from '../../Screens/Media/VideoScreen/MentalHealth/MentalHealth';
 import IntakeForm from '../../Screens/Media/VideoScreen/MentalHealth/IntakeForm';
+import ManagePlan from '../../Screens/ManagePlan';
+import Ratings from '../../Screens/Appointments/RatingPage';
 
 const Stack = createStackNavigator();
 
@@ -150,6 +152,22 @@ const [error, setError] = useState(false)
           headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
         }}
           />
+          {/* <Stack.Screen name="Review" component={Ratings}
+          options={{ title: 'Send Review', headerStyle: {
+              
+              backgroundColor: '#51087E',
+          
+              
+              
+
+          },
+          headerTitleStyle: {
+            fontFamily: 'HammersmithOne-Regular',
+            fontSize: 20
+          },
+          headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
+        }}
+          /> */}
           <Stack.Screen name="SubHistory" component={SubscriptionHistory}
           options={{ title: 'Subscription History', headerStyle: {
               backgroundColor: Platform.OS === 'android' ? '#51087E' : '#51087E',
@@ -179,6 +197,19 @@ const [error, setError] = useState(false)
           />
           <Stack.Screen name="Buyplan" component={BuyPlan}
           options={{ title: 'Buy Plan', headerStyle: {
+              backgroundColor: Platform.OS === 'android' ? '#51087E' : '#51087E',
+
+          },
+          headerTitleStyle: {
+            fontFamily: 'HammersmithOne-Regular',
+            fontSize: 20
+          },
+    
+          headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
+        }}
+          />
+          <Stack.Screen name="ManagePlan" component={ManagePlan}
+          options={{ title: 'Manage Plan', headerStyle: {
               backgroundColor: Platform.OS === 'android' ? '#51087E' : '#51087E',
 
           },
