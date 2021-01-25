@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
+<uses-permission android:name="android.permission.CAMERA" />
 
     <!-- <intent-filter>
      <action android:name="android.intent.action.MAIN" />
@@ -13,5 +14,5 @@
      <action android:name="android.intent.action.DOWNLOAD_COMPLETE"/>                          
     </intent-filter> -->
 
-    <application android:usesCleartextTraffic="true" tools:targetApi="28" tools:ignore="GoogleAppIndexingWarning" />
+    <application android:requestLegacyExternalStorage="true" android:usesCleartextTraffic="true" tools:targetApi="28" tools:ignore="GoogleAppIndexingWarning" />
 </manifest>

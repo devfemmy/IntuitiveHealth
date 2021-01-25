@@ -120,7 +120,7 @@ const ViewUploads = (props) => {
                         return (
                             <TouchableOpacity onPress= {() => props.navigation.navigate('ViewList', {path: doc.path, name: doc.name})}>
                             <ProfileCard key= {index}>
-                            <View>
+                            <View style= {{width: '80%'}}>
                             <MyAppText style= {styles.fileName}>
                             {doc.name}
                             </MyAppText>
@@ -137,7 +137,7 @@ const ViewUploads = (props) => {
                         return (
                             <TouchableOpacity onPress= {()=> downloadFile(doc.path, doc.name)}>
                             <ProfileCard key= {index}>
-                            <View>
+                            <View style= {{width: '80%'}}>
                             <MyAppText style= {styles.fileName}>
                                {doc.name}
                             </MyAppText>
