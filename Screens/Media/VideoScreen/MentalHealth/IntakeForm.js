@@ -85,6 +85,7 @@ const IntakeForm = (props) => {
                  );
                   const data = sortedData;
                   const group_id = parseInt(id);
+                  console.log('data to send', data)
                   axios.post('mental/response', {response:data, group_id}, {headers: {Authorization: res}})
                   .then(
                       res => {  

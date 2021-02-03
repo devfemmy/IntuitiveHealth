@@ -80,7 +80,7 @@ const TimeSlot = (props) => {
                     }
     
                       
-                      console.log(err.response.status)
+                      console.log(err.response)
     
                 })
             }

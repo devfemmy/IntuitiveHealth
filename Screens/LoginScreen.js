@@ -34,6 +34,7 @@ const LoginScreen = (props) => {
 
   const logInUser = ()=> {
     // signIn({token:'token'});
+    
     if (email === '' || password === '') {
       alert("Please fill in your correct credentials")
   } else {

@@ -39,6 +39,7 @@ class GeneralPractise extends Component {
         
       })
       .catch(error => {
+        console.log('Array', error)
         this.setState({ error, loading: false });
         alert('Network Error, Please Try Again');
       });

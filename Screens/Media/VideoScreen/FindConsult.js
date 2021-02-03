@@ -1,28 +1,116 @@
-import React from 'react';
-import { View, StyleSheet, ScrollView, Text } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, StyleSheet, ScrollView, Text, AsyncStorage, ActivityIndicator } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Icon from '../../../assets/sliders/images/doc2.svg';
 import Icon2 from '../../../assets/sliders/images/doc.svg';
 import MyAppText from '../../../Components/MyAppText';
 import Keyback from '../../../assets/sliders/images/keyback.svg';
+import axios from '../../../axios-req';
+import { Image } from 'react-native';
+
 const FindConsult = (props) => {
+    const [specialization, setSpecialization] = useState([]);
+    const [loading, setLoading] = useState(true);
+    useEffect(() => {
+        const id = AsyncStorage.getItem('Mytoken').then(
+            res => {
+
+                axios.get('client/specialisation', {headers: {Authorization: res}})
+                .then(
+                    res => {
+                        setLoading(false)
+                        const data = res.data.data;
+                        console.log("data", data)
+                        // console.log('doctors', doctors)
+                        setSpecialization(data)
+                       
+                    }
+                )
+                .catch(err => {
+                    setLoading(false)
+                    const code = err.response.status;
+                    if (code === 401) {
+                        Alert.alert(
+                            'Error!',
+                            'Expired Token',
+                            [
+                              {text: 'OK', onPress: () => signOut()},
+                            ],
+                            { cancelable: false }
+                          )
+                      
+                    } else {
+                        showLoaded(true)
+                        Alert.alert(
+                            'Network Error',
+                            'Please Try Again',
+                            [
+                              {text: 'OK', onPress: () => setShowBtn(true)},
+                            ],
+                            { cancelable: false }
+                          )
+                    }
+    
+                      
+                    
+    
+                })
+            }
+        )
+        .catch( err => {console.log(err)}) 
+        
+    
+      }, []);
+      if (loading) {
+        return (
+          <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+           <ActivityIndicator  size="large" color="#51087E" />
+          </View>
+        );
+      }
     return (
         <ScrollView style= {styles.container}>
             <MyAppText style= {styles.textStyle}>
             What kind of consultation do you want?
             </MyAppText>
-            <TouchableOpacity onPress= {() => props.navigation.navigate('Practise', {name: 'General Practice', id: 1})}>
-                    <View style= {styles.card}>
-                        <View style= {styles.imgCont}>
-                        <Icon width= {120} height= {120} />
-                        </View>
-                        <View style= {styles.textCont}>
-                            <MyAppText style= {styles.boldText}>
-                                General Practice
-                            </MyAppText>
-                        </View>
-                    </View>
-            </TouchableOpacity>
+            {specialization.map(
+                (specialty, index) => {
+                    const process_type = parseInt(specialty.process_type);
+                    if (process_type === 1) {
+                        return (
+                            <TouchableOpacity key= {index} onPress= {() => props.navigation.navigate('Practise', {name: specialty.name, id: process_type})}>
+                            <View style= {styles.card}>
+                                <View style= {styles.imgCont}>
+                              <Image source= {{uri: specialty.image}} style= {styles.imageStyle} />
+                                </View>
+                                <View style= {styles.textCont}>
+                                    <MyAppText style= {styles.boldText}>
+                                       {specialty.name}
+                                    </MyAppText>
+                                </View>
+                            </View>
+                    </TouchableOpacity>
+                        )
+                    }else {
+                        return (
+                            <TouchableOpacity key= {index} onPress= {() => props.navigation.navigate('Mental', {name: specialty.name, id: process_type})}>
+                            <View style= {styles.card}>
+                                <View style= {styles.imgCont}>
+                              <Image source= {{uri: specialty.image}} style= {styles.imageStyle} />
+                                </View>
+                                <View style= {styles.textCont}>
+                                    <MyAppText style= {styles.boldText}>
+                                       {specialty.name}
+                                    </MyAppText>
+                                </View>
+                            </View>
+                    </TouchableOpacity>
+                        )
+                    }
+
+                }
+            )}
+{/* 
             <TouchableOpacity onPress= {() => props.navigation.navigate('Mental')}>
                     <View style= {styles.card}>
                         <View style= {styles.imgCont}>
@@ -34,7 +122,7 @@ const FindConsult = (props) => {
                             </MyAppText>
                         </View>
                     </View>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
         </ScrollView>
     )
 }
@@ -60,8 +148,9 @@ const styles = StyleSheet.create({
         fontSize: 20
     },
     imageStyle: {
-        width: 100,
-        height: 110
+        width: 120,
+        height: 120,
+        resizeMode: 'contain'
     },
     colorText: {
         color: '#6C0BA9'

@@ -17,18 +17,6 @@ const MyDoctors = (props) => {
                         const doctors = res.data.data;
                         // console.log('doctors', doctors)
                         setDoctors(doctors)
-                        // console.log("appointments", res.data)
-                        // const profile = res.data.data;
-                        // const lastname = profile.last_name;
-                        // const firstname = profile.name;
-                        // const email = profile.email;
-                        // const occupation = profile.occupation;
-                        // const location = profile.location;
-                        // setFirstname(firstname);
-                        // setLastname(lastname);
-                        // setEmail(email);
-                        // setOccupation(occupation)
-                        // setLocation(location)
                        
                     }
                 )

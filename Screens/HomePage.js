@@ -274,7 +274,7 @@ const HomeScreen = (props) => {
                 />
         </View>
         <View style= {styles.secondCont}>
-            <TouchableOpacity onPress= {()=> props.navigation.navigate('Consult')}>
+            <TouchableOpacity onPress= {()=> props.navigation.navigate('Find A Doctor')}>
                     <View style= {styles.card}>
                         <View style= {styles.imgCont}>
                             <Logo width= {100} height= {120} />
