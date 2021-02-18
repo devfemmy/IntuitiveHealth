@@ -14,6 +14,8 @@ const Personal = (props) => {
     const [phone, setPhone] = useState('');
     const [occupation, setOccupation] = useState('');
     const [location, setLocation] = useState('');
+    const [bloodGroup, setBloodGroup] = useState('');
+    const [genoType, setGenotype] = useState('');
     const [showBtn, setShowBtn] = useState(true);
     const [dob, setDob] = useState('');
     const [gender, setGender] = useState('')
@@ -32,7 +34,6 @@ const Personal = (props) => {
                 
                   res => {
                       setLoading(false)
-                      console.log("profile-toks", res.data)
                       const profile = res.data.data;
                       const lastname = profile.last_name;
                       const firstname = profile.name;
@@ -40,6 +41,8 @@ const Personal = (props) => {
                       const occupation = profile.occupation;
                       const location = profile.location;
                       const phone = profile.phone;
+                      const genoType = profile.genotype;
+                      const blood_group = profile.blood_group;
                       const dob = profile.dob;
                       const realDob = new Date (dob);
                       const gender = profile.gender;
@@ -51,7 +54,9 @@ const Personal = (props) => {
                       setOccupation(occupation)
                       setLocation(location);
                       setPhone(phone);
-                      setSelected(gender)
+                      setSelected(gender);
+                      setBloodGroup(blood_group);
+                      setGenotype(genoType)
                      
                   }
               )
@@ -125,7 +130,9 @@ const Personal = (props) => {
                     occupation: occupation,
                     phone: phone,
                     gender: selected,
-                    dob: formattedDate
+                    dob: formattedDate,
+                    genotype: genoType,
+                    blood_group: bloodGroup
                 }
                 axios.post('update', data, {headers: {Authorization: res}})
                 .then(
@@ -138,6 +145,7 @@ const Personal = (props) => {
                 )
                 .catch(err => {
                   console.log('error', err.response)
+                    // const message = err.response.message;
                     const code = err.response.status;
                     if (code === 401) {
                         Alert.alert(
@@ -152,10 +160,10 @@ const Personal = (props) => {
                     } else {
                         setShowBtn(true)
                         Alert.alert(
-                            'Validation Error',
-                            'Please enter a valid Date',
+                            'Something went wrong',
+                            'Please try later',
                             [
-                              {text: 'OK', onPress: () => setShowBtn(true)},
+                              {text: 'OK', onPress: null},
                             ],
                             { cancelable: false }
                           )
@@ -244,6 +252,10 @@ const Personal = (props) => {
                   </MyAppText>
                   </Content>
                   <ProfileInput editable= {false} value= {email} width= "100%" keyboardType= "email-address" label= "Email Address" />
+                  <View style= {styles.flexContainer}>
+                    <ProfileInput onChangeText = {(value) => setGenotype(value)}  value= {genoType} width= "45%" keyboardType= "default" label= "Gentotype" />
+                    <ProfileInput placeholder= "0+"  onChangeText = {(value) => setBloodGroup(value)} value= {bloodGroup} width= "45%" keyboardType= "default" label= "Blood Group" />
+                    </View>
                     <View style= {styles.flexContainer}>
                     <ProfileInput onChangeText = {(value) => setPhone(value)}  value= {phone} width= "45%" keyboardType= "numeric" label= "Phone Number" />
                     <ProfileInput  onChangeText = {(value) => setLocation(value)} value= {location} width= "45%" keyboardType= "default" label= "Location" />

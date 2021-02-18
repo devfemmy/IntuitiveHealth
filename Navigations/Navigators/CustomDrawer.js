@@ -18,6 +18,8 @@ import MyAppText from '../../Components/MyAppText';
     const { signOut} = React.useContext(AuthContext);
     const [fontColor, setColor] = useState('white');
     const [sub, setSub] = useState('');
+    const [user, setHmoUser] = useState('');
+
     const color = AsyncStorage.getItem('color').then(
       res => {
        setColor(res)
@@ -29,6 +31,13 @@ import MyAppText from '../../Components/MyAppText';
         setSub(res)
       }
     ).catch(err => console.log(err));
+
+    const hmo_user = AsyncStorage.getItem('hmo_user').then(
+      res => {
+        setHmoUser(res);
+      }
+    ).catch(err => console.log(err));
+
     const styles = StyleSheet.create({
       textColor : {
           color: 'black',
@@ -81,7 +90,10 @@ import MyAppText from '../../Components/MyAppText';
                     </MyAppText>
                   </TouchableOpacity>
                 </View>
-                <MyAppText onPress= {() => props.navigation.navigate('ManagePlan')}>Manage Your Subscriptions</MyAppText>
+                {user == '0' ? null : 
+                    <MyAppText onPress= {() => props.navigation.navigate('ManagePlan')}>Manage Your Subscriptions</MyAppText>
+                }
+              
                   {/* <Text style={{fontSize: 32}}>LO</Text> */}
                   </View>
             <DrawerItemList {...props} />

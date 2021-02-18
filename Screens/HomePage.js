@@ -19,6 +19,7 @@ const HomeScreen = (props) => {
     const [lastname, setLastName] = React.useState('');
     const [doctors, setDoctors] = React.useState([]);
     const [image, setImage] = React.useState('');
+    const [hmo_user_field, setHmoUser] = React.useState('');
     const [mentalSliders, setMentalSliders] = React.useState([]);
     const [Sliders, setSliders] = React.useState([]);
     const [visible, setVisible] = React.useState(false);
@@ -36,6 +37,11 @@ const HomeScreen = (props) => {
     const name = AsyncStorage.getItem('firstname').then(
         res => {
            setFirstName(res)
+        }
+      ).catch(err => console.log(err));
+      const hmo_user = AsyncStorage.getItem('hmo_user').then(
+        res => {
+          setHmoUser(res);
         }
       ).catch(err => console.log(err));
       const welcomeMsg = AsyncStorage.getItem('login').then(
@@ -330,12 +336,20 @@ const HomeScreen = (props) => {
             </ScrollView>
         </View>
         <View style= {styles.imageStyleContainer}>
+            {hmo_user_field == "0" ? 
+            <TouchableOpacity>
+            <Image 
+                style= {styles.imageDim222}
+                defaultSource= {require('../assets/sliders/images/placeholder2.png')}
+                source= {{uri: image}} />
+            </TouchableOpacity>: 
             <TouchableOpacity onPress= {() => props.navigation.navigate('ManagePlan')}>
             <Image 
                 style= {styles.imageDim222}
                 defaultSource= {require('../assets/sliders/images/placeholder2.png')}
                 source= {{uri: image}} />
             </TouchableOpacity>
+        }
 
         </View>
         <View style= {styles.lowerContainer}>

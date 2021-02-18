@@ -6,6 +6,7 @@ import MyAppText from '../../Components/MyAppText';
 import UploadIcon from '../../assets/sliders/images/profile1.svg';
 import UploadIcon2 from '../../assets/sliders/images/profile2.svg';
 import UploadIcon3 from '../../assets/sliders/images/profile3.svg';
+import UploadIcon4 from '../../assets/sliders/images/vitals.svg';
 
 
 const Profilepage = (props) => {
@@ -19,7 +20,7 @@ const Profilepage = (props) => {
                         </View>
                         <View style= {styles.textCont}>
                             <MyAppText style= {styles.boldText}>
-                                Personal
+                                Biodata
                             </MyAppText>
                             {/* <MyAppText style= {styles.colorText}>Continue */}
                                 {/* <Keyback width= {15} height= {15} /> */}
@@ -60,7 +61,7 @@ const Profilepage = (props) => {
             <TouchableOpacity onPress= {() => props.navigation.navigate('Input') }>
                     <View style= {styles.card}>
                         <View style= {styles.imgCont}>
-                        <UploadIcon width= {130} height= {130} />
+                        <UploadIcon4 width= {130} height= {100} />
                         </View>
                         <View style= {styles.textCont}>
                             <MyAppText style= {styles.boldText}>

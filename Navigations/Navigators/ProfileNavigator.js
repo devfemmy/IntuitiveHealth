@@ -98,7 +98,7 @@ const ProfileNavigator = (props) => {
         }}
           />
           <Stack.Screen name="Personal" component={Personal}
-          options={{ title: 'Personal', headerStyle: {
+          options={{ title: 'Biodata', headerStyle: {
               
               backgroundColor: '#51087E',
           

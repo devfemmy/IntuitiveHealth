@@ -72,6 +72,7 @@ const LoginScreen = (props) => {
           AsyncStorage.setItem('subscript', subscript);
           AsyncStorage.setItem('color', color);
           AsyncStorage.setItem('login', firstLogin);
+          AsyncStorage.setItem('hmo_user', "1");
           // AsyncStorage.setItem('currentBal', currentBal);
           // AsyncStorage.setItem('blockedpts', blockedPts);
           AsyncStorage.setItem('Mytoken', "Bearer "+token);
@@ -143,6 +144,7 @@ const LoginScreen = (props) => {
           AsyncStorage.setItem('subscript', subscript);
           AsyncStorage.setItem('color', color);
           AsyncStorage.setItem('login', firstLogin);
+          AsyncStorage.setItem('hmo_user', "0");
           // AsyncStorage.setItem('currentBal', currentBal);
           // AsyncStorage.setItem('blockedpts', blockedPts);
           AsyncStorage.setItem('Mytoken', "Bearer "+token);
