@@ -19,6 +19,7 @@ import VitalsNavigator from './Navigators/VitalsNavigator';
 import EmergencyNavigator from './Navigators/EmergencyNavigator';
 import SecondOpinionNavigator from './Navigators/SecondOpinNavigator';
 import ConsultationNavigator from './Navigators/ConsultationNavigator';
+import ChatRoom from '../Screens/Media/VideoScreen/Chat/ChatRoom';
 
 
 
@@ -174,6 +175,14 @@ const DrawerNav = (props) => {
                       name={Platform.OS === 'android' ? 'md-person-add' : 'ios-person-add'}></Icon>
                     }}
                     />
+                      {/* <Drawer.Screen name="Chat Room" component={ChatRoom}
+                     options= {{
+                      drawerIcon: config => <Icon
+                      size={22}
+                      color= "#6C0BA9"
+                      name={Platform.OS === 'android' ? 'md-person-add' : 'ios-person-add'}></Icon>
+                    }}
+                    /> */}
                     <Drawer.Screen name="Consultation" component= {ConsultationNavigator}
                      options= {{
                       drawerIcon: config => <Icon
