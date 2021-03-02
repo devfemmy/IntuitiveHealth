@@ -4,6 +4,7 @@ import MyAppText from '../../Components/MyAppText';
 import ProfileCard from '../../Components/ProfileCard';
 import axios from '../../axios-req';
 import InnerBtn from '../../Components/InnerBtn';
+import errorHandler from '../ErrorHandler/errorHandler';
 
 
 const ViewDeNotes = (props) => {
@@ -12,13 +13,14 @@ const ViewDeNotes = (props) => {
     const [loading, setLoading] = useState(true);
     const [date, setDate] = useState('');
     const [comments, setComments] = useState('');
-    const [recommendation, setRecomm] = useState('')
+    const [recommendation, setRecomm] = useState('');
+    const [error, setError] = useState(false);
 
     useEffect(() => {
         const token = AsyncStorage.getItem('Mytoken').then(
             res => {
 
-                axios.get(`my/note/${id}`, {headers: {Authorization: res}})
+                axios.get(`user/my/note/${id}`, {headers: {Authorization: res}})
                 .then(
                     res => {
                         setLoading(false)
@@ -35,32 +37,8 @@ const ViewDeNotes = (props) => {
                     }
                 )
                 .catch(err => {
-                    console.log(err.response)
-                    setLoading(false)
-                    const code = err.response.status;
-                    if (code === 401) {
-                        Alert.alert(
-                            'Error!',
-                            'Expired Token',
-                            [
-                              {text: 'OK', onPress: () => signOut()},
-                            ],
-                            { cancelable: false }
-                          )
-                      
-                    } else {
-                        Alert.alert(
-                            'Network Error',
-                            'Please Try Again',
-                            [
-                              {text: 'OK'},
-                            ],
-                            { cancelable: false }
-                          )
-                    }
-    
-                      
-                    
+                    setLoading(false);
+                    setError(true);
     
                 })
             }
@@ -169,4 +147,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default ViewDeNotes
+export default errorHandler(ViewDeNotes, axios);

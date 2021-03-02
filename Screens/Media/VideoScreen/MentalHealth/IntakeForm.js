@@ -5,6 +5,7 @@ import InnerBtn from '../../../../Components/InnerBtn';
 import axios from '../../../../axios-req';
 import MyAppText from '../../../../Components/MyAppText';
 import RadioButton from '../../../../Components/RadioButtons';
+import errorHandler from '../../../ErrorHandler/errorHandler';
 
 const IntakeForm = (props) => {
     const  {id} = props.route.params;
@@ -13,12 +14,14 @@ const IntakeForm = (props) => {
     const [loading, setLoading] = useState(true);
     const [noQuestion, setNoQues] = useState(null);
     const [sortedAnswers, setSortedAnswers] = useState(false);
-    const [inputState, setInput] = useState(null)
+    const [inputState, setInput] = useState(null);
+    const [error, setError] = useState(false)
+
     console.log('group id', id)
     useEffect(() => {
         const token = AsyncStorage.getItem('Mytoken').then(
             res => {
-                axios.get(`mental/questions/${id}`, {headers: {Authorization: res}})
+                axios.get(`user/mental/questions/${id}`, {headers: {Authorization: res}})
                 .then(
                     res => {
                       setLoading(false)
@@ -35,33 +38,7 @@ const IntakeForm = (props) => {
                 .catch(err => {
                   console.log(err)
                   setLoading(false)
-                    const code = err.response.status;
-                    if (code === 401) {
-                        Alert.alert(
-                            'Error!',
-                            'Expired Token',
-                            [
-                              {text: 'OK', onPress: () => signOut()},
-                            ],
-                            { cancelable: false }
-                          )
-                      
-                    } else {
-                      setLoading(false)
-                      console.log(err)
-                        Alert.alert(
-                            'Network Error',
-                            'Please Try Again',
-                            [
-                              {text: 'OK', onPress: () => setShowBtn(true)},
-                            ],
-                            { cancelable: false }
-                          )
-                    }
-    
-                      
-                      console.log(err.response.status)
-    
+                  setError(true);
                 })
             }
         )
@@ -86,7 +63,7 @@ const IntakeForm = (props) => {
                   const data = sortedData;
                   const group_id = parseInt(id);
                   console.log('data to send', data)
-                  axios.post('mental/response', {response:data, group_id}, {headers: {Authorization: res}})
+                  axios.post('user/mental/response', {response:data, group_id}, {headers: {Authorization: res}})
                   .then(
                       res => {  
                          // console.log(res)
@@ -110,45 +87,7 @@ const IntakeForm = (props) => {
                   .catch(err => {
                     // console.log("error", err.response)
                      setShowBtn(true)
-                     console.log(err.response)
-                     const message = err.response.data.message
-                      const code = err.response.status;
-                      // const message = err.response.message;
-                     if (code === 400) {
-                       Alert.alert(
-                        'Error',
-                        message,
-                        [
-                          {text: 'OK', onPress: () => props.navigation.goBack()},
-                        ],
-                        { cancelable: false }
-                      )
-
-                     }
-                      else if (code === 401) {
-                          Alert.alert(
-                              'Error!',
-                              'Expired Token',
-                              [
-                                {text: 'OK', onPress: () => signOut()},
-                              ],
-                              { cancelable: false }
-                            )
-                        
-                      } else {
-                          setShowBtn(true)
-                          Alert.alert(
-                              'Network Error',
-                              'Please Try Again',
-                              [
-                                {text: 'OK', onPress: () => setShowBtn(true)},
-                              ],
-                              { cancelable: false }
-                            )
-                      }
-       
-                        
-                  
+                    setError(true)
        
                   })
               }
@@ -281,4 +220,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default IntakeForm
+export default errorHandler(IntakeForm, axios)

@@ -6,7 +6,8 @@ import Icon from '../../../assets/sliders/images/videoicon.svg';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import MyAppText from '../../../Components/MyAppText';
 import InnerBtn from '../../../Components/InnerBtn';
-import axios from 'axios';
+import axios from '../../../axios-req';
+import errorHandler from '../../ErrorHandler/errorHandler';
 
 
 
@@ -16,6 +17,7 @@ const VideoPage = (props) => {
     // const [apiKey, setKey] = useState('');
     const [loader, setLoading] = useState(false);
     const {patient_session} = props.route.params;
+    const [error, setError] = useState(false)
 
     let interval = null;
 
@@ -55,36 +57,8 @@ const VideoPage = (props) => {
                     }
                 )
                 .catch(err => {
-                    console.log(err.response, "error")
-                    const message = err.response.data.message
                     setLoading(true)      
-                    const code = err.response.status;
-                    if (code === 401) {
-                        Alert.alert(
-                            'Error!',
-                            'Expired Token',
-                            [
-                              {text: 'OK', onPress: () => signOut()},
-                            ],
-                            { cancelable: false }
-                          )
-                      
-                    } else if (code === 400) {
-                      setLoading(false)
-                        Alert.alert(
-                            'Error!',
-                            message,
-                            [
-                              {text: 'OK', onPress: () =>  setLoading(false)},
-                            ],
-                            { cancelable: false }
-                          )
-                    } else {
-                        alert('Please try again')
-                    }
-    
-                      
-                      console.log(err.response.status)
+                    setError(true)
     
                 })
             }
@@ -148,4 +122,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default VideoPage
+export default errorHandler(VideoPage, axios);

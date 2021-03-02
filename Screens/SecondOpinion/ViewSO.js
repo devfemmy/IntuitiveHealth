@@ -4,17 +4,20 @@ import axios from '../../axios-req';
 import MyAppText from '../../Components/MyAppText';
 import ProfileCard from '../../Components/ProfileCard';
 import StatusCard from '../../Components/StatusCard';
+import errorHandler from '../ErrorHandler/errorHandler';
 
 
 
 const ViewSecondOpinion = (props) => {
     const [notes, setNotes] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(false);
+
     useEffect(() => {
         const id = AsyncStorage.getItem('Mytoken').then(
             res => {
 
-                axios.get('second/list', {headers: {Authorization: res}})
+                axios.get('user/second/list', {headers: {Authorization: res}})
                 .then(
                     res => {
                         setLoading(false)
@@ -26,30 +29,7 @@ const ViewSecondOpinion = (props) => {
                 )
                 .catch(err => {
                     setLoading(false)
-                    const code = err.response.status;
-                    if (code === 401) {
-                        Alert.alert(
-                            'Error!',
-                            'Expired Token',
-                            [
-                              {text: 'OK', onPress: () => signOut()},
-                            ],
-                            { cancelable: false }
-                          )
-                      
-                    } else {
-                        Alert.alert(
-                            'Network Error',
-                            'Please Try Again',
-                            [
-                              {text: 'OK'},
-                            ],
-                            { cancelable: false }
-                          )
-                    }
-    
-                      
-                    
+                    setError(true)
     
                 })
             }
@@ -180,4 +160,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default ViewSecondOpinion
+export default errorHandler(ViewSecondOpinion, axios);

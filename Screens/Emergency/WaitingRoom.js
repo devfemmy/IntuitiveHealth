@@ -19,7 +19,7 @@ const WaitingRoom = (props) => {
         const id = AsyncStorage.getItem('Mytoken').then(
             res => {
 
-                axios.get('waiting/join', {headers: {Authorization: res}})
+                axios.get('user/waiting/join', {headers: {Authorization: res}})
                 .then(
                     res => {
                         setLoading(false)
@@ -119,7 +119,7 @@ const WaitingRoom = (props) => {
         const id = AsyncStorage.getItem('Mytoken').then(
             res => {
 
-                axios.get(`waiting/cancel/${display_id}`, {headers: {Authorization: res}})
+                axios.get(`user/waiting/cancel/${display_id}`, {headers: {Authorization: res}})
                 .then(
                     res => {
                         setLoading(false)

@@ -3,17 +3,21 @@ import { View, StyleSheet,Alert, ScrollView,ActivityIndicator,
     AsyncStorage, Text, Dimensions, Image, Linking } from 'react-native';
 import {Collapse,CollapseHeader, CollapseBody, AccordionList} from 'accordion-collapse-react-native';
 import ArrowIcon from '../assets/sliders/images/arrow1.svg'
-import axios from 'axios';
+import axios from '../axios-req';
 import MyAppText from '../Components/MyAppText';
+import errorHandler from './ErrorHandler/errorHandler';
+
 const Faq = () => {
     const [faqs, setFaq] = useState([]);
     const [phone, setPhone] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(false)
+
     useEffect(() => {
         const id = AsyncStorage.getItem('Mytoken').then(
             res => {
                 console.log('token', res)
-                axios.get('https://conduit.detechnovate.net/public/api/faqs', {headers: {Authorization: res}})
+                axios.get('user/faqs', {headers: {Authorization: res}})
                 .then(
                     res => {
                         const faq = res.data.data;
@@ -24,33 +28,10 @@ const Faq = () => {
                 )
                 .catch(err => {
                     const code = err.response.status;
-                    if (code === 401) {
-                        Alert.alert(
-                            'Error!',
-                            'Expired Token',
-                            [
-                              {text: 'OK', onPress: () => signOut()},
-                            ],
-                            { cancelable: false }
-                          )
-                      
-                    } else {
-                        // showLoaded(true)
-                        Alert.alert(
-                            'Network Error',
-                            'Please Try Again',
-                            [
-                              {text: 'OK', onPress: () => console.log(err)},
-                            ],
-                            { cancelable: false }
-                          )
-                    }
-    
-                      
-                      console.log(err.response.status)
+                    setError(true);
     
                 });
-                axios.get('https://conduit.detechnovate.net/public/api/help/no', {headers: {Authorization: res}})
+                axios.get('help/no', {headers: {Authorization: res}})
                 .then(
                     res => {
                         // console.log('number', res.data.data[0])
@@ -63,31 +44,7 @@ const Faq = () => {
                     }
                 )
                 .catch(err => {
-                    const code = err.response.status;
-                    if (code === 401) {
-                        Alert.alert(
-                            'Error!',
-                            'Expired Token',
-                            [
-                              {text: 'OK', onPress: () => signOut()},
-                            ],
-                            { cancelable: false }
-                          )
-                      
-                    } else {
-                        // showLoaded(true)
-                        Alert.alert(
-                            'Network Error',
-                            'Please Try Again',
-                            [
-                              {text: 'OK', onPress: () => console.log(err)},
-                            ],
-                            { cancelable: false }
-                          )
-                    }
-    
-                      
-                      console.log(err.response.status)
+                    setError(true)
     
                 });
 
@@ -174,4 +131,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default Faq
+export default errorHandler(Faq, axios);

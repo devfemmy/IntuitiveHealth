@@ -24,6 +24,7 @@ import HmoScreen from './Screens/HmoScreen';
 import FlatListDemo from './Screens/HmoScreen';
 import DrawerNav from './Navigations/DrawerNav';
 import StackNav from './Navigations/StackNav';
+import HomePage from './Screens/HomePage';
 // import Toast from 'react-native-toast-message'
 
 export default function App() {

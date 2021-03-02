@@ -1,20 +1,21 @@
 import React, {useEffect, useState} from 'react';
 import { View, StyleSheet,AsyncStorage,ActivityIndicator,Alert, TouchableOpacity,ScrollView } from 'react-native';
-import DoctorCard from '../../../Components/DoctorCard';
 import MyAppText from '../../../Components/MyAppText';
 import ProfileCard from '../../../Components/ProfileCard';
 import axios from '../../../axios-req'
+import errorHandler from '../../ErrorHandler/errorHandler';
 
 
 
 const Medications = (props) => {
     const [notes, setNotes] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(false)
     useEffect(() => {
         const id = AsyncStorage.getItem('Mytoken').then(
             res => {
 
-                axios.get('medication/show', {headers: {Authorization: res}})
+                axios.get('user/medication/show', {headers: {Authorization: res}})
                 .then(
                     res => {
                         setLoading(false)
@@ -26,28 +27,7 @@ const Medications = (props) => {
                 )
                 .catch(err => {
                     setLoading(false)
-                    const code = err.response.status;
-                    if (code === 401) {
-                        Alert.alert(
-                            'Error!',
-                            'Expired Token',
-                            [
-                              {text: 'OK', onPress: () => signOut()},
-                            ],
-                            { cancelable: false }
-                          )
-                      
-                    } else {
-                        Alert.alert(
-                            'Network Error',
-                            'Please Try Again',
-                            [
-                              {text: 'OK'},
-                            ],
-                            { cancelable: false }
-                          )
-                    }
-    
+                    setError(true)
                       
                     
     
@@ -145,4 +125,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default Medications
+export default errorHandler(Medications, axios);

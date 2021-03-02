@@ -8,15 +8,19 @@ import ChildIcon from '../../../../assets/sliders/images/child.svg';
 import Arrow from '../../../../assets/sliders/images/arrow2.svg';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import axios from '../../../../axios-req';
+import errorHandler from '../../../ErrorHandler/errorHandler';
+
+
 const MentalHealth = (props) => {
     const [showBtn, setShowBtn] = useState(true);
     const [groups, setGroup] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(false)
 
     useEffect(() => {
         const id = AsyncStorage.getItem('Mytoken').then(
             res => {
-                axios.get('mental/group', {headers: {Authorization: res}})
+                axios.get('user/mental/group', {headers: {Authorization: res}})
                 .then(
                     res => {
                       setLoading(false)
@@ -29,32 +33,7 @@ const MentalHealth = (props) => {
                 .catch(err => {
                   console.log(err)
                   setLoading(false)
-                    const code = err.response.status;
-                    if (code === 401) {
-                        Alert.alert(
-                            'Error!',
-                            'Expired Token',
-                            [
-                              {text: 'OK', onPress: () => signOut()},
-                            ],
-                            { cancelable: false }
-                          )
-                      
-                    } else {
-                      setLoading(false)
-                      console.log(err)
-                        Alert.alert(
-                            'Network Error',
-                            'Please Try Again',
-                            [
-                              {text: 'OK', onPress: () => setShowBtn(true)},
-                            ],
-                            { cancelable: false }
-                          )
-                    }
-    
-                      
-                      console.log(err.response.status)
+                  setError(true)
     
                 })
             }
@@ -172,4 +151,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default MentalHealth
+export default errorHandler(MentalHealth, axios)

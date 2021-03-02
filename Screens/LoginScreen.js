@@ -7,7 +7,7 @@ import MyBtn from '../Components/MyBtn';
 import { AuthContext } from '../Navigations/DrawerNav';
 import MyAppText from '../Components/MyAppText';
 import Logo from '../assets/sliders/images/logo.svg';
-import axios from 'axios';
+import axios from '../axios-req';
 
 const LoginScreen = (props) => {
   const {signIn} = useContext(AuthContext);
@@ -49,7 +49,7 @@ const LoginScreen = (props) => {
           // hmo_id: hmo_id
       }
       console.log('33', data)
-      axios.post('https://conduit.detechnovate.net/public/api/conduithealth/user/login', data)
+      axios.post('conduithealth/user/login', data)
       .then( res => {
           setBtn(false)
           console.log('API', res.data)
@@ -121,7 +121,7 @@ const LoginScreen = (props) => {
           hmo_id: hmo_id
       }
       console.log('33', data)
-      axios.post('https://conduit.detechnovate.net/public/api/conduithealth/user/login/hmo', data)
+      axios.post('conduithealth/user/login/hmo', data)
       .then( res => {
           setBtn(false)
           console.log('API', res.data)

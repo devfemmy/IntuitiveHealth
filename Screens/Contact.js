@@ -3,20 +3,23 @@ import { View, StyleSheet,Alert, ScrollView,ActivityIndicator,
     AsyncStorage, Text, Dimensions, Image, Linking } from 'react-native';
 import {Collapse,CollapseHeader, CollapseBody, AccordionList} from 'accordion-collapse-react-native';
 import ArrowIcon from '../assets/sliders/images/arrow1.svg'
-import axios from 'axios';
+import axios from '../axios-req';
 import MyAppText from '../Components/MyAppText';
 import UploadIcon from '../assets/sliders/images/contact.svg';
 import ProfileCard from '../Components/ProfileCard';
+import errorHandler from './ErrorHandler/errorHandler';
 
 
 const ContactUs = () => {
     const [phone, setPhone] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(false);
+
     useEffect(() => {
         const id = AsyncStorage.getItem('Mytoken').then(
             res => {
                 console.log('token', res)
-                axios.get('https://conduit.detechnovate.net/public/api/help/no', {headers: {Authorization: res}})
+                axios.get('user/help/no', {headers: {Authorization: res}})
                 .then(
                     res => {
                         // console.log('number', res.data.data[0])
@@ -185,4 +188,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default ContactUs
+export default errorHandler(ContactUs, axios);

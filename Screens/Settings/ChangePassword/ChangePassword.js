@@ -4,12 +4,15 @@ import FormInput from '../../../Components/FormInput';
 import MyAppText from '../../../Components/MyAppText';
 import PasswordIcon from '../../../assets/sliders/images/password.svg'
 import InnerBtn from '../../../Components/InnerBtn';
-import axios from 'axios';
+import axios from '../../../axios-req';
+import errorHandler from '../../ErrorHandler/errorHandler';
+
 const ChangePassword = (props) => {
     const [oldPassword, setOldPassword] = useState('');
     const [Password, setPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [button, setButton] = useState(false);
+    const [error, setError] = useState(false);
 
     const changeMyPassword = () => {
         if (oldPassword === '' || Password === '' || newPassword === '') {
@@ -27,10 +30,9 @@ const ChangePassword = (props) => {
                             c_password: newPassword
                             
                         }
-                        axios.post('https://conduit.detechnovate.net/public/api/user/change/password', data, {headers:{Authorization:res}})
+                        axios.post('user/change/password', data, {headers:{Authorization:res}})
                         .then(
                             res => {  
-                                console.log(res, "CHANGE")
                                 const message = res.data.message;
                                 alert(message)
                                 setButton(false)
@@ -38,28 +40,7 @@ const ChangePassword = (props) => {
                         )
                         .catch(err => {
                             setButton(false)
-                            const code = err.response.status;
-                            if (code === 401) {
-                                Alert.alert(
-                                    'Error!',
-                                    'Expired Token',
-                                    [
-                                      {text: 'OK', onPress: () => signOut()},
-                                    ],
-                                    { cancelable: false }
-                                  )
-                              
-                            } else {
-                                setLoader(true)
-                                Alert.alert(
-                                    'Network Error',
-                                    'Please Try Again',
-                                    [
-                                      {text: 'OK', onPress: () =>   setLoader(true)},
-                                    ],
-                                    { cancelable: false }
-                                  )
-                            }
+                            setError(true)
                         })
                     }
                 )
@@ -124,4 +105,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default ChangePassword
+export default errorHandler(ChangePassword, axios);

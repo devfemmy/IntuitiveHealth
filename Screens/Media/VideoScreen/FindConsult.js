@@ -1,21 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, ScrollView, Text, AsyncStorage, ActivityIndicator } from 'react-native';
+import { View, StyleSheet, ScrollView, Text, Image, AsyncStorage, ActivityIndicator } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Icon from '../../../assets/sliders/images/doc2.svg';
 import Icon2 from '../../../assets/sliders/images/doc.svg';
 import MyAppText from '../../../Components/MyAppText';
 import Keyback from '../../../assets/sliders/images/keyback.svg';
 import axios from '../../../axios-req';
-import { Image } from 'react-native';
+import errorHandler from '../../ErrorHandler/errorHandler';
+
 
 const FindConsult = (props) => {
     const [specialization, setSpecialization] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(false)
+
     useEffect(() => {
         const id = AsyncStorage.getItem('Mytoken').then(
             res => {
 
-                axios.get('client/specialisation', {headers: {Authorization: res}})
+                axios.get('user/client/specialisation', {headers: {Authorization: res}})
                 .then(
                     res => {
                         setLoading(false)
@@ -28,31 +31,7 @@ const FindConsult = (props) => {
                 )
                 .catch(err => {
                     setLoading(false)
-                    const code = err.response.status;
-                    if (code === 401) {
-                        Alert.alert(
-                            'Error!',
-                            'Expired Token',
-                            [
-                              {text: 'OK', onPress: () => signOut()},
-                            ],
-                            { cancelable: false }
-                          )
-                      
-                    } else {
-                        showLoaded(true)
-                        Alert.alert(
-                            'Network Error',
-                            'Please Try Again',
-                            [
-                              {text: 'OK', onPress: () => setShowBtn(true)},
-                            ],
-                            { cancelable: false }
-                          )
-                    }
-    
-                      
-                    
+                    setError(true)
     
                 })
             }
@@ -168,4 +147,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default FindConsult
+export default errorHandler(FindConsult, axios);

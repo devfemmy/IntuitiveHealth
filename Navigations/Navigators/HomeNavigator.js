@@ -21,6 +21,9 @@ import MentalHealth from '../../Screens/Media/VideoScreen/MentalHealth/MentalHea
 import IntakeForm from '../../Screens/Media/VideoScreen/MentalHealth/IntakeForm';
 import ManagePlan from '../../Screens/ManagePlan';
 import Ratings from '../../Screens/Appointments/RatingPage';
+import ExpiredToken from '../../Screens/ErrorHandler/ExpiredToken';
+import ErrorPage from '../../Screens/ErrorHandler/ErrorPage';
+import getOtp from '../../Screens/ErrorHandler/getOtp';
 
 const Stack = createStackNavigator();
 
@@ -325,6 +328,51 @@ const [error, setError] = useState(false)
           headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
         }}
           />  
+          <Stack.Screen name="Expired Token" component={ExpiredToken}
+          options={{ title: 'Expired Token', headerStyle: {
+              
+              backgroundColor: '#51087E',
+          
+              
+              
+
+          }, 
+          headerTitleStyle: {
+            fontFamily: 'HammersmithOne-Regular',
+            fontSize: 20
+          },
+          headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
+        }}
+          />
+          <Stack.Screen name="Error Page" component={ErrorPage}
+          options={{ title: 'Ouch, Something went wrong', headerStyle: {
+              
+              backgroundColor: '#51087E',
+          
+              
+              
+
+          }, 
+          headerTitleStyle: {
+            fontFamily: 'HammersmithOne-Regular',
+            fontSize: 20
+          },
+          headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
+        }}
+          />
+          <Stack.Screen name="GetToken" component={getOtp}
+          options={{ title: 'Get Token', headerStyle: {
+              backgroundColor: Platform.OS === 'android' ? '#51087E' : '#51087E',
+
+          },
+          headerTitleStyle: {
+            fontFamily: 'HammersmithOne-Regular',
+            fontSize: 20
+          },
+          // headerTransparent: true,
+          headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
+        }}
+          /> 
         </Stack.Navigator>
       </>
     )

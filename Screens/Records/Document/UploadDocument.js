@@ -10,6 +10,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import axios from '../../../axios-req';
 import ImagePicker from 'react-native-image-picker';
 import { Image } from 'react-native';
+import errorHandler from '../../ErrorHandler/errorHandler';
 
 const UploadDocument = (props) => {
     const [filename, setFileName] = useState(null);
@@ -21,6 +22,7 @@ const UploadDocument = (props) => {
     const [loading, setLoading] = useState(false);
     const [content, setContent] = useState('');
     const [imageData, setImageData] = useState('');
+    const [error, setError] = useState(false)
 
 
     const token = AsyncStorage.getItem('Mytoken').then(
@@ -133,8 +135,8 @@ const UploadDocument = (props) => {
           }).catch((err) => {
             // ...
             setLoading(false)
+            // setError(true)
             alert('failed')
-            console.log('I pray o', err)
           })
     }
 
@@ -169,8 +171,9 @@ const UploadDocument = (props) => {
         }).catch((err) => {
           // ...
           setLoading(false)
+          // setError(true)
           alert('failed')
-          console.log('I pray o', err)
+          // console.log('I pray o', err)
         })
   }
 
@@ -234,4 +237,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default UploadDocument
+export default errorHandler(UploadDocument, axios)

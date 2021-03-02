@@ -5,6 +5,7 @@ import MyAppText from '../../Components/MyAppText';
 import { Rating, AirbnbRating } from 'react-native-ratings';
 import ProfileInput from '../../Components/ProfileInput';
 import axios from '../../axios-req';
+import errorHandler from '../ErrorHandler/errorHandler';
 
 const Ratings = (props) => {
     const [title, setTitle] = useState('');
@@ -14,6 +15,7 @@ const Ratings = (props) => {
     const [rating, setRatings] = useState(0);
     const [showBtn, setShowBtn] = useState(true);
     const {history_id} = props.route.params;
+    const [error, setError] = useState(false)
 
     const  ratingCompleted = (rating) => {
         setRatings(rating)
@@ -33,7 +35,7 @@ const Ratings = (props) => {
                         rating: rating,
                         history_id: history_id
                     }
-                    axios.post('feedback/create', data, {headers: {Authorization: res}})
+                    axios.post('user/feedback/create', data, {headers: {Authorization: res}})
                     .then(
                         res => {  
                            console.log(res)
@@ -50,33 +52,8 @@ const Ratings = (props) => {
                         }
                     )
                     .catch(err => {
-                      console.log('error', err.response)
-                        const code = err.response.status;
-                        if (code === 401) {
-                            Alert.alert(
-                                'Error!',
-                                'Expired Token',
-                                [
-                                  {text: 'OK', onPress: () => signOut()},
-                                ],
-                                { cancelable: false }
-                              )
-                          
-                        } else {
-                            setShowBtn(true)
-                            Alert.alert(
-                                'Network Error',
-                                'Please Try Again',
-                                [
-                                  {text: 'OK', onPress: () => setShowBtn(true)},
-                                ],
-                                { cancelable: false }
-                              )
-                        }
-         
-                          
-                    
-         
+                        setShowBtn(true)
+                        setError(true)
                     })
                 }
             )
@@ -142,4 +119,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default Ratings
+export default errorHandler(Ratings, axios);

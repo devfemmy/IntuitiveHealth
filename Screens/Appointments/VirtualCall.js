@@ -2,11 +2,13 @@ import React, { Component, useEffect, useState } from 'react';
 import { View, Text, Dimensions, StyleSheet,AsyncStorage, Alert, TouchableOpacity } from 'react-native';
 import { OTSession, OTPublisher, OTSubscriber } from 'opentok-react-native';
 import CountDown from 'react-native-countdown-component';
-import axios from 'axios';
+import axios from '../../axios-req';
 import EndCallIcon from '../../assets/sliders/images/end_call.svg';
+import errorHandler from '../ErrorHandler/errorHandler';
 
 const VirtualCall = (props) =>  {
   const {key, sessionId, token, time_left, history_id} = props.route.params;
+  const [error, setError] = useState(false)
   // const [unique_id, setHistoryId] = useState('');
 
   const cancelMyAppointment = () => {
@@ -15,7 +17,7 @@ const VirtualCall = (props) =>  {
         const data = {
           history_id: parseInt(history_id)
         }
-          axios.post('https://conduit.detechnovate.net/public/api/user/checkout/history',data, {headers: {Authorization: res}})
+          axios.post('user/checkout/history',data, {headers: {Authorization: res}})
           .then(
               res => {
              
@@ -26,7 +28,7 @@ const VirtualCall = (props) =>  {
               }
           )
           .catch(err => {
-            console.log(err.response)
+           setError(true)
           });
   
       }
@@ -140,4 +142,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default VirtualCall
+export default errorHandler(VirtualCall, axios);

@@ -29,7 +29,7 @@ const ViewUploads = (props) => {
         const id = AsyncStorage.getItem('Mytoken').then(
             res => {
 
-                axios.get('document/list', {headers: {Authorization: res}})
+                axios.get('user/document/list', {headers: {Authorization: res}})
                 .then(
                     res => {
                         setLoading(false)

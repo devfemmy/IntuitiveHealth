@@ -5,16 +5,18 @@ import { View, StyleSheet,ActivityIndicator,AsyncStorage,
 import axios from '../axios-req';
 import MyAppText from '../Components/MyAppText';
 import SubscriptionCard from '../Components/SubscriptionCard';
+import errorHandler from './ErrorHandler/errorHandler';
 
 const SubscriptionHistory = (props) => {
     const [loading, setLoading] = useState(true);
     const [history, setHistory] = useState([]);
+    const [error, setError] = useState(false)
 
 
     const getSubHistory = () => {
         const id = AsyncStorage.getItem('Mytoken').then(
             res => {
-                axios.get('payment/history', {headers: {Authorization: res}})
+                axios.get('user/payment/history', {headers: {Authorization: res}})
                 .then(
                     res => {
                         setLoading(false) ;
@@ -25,32 +27,7 @@ const SubscriptionHistory = (props) => {
                 )
                 .catch(err => {
                     setLoading(false)
-                    const code = err.response.status;
-                    if (code === 401) {
-                        Alert.alert(
-                            'Error!',
-                            'Expired Token',
-                            [
-                              {text: 'OK', onPress: () => null},
-                            ],
-                            { cancelable: false }
-                          )
-                      
-                    } else {
-                        // showLoaded(true)
-                        Alert.alert(
-                            'Network Error',
-                            'Please Try Again',
-                            [
-                              {text: 'OK', onPress: () => setShowBtn(true)},
-                            ],
-                            { cancelable: false }
-                          )
-                    }
-    
-                      
-                    
-    
+                    setError(true)
                 })
             }
         )
@@ -120,4 +97,4 @@ const styles = StyleSheet.create({
       },
 });
 
-export default SubscriptionHistory
+export default errorHandler(SubscriptionHistory, axios);

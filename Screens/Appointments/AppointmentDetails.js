@@ -5,7 +5,8 @@ import MyAppText from '../../Components/MyAppText';
 import InnerBtn from '../../Components/InnerBtn';
 import PhoneIcon from '../../assets/sliders/images/phone.svg';
 import ChatIcon from '../../assets/sliders/images/vc.svg';
-import axios from 'axios';
+import axios from '../../axios-req';
+import errorHandler from '../ErrorHandler/errorHandler';
 
 const AppointmentDetails = (props) => {
     const {doctor, lastname, image, slot_id, time, patient_session, status} = props.route.params;
@@ -19,13 +20,14 @@ const AppointmentDetails = (props) => {
     const [apiKey, setKey] = useState('');
     const [time_left, setTimeLeft] = useState('');
     const [history_id, setHistory_id] = useState('');
+    const [error, setError] = useState(false)
 
     let interval = null;
 
     const getToken = () => {
         const id = AsyncStorage.getItem('Mytoken').then(
             res => {
-                axios.get(`https://conduit.detechnovate.net/public/api/user/my/slots/token/${patient_session}`, {headers: {Authorization: res}})
+                axios.get(`user/my/slots/token/${patient_session}`, {headers: {Authorization: res}})
                 .then(
                   
                     res => { 
@@ -50,36 +52,8 @@ const AppointmentDetails = (props) => {
                     }
                 )
                 .catch(err => {
-                    console.log(err.response, "error")
-                    const message = err.response.data.message
-                    setLoading(false)      
-                    const code = err.response.status;
-                    if (code === 401) {
-                        Alert.alert(
-                            'Error!',
-                            'Expired Token',
-                            [
-                              {text: 'OK', onPress: () => signOut()},
-                            ],
-                            { cancelable: false }
-                          )
-                      
-                    } else if (code === 400) {
-                      setLoading(false)
-                        Alert.alert(
-                            'Error!',
-                            message,
-                            [
-                              {text: 'OK', onPress: () =>  setLoading(false)},
-                            ],
-                            { cancelable: false }
-                          )
-                    } else {
-                        // alert('Please try again')
-                    }
-    
-                      
-                      console.log(err.response.status)
+                    setLoading(false)   
+                    setError(true)   
     
                 })
             }
@@ -144,7 +118,7 @@ const AppointmentDetails = (props) => {
         setLoading(true)        
         const id = AsyncStorage.getItem('Mytoken').then(
             res => {
-                axios.get(`https://conduit.detechnovate.net/public/api/user/my/slot/cancel/${slot_id}`, {headers: {Authorization: res}})
+                axios.get(`user/my/slot/cancel/${slot_id}`, {headers: {Authorization: res}})
                 .then(
                   
                     res => {
@@ -163,35 +137,8 @@ const AppointmentDetails = (props) => {
                     }
                 )
                 .catch(err => {
-                    console.log(err.response.data.message, "error")
-                    const message = err.response.data.message
-                    setLoading(false)      
-                    const code = err.response.status;
-                    if (code === 401) {
-                        Alert.alert(
-                            'Error!',
-                            'Expired Token',
-                            [
-                              {text: 'OK', onPress: () => signOut()},
-                            ],
-                            { cancelable: false }
-                          )
-                      
-                    } else {
-                      setLoading(false)
-                        Alert.alert(
-                            'Error!',
-                            message,
-                            [
-                              {text: 'OK', onPress: () =>  setLoading(false)},
-                            ],
-                            { cancelable: false }
-                          )
-                    }
-    
-                      
-                      console.log(err.response.status)
-    
+                    setLoading(false);
+                    setError(true)        
                 })
             }
         )
@@ -367,4 +314,4 @@ const AppointmentDetails = (props) => {
 
 
 
-export default AppointmentDetails
+export default errorHandler(AppointmentDetails, axios);

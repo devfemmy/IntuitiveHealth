@@ -7,6 +7,7 @@ import Logo from '../assets/sliders/images/logo.svg';
 import MyAppText from '../Components/MyAppText';
 import ProfileInput from '../Components/ProfileInput';
 import axios from '../axios-req';
+import errorHandler from './ErrorHandler/errorHandler';
 
 const BuyPlan = (props) => {
     const [firstname, setFirstname] = useState('');
@@ -15,7 +16,7 @@ const BuyPlan = (props) => {
     const {plan} = props.route.params;
     const [paymentPlans, setPaymentPlans] = useState([]);
     const [loading, setLoading] = useState(true);
-
+    const [error, setError] = useState(false)
     const [amount, setAmount] = useState('');
     const [referenceNum, setReferenceNum] = useState('');
 
@@ -26,7 +27,7 @@ const BuyPlan = (props) => {
                 const data = {
                     subscription_name: plan
                 }
-                axios.post('payment/initiate', data, {headers: {Authorization: res}})
+                axios.post('user/payment/initiate', data, {headers: {Authorization: res}})
                 .then(
                     res => {
                         setLoading(false)
@@ -40,32 +41,8 @@ const BuyPlan = (props) => {
                     }
                 )
                 .catch(err => {
-                    setLoading(false)
-                    const code = err.response.status;
-                    if (code === 401) {
-                        Alert.alert(
-                            'Error!',
-                            'Expired Token',
-                            [
-                              {text: 'OK', onPress: () => null},
-                            ],
-                            { cancelable: false }
-                          )
-                      
-                    } else {
-                        // showLoaded(true)
-                        Alert.alert(
-                            'Network Error',
-                            'Please Try Again',
-                            [
-                              {text: 'OK', onPress: () => setShowBtn(true)},
-                            ],
-                            { cancelable: false }
-                          )
-                    }
-    
-                      
-                    
+                    setLoading(false);
+                    setError(true);
     
                 })
             }
@@ -85,7 +62,7 @@ const BuyPlan = (props) => {
                 const data = {
                   trans_code: ref_no
                 }
-                axios.post('payment/confirm', data, {headers: {Authorization: res}})
+                axios.post('user/payment/confirm', data, {headers: {Authorization: res}})
                 .then(
                     res => {
                         setLoading(false)
@@ -100,34 +77,7 @@ const BuyPlan = (props) => {
                 )
                 .catch(err => {
                     setLoading(false);
-                    // props.navigation.popToTop()
-                    const errorMess = err.response;
-                    console.log("error", errorMess)
-                    // const code = err.response.status;
-                    // if (code === 401) {
-                    //     Alert.alert(
-                    //         'Error!',
-                    //         'Expired Token',
-                    //         [
-                    //           {text: 'OK', onPress: () => null},
-                    //         ],
-                    //         { cancelable: false }
-                    //       )
-                      
-                    // } else {
-                    //     // showLoaded(true)
-                    //     Alert.alert(
-                    //         'Network Error',
-                    //         'Please Try Again',
-                    //         [
-                    //           {text: 'OK', onPress: () => null},
-                    //         ],
-                    //         { cancelable: false }
-                    //       )
-                    // }
-    
-                      
-                    
+                    setError(true);   
     
                 })
             }
@@ -221,4 +171,4 @@ const styles = StyleSheet.create({
       },
 });
 
-export default BuyPlan
+export default errorHandler (BuyPlan, axios)

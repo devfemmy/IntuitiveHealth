@@ -4,19 +4,21 @@ import CallIcon from '../../assets/sliders/images/ccphone1.svg';
 import MyAppText from '../../Components/MyAppText';
 import PhoneIcon from '../../assets/sliders/images/phone1.svg';
 import InnerBtn from '../../Components/InnerBtn';
-import axios from 'axios';
+import axios from '../../axios-req';
+import errorHandler from '../ErrorHandler/errorHandler';
 // import ImageIcon from '../../assets/sliders/images/ccphone.png';
 
 const VoiceCall = () => {
     const [phone, setPhone] = useState('');
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(false)
 
 
     useEffect(() => {
         const id = AsyncStorage.getItem('Mytoken').then(
             res => {
                 console.log('token', res)
-                axios.get('https://conduit.detechnovate.net/public/api/conduithealth/phone', {headers: {Authorization: res}})
+                axios.get('conduithealth/phone', {headers: {Authorization: res}})
                 .then(
                     res => {
                         // console.log('number', res.data.data[0])
@@ -31,31 +33,7 @@ const VoiceCall = () => {
                 )
                 .catch(err => {
                     setLoading(false)
-                    const code = err.response.status;
-                    if (code === 401) {
-                        Alert.alert(
-                            'Error!',
-                            'Expired Token',
-                            [
-                              {text: 'OK', onPress: () => signOut()},
-                            ],
-                            { cancelable: false }
-                          )
-                      
-                    } else {
-                        // showLoaded(true)
-                        Alert.alert(
-                            'Network Error',
-                            'Please Try Again',
-                            [
-                              {text: 'OK', onPress: () => console.log(err)},
-                            ],
-                            { cancelable: false }
-                          )
-                    }
-    
-                      
-                      console.log(err.response.status)
+                    setError(true)
     
                 });
 
@@ -122,4 +100,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default VoiceCall
+export default errorHandler(VoiceCall, axios);

@@ -10,8 +10,7 @@ import MyAppText from '../../../Components/MyAppText';
 import SlotIconText from '../../../Components/SlotIconText';
 import Icon from 'react-native-vector-icons/Ionicons';
 import SlotPicker from '../../../Components/SlotPicker';
-import { useLinkProps } from '@react-navigation/native';
-import axios from 'axios';
+import axios from '../../../axios-req';
 import UnavailableDoctor from '../../../Components/UnavailableDoc';
 
 const TimeSlot = (props) => {
@@ -30,7 +29,7 @@ const TimeSlot = (props) => {
     useEffect(() => {
         const id = AsyncStorage.getItem('Mytoken').then(
             res => {
-                axios.get(`https://conduit.detechnovate.net/public/api/conduithealth/doctor/slots/${doctor_id}`, {headers: {Authorization: res}})
+                axios.get(`conduithealth/doctor/slots/${doctor_id}`, {headers: {Authorization: res}})
                 .then(
                   
                     res => {

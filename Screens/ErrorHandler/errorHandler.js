@@ -53,6 +53,17 @@ const errorHandler = (WrappedComponent, axios) => {
                     { cancelable: false }
                   )
               
+               } else if (status === 400) {
+                Alert.alert(
+                    "Error",
+                    msg,
+                    [
+                      {text: 'OK', onPress: () => this.props.navigation.navigate('Expired Token') },
+                    ],
+                    { cancelable: false }
+                  )
+               } else {
+                this.props.navigation.navigate('Error Page')
                }
  
             });

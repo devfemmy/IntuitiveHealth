@@ -8,19 +8,21 @@ import MyAppText from '../../../Components/MyAppText';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import SlotIconText from '../../../Components/SlotIconText';
 import Icon from 'react-native-vector-icons/Ionicons';
+import errorHandler from '../../ErrorHandler/errorHandler';
 
 
 
 const ShowActiveSessions = (props) => {
     const [doctors, setDoctors] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [showDoctor, showNoDoctor] = useState(false)
+    const [showDoctor, showNoDoctor] = useState(false);
+    const [error, setError] = useState(false)
 
       const fetchActiveSessions = () => {
         const id = AsyncStorage.getItem('Mytoken').then(
             res => {
 
-                axios.get('my/slots/sessions', {headers: {Authorization: res}})
+                axios.get('user/my/slots/sessions', {headers: {Authorization: res}})
                 .then(
                     res => {
                         setLoading(false)
@@ -40,31 +42,7 @@ const ShowActiveSessions = (props) => {
                 )
                 .catch(err => {
                     setLoading(false)
-                    const code = err.response.status;
-                    if (code === 401) {
-                        Alert.alert(
-                            'Error!',
-                            'Expired Token',
-                            [
-                              {text: 'OK', onPress: () => signOut()},
-                            ],
-                            { cancelable: false }
-                          )
-                      
-                    } else {
-                        showLoaded(true)
-                        Alert.alert(
-                            'Network Error',
-                            'Please Try Again',
-                            [
-                              {text: 'OK', onPress: () => setShowBtn(true)},
-                            ],
-                            { cancelable: false }
-                          )
-                    }
-    
-                      
-                    
+                    setError(true)                    
     
                 })
             }
@@ -163,4 +141,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default ShowActiveSessions
+export default errorHandler(ShowActiveSessions, axios)

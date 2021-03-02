@@ -5,12 +5,14 @@ import InnerBtn from '../../Components/InnerBtn';
 import MyAppText from '../../Components/MyAppText';
 import axios from '../../axios-req';
 import RadioButton from '../../Components/RadioButtons';
+import errorHandler from '../ErrorHandler/errorHandler';
 
 
 const LifeStyle = (props) => {
     const [showBtn, setShowBtn] = useState(true);
     const [questions, setQuestions] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(false)
 
     const toggleSwitch = (index) => {
       alert(index)
@@ -22,7 +24,7 @@ const LifeStyle = (props) => {
       const id = AsyncStorage.getItem('Mytoken').then(
           res => {
              console.log('synch', res)
-              axios.get('lifestyle/questions', {headers: {Authorization: res}})
+              axios.get('user/lifestyle/questions', {headers: {Authorization: res}})
               .then(
                   res => {
                     setLoading(false)
@@ -35,32 +37,7 @@ const LifeStyle = (props) => {
               .catch(err => {
                 console.log(err)
                 setLoading(false)
-                  const code = err.response.status;
-                  if (code === 401) {
-                      Alert.alert(
-                          'Error!',
-                          'Expired Token',
-                          [
-                            {text: 'OK', onPress: () => signOut()},
-                          ],
-                          { cancelable: false }
-                        )
-                    
-                  } else {
-                    setLoading(false)
-                    console.log(err)
-                      Alert.alert(
-                          'Network Error',
-                          'Please Try Again',
-                          [
-                            {text: 'OK', onPress: () => setShowBtn(true)},
-                          ],
-                          { cancelable: false }
-                        )
-                  }
-  
-                    
-                    console.log(err.response.status)
+                setError(true)
   
               })
           }
@@ -87,7 +64,7 @@ const LifeStyle = (props) => {
               }
             );
              const data = sortedData;
-             axios.post('lifestyle/answers', {response:data}, {headers: {Authorization: res}})
+             axios.post('user/lifestyle/answers', {response:data}, {headers: {Authorization: res}})
              .then(
                  res => {  
                     // console.log(res)
@@ -99,31 +76,7 @@ const LifeStyle = (props) => {
              .catch(err => {
                 setShowBtn(true)
                 // console.log(err.response)
-                 const code = err.response.status;
-                 if (code === 401) {
-                     Alert.alert(
-                         'Error!',
-                         'Expired Token',
-                         [
-                           {text: 'OK', onPress: () => signOut()},
-                         ],
-                         { cancelable: false }
-                       )
-                   
-                 } else {
-                     setShowBtn(true)
-                     Alert.alert(
-                         'Network Error',
-                         'Please Try Again',
-                         [
-                           {text: 'OK', onPress: () => setShowBtn(true)},
-                         ],
-                         { cancelable: false }
-                       )
-                 }
-  
-                   
-             
+                setError(true)
   
              })
          }
@@ -288,4 +241,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default LifeStyle;
+export default errorHandler(LifeStyle, axios);

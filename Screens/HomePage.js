@@ -7,10 +7,11 @@ import Logo from '../assets/sliders/images/home.svg';
 import Logo1 from '../assets/sliders/images/home1.svg';
 import MyAppText from '../Components/MyAppText';
 import Arrow from '../assets/sliders/images/arrow2.svg';
-import axios from 'axios';
+import axios from '../axios-req';
 import Carousel from 'react-native-snap-carousel';
 import HomeOverlay from '../Components/HomeOverlay';
 import { Container, Header, Content, Button, Toast } from "native-base";
+// import errorHandler from './ErrorHandler/errorHandler';
 // import errorHandler from './ErrorHandler/errorHandler';
 // import Card from '../assets/sliders/images/placard.svg'
 
@@ -65,7 +66,7 @@ const HomeScreen = (props) => {
         const id = AsyncStorage.getItem('Mytoken').then(
             res => {
                console.log('home', res);
-               axios.get('https://conduit.detechnovate.net/public/api/conduithealth/sliders', {headers: {Authorization: res}})
+               axios.get('conduithealth/sliders', {headers: {Authorization: res}})
                .then(
                 res => {
                     console.log("home1", res.data)
@@ -76,35 +77,9 @@ const HomeScreen = (props) => {
                 }
             )
             .catch(err => {
-                // setError(true)
-                const code = err.response.status;
-                if (code === 401) {
-                    Alert.alert(
-                        'Error!',
-                        'Expired Token',
-                        [
-                          {text: 'OK', onPress: () => signOut()},
-                        ],
-                        { cancelable: false }
-                      )
-                  
-                } else {
-                    showLoaded(true)
-                    Alert.alert(
-                        'Network Error',
-                        'Please Try Again',
-                        [
-                          {text: 'OK', onPress: () => setShowBtn(true)},
-                        ],
-                        { cancelable: false }
-                      )
-                }
-
-                  
-                  console.log(err.response.status)
-
+                props.navigation.navigate('Error Page')
             });
-            axios.get('https://conduit.detechnovate.net/public/api/conduithealth/mental/sliders', {headers: {Authorization: res}})
+            axios.get('conduithealth/mental/sliders', {headers: {Authorization: res}})
             .then(
              res => {
                  console.log("home2", res.data)
@@ -117,34 +92,10 @@ const HomeScreen = (props) => {
              }
          )
          .catch(err => {
-             const code = err.response.status;
-             if (code === 401) {
-                 Alert.alert(
-                     'Error!',
-                     'Expired Token',
-                     [
-                       {text: 'OK', onPress: () => signOut()},
-                     ],
-                     { cancelable: false }
-                   )
-               
-             } else {
-                 showLoaded(true)
-                 Alert.alert(
-                     'Network Error',
-                     'Please Try Again',
-                     [
-                       {text: 'OK', onPress: () => setShowBtn(true)},
-                     ],
-                     { cancelable: false }
-                   )
-             }
-
-               
-               console.log(err.response.status)
+            props.navigation.navigate('Error Page')
 
          });
-         axios.get('https://conduit.detechnovate.net/public/api/conduithealth/ad/image', {headers: {Authorization: res}})
+         axios.get('conduithealth/ad/image', {headers: {Authorization: res}})
          .then(
           res => {
             //   console.log("home3", res.data)
@@ -154,35 +105,11 @@ const HomeScreen = (props) => {
           }
       )
       .catch(err => {
-          const code = err.response.status;
-          if (code === 401) {
-              Alert.alert(
-                  'Error!',
-                  'Expired Token',
-                  [
-                    {text: 'OK', onPress: () => signOut()},
-                  ],
-                  { cancelable: false }
-                )
-            
-          } else {
-              showLoaded(true)
-              Alert.alert(
-                  'Network Error',
-                  'Please Try Again',
-                  [
-                    {text: 'OK', onPress: () => setShowBtn(true)},
-                  ],
-                  { cancelable: false }
-                )
-          }
-
-            
-            console.log(err.response.status)
+        props.navigation.navigate('Error Page')
 
       });
 
-                axios.get('https://conduit.detechnovate.net/public/api/conduithealth/doctors/1', {headers: {Authorization: res}})
+                axios.get('conduithealth/doctors/1', {headers: {Authorization: res}})
                 .then(
                     res => {
                         console.log("home", res.data)
@@ -192,31 +119,7 @@ const HomeScreen = (props) => {
                     }
                 )
                 .catch(err => {
-                    const code = err.response.status;
-                    if (code === 401) {
-                        Alert.alert(
-                            'Error!',
-                            'Expired Token',
-                            [
-                              {text: 'OK', onPress: () => signOut()},
-                            ],
-                            { cancelable: false }
-                          )
-                      
-                    } else {
-                        showLoaded(true)
-                        Alert.alert(
-                            'Network Error',
-                            'Please Try Again',
-                            [
-                              {text: 'OK', onPress: () => setShowBtn(true)},
-                            ],
-                            { cancelable: false }
-                          )
-                    }
-    
-                      
-                      console.log(err.response.status)
+                    props.navigation.navigate('Error Page')
     
                 })
             }
@@ -527,4 +430,4 @@ const styles = StyleSheet.create({
     }
 
 })
-export default HomeScreen
+export default HomeScreen;

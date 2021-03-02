@@ -21,6 +21,8 @@ import PaymentPage from '../../Screens/PaymentPage';
 import BuyPlan from '../../Screens/BuyPlan';
 import RegisterUser from '../../Screens/RegisterUser';
 import GetOtp from '../../Screens/ErrorHandler/getOtp';
+import ExpiredToken from '../../Screens/ErrorHandler/ExpiredToken';
+import ErrorPage from '../../Screens/ErrorHandler/ErrorPage';
 
 const Stack = createStackNavigator();
 
@@ -184,6 +186,38 @@ const LoginNavigator = (props) => {
           />
           <Stack.Screen name="Contact" component={ContactUs}
           options={{ title: 'Contact Us', headerStyle: {
+              
+              backgroundColor: '#51087E',
+          
+              
+              
+
+          }, 
+          headerTitleStyle: {
+            fontFamily: 'HammersmithOne-Regular',
+            fontSize: 20
+          },
+          headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
+        }}
+          />
+          <Stack.Screen name="Expired Token" component={ExpiredToken}
+          options={{ title: 'Expired Token', headerStyle: {
+              
+              backgroundColor: '#51087E',
+          
+              
+              
+
+          }, 
+          headerTitleStyle: {
+            fontFamily: 'HammersmithOne-Regular',
+            fontSize: 20
+          },
+          headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
+        }}
+          />
+          <Stack.Screen name="Error Page" component={ErrorPage}
+          options={{ title: 'Ouch, Something went wrong', headerStyle: {
               
               backgroundColor: '#51087E',
           

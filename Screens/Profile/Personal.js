@@ -5,6 +5,7 @@ import ProfileInput from '../../Components/ProfileInput';
 import axios from '../../axios-req';
 import { Container, Header, Content, DatePicker,Icon, Picker, Form } from 'native-base'
 import MyAppText from '../../Components/MyAppText';
+import errorHandler from '../ErrorHandler/errorHandler';
 
 const Personal = (props) => {
     // const [dob, setDob] = React.useState('java');
@@ -23,13 +24,14 @@ const Personal = (props) => {
     const [chosenDate, setChosenDate] = useState(new Date);
     const [dateToBeSent, setDateToBeSent] = useState(new Date);
     const [selected, setSelected] = useState("M");
+    const [error, setError] = useState(false)
     
     
     useEffect(() => {
       const id = AsyncStorage.getItem('Mytoken').then(
           res => {
             //  console.log('synch', res)
-              axios.get('details', {headers: {Authorization: res}})
+              axios.get('user/details', {headers: {Authorization: res}})
               .then(
                 
                   res => {
@@ -62,30 +64,8 @@ const Personal = (props) => {
               )
               .catch(err => {
                   const code = err.response.status;
-                  if (code === 401) {
-                      Alert.alert(
-                          'Error!',
-                          'Expired Token',
-                          [
-                            {text: 'OK', onPress: () => signOut()},
-                          ],
-                          { cancelable: false }
-                        )
-                    
-                  } else {
-                    setLoading(false)
-                      Alert.alert(
-                          'Network Error',
-                          'Please Try Again',
-                          [
-                            {text: 'OK', onPress: () => setShowBtn(true)},
-                          ],
-                          { cancelable: false }
-                        )
-                  }
-  
-                    
-                    console.log(err.response.status)
+                  setLoading(false)
+                  setError(true)
   
               })
           }
@@ -134,7 +114,7 @@ const Personal = (props) => {
                     genotype: genoType,
                     blood_group: bloodGroup
                 }
-                axios.post('update', data, {headers: {Authorization: res}})
+                axios.post('user/update', data, {headers: {Authorization: res}})
                 .then(
                     res => {  
                        console.log(res)
@@ -145,33 +125,8 @@ const Personal = (props) => {
                 )
                 .catch(err => {
                   console.log('error', err.response)
-                    // const message = err.response.message;
-                    const code = err.response.status;
-                    if (code === 401) {
-                        Alert.alert(
-                            'Error!',
-                            'Expired Token',
-                            [
-                              {text: 'OK', onPress: () => signOut()},
-                            ],
-                            { cancelable: false }
-                          )
-                      
-                    } else {
-                        setShowBtn(true)
-                        Alert.alert(
-                            'Something went wrong',
-                            'Please try later',
-                            [
-                              {text: 'OK', onPress: null},
-                            ],
-                            { cancelable: false }
-                          )
-                    }
-     
-                      
-                
-     
+                  setShowBtn(true);
+                  setError(true)
                 })
             }
         )
@@ -398,4 +353,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default Personal;
+export default errorHandler(Personal, axios);

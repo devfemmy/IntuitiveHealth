@@ -5,6 +5,7 @@ import axios from '../../axios-req';
 import ProfileCard from '../../Components/ProfileCard';
 import MyAppText from '../../Components/MyAppText';
 import InnerBtn from '../../Components/InnerBtn';
+import errorHandler from '../ErrorHandler/errorHandler';
 
 
 
@@ -17,13 +18,14 @@ const Comments = (props) => {
     const [last_name, setLastname] = useState('');
     const [topic, setTopic] = useState('');
     const [history_id, setHistory_id] = useState('');
+    const [error, setError] = useState(false)
 
     let showBtn = null;
     useEffect(() => {
         const token = AsyncStorage.getItem('Mytoken').then(
             res => {
 
-                axios.get(`second/get/${id}`, {headers: {Authorization: res}})
+                axios.get(`user/second/get/${id}`, {headers: {Authorization: res}})
                 .then(
                     res => {
                         setLoading(false)
@@ -43,29 +45,8 @@ const Comments = (props) => {
                     }
                 )
                 .catch(err => {
-                    console.log(err.response)
                     setLoading(false)
-                    const code = err.response.status;
-                    if (code === 401) {
-                        Alert.alert(
-                            'Error!',
-                            'Expired Token',
-                            [
-                              {text: 'OK', onPress: () => signOut()},
-                            ],
-                            { cancelable: false }
-                          )
-                      
-                    } else {
-                        Alert.alert(
-                            'Network Error',
-                            'Please Try Again',
-                            [
-                              {text: 'OK'},
-                            ],
-                            { cancelable: false }
-                          )
-                    }
+                    setError(true)
     
                       
                     
@@ -167,4 +148,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default Comments;
+export default errorHandler(Comments, axios);

@@ -4,7 +4,7 @@ import axios from 'axios';
 const instance = axios.create({//http://192.168.64.2/api_call/
       
     // baseURL: 'http://192.168.64.2/api_call/',
-    baseURL: 'https://conduit.detechnovate.net/public/api/user/',
+    baseURL: 'https://conduit.detechnovate.net/public/api/',
     headers:{
         // Authorization: `Bearer ${token}`,
         // 'Content-Type': 'multipart/form-data',

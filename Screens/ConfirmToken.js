@@ -6,13 +6,14 @@ import MyBtn from '../Components/MyBtn';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import CustomHeaderButton from '../Components/HeaderButton';
 import InnerBtn from '../Components/InnerBtn';
-import axios from 'axios';
+import axios from '../axios-req';
+import errorHandler from './ErrorHandler/errorHandler';
 
 const ConfirmToken = (props) => {
   const [password, setPassword] = useState('');
-
   const {token, email} = props.route.params;
   const [button, setButton] = useState(false);
+  const [error, setError] = useState(false)
 
 
 const resetPassword = () => {
@@ -25,10 +26,10 @@ const resetPassword = () => {
           email: email,
           password: password
       }
-      axios.post('https://conduit.detechnovate.net/public/api/conduithealth/user/reset/password', data)
+      axios.post('user/reset/password', data)
       .then( res => {
         setButton(false)
-          console.log('password', res.data)
+        console.log('password', res.data)
         const response = res.data.message;
         const reset_token = res.data.data.reset_token;
         const email = res.data.data.email
@@ -49,32 +50,9 @@ const resetPassword = () => {
         // }
         
       }).catch(err => {
-          setButton(false)
-          const code = err.response.status;
-          if (code === 400) {
-            alert('Network Error, Please Try Again')
-          }
-          if (code === 401) {
-              Alert.alert(
-                  'Error!',
-                  'Expired Token',
-                  [
-                    {text: 'OK', onPress: () => signOut()},
-                  ],
-                  { cancelable: false }
-                )
-            
-          } else {
-            //   setBtn(false)
-              Alert.alert(
-                  'Network Error',
-                  'Please Try Again',
-                  [
-                    {text: 'OK', onPress: () =>  setButton(false)},
-                  ],
-                  { cancelable: false }
-                )
-          }
+          setButton(false);
+          setError(true)
+          
       })
      
 
@@ -188,4 +166,4 @@ const styles = StyleSheet.create({
     resizeMode: 'contain'
   }
 })
-export default ConfirmToken
+export default errorHandler(ConfirmToken, axios);

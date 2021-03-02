@@ -4,16 +4,18 @@ import MyAppText from '../../Components/MyAppText';
 import AppointmentCard from '../../Components/AppointmentCard';
 import InnerBtn from '../../Components/InnerBtn';
 import axios from '../../axios-req';
+import errorHandler from '../ErrorHandler/errorHandler';
 
 const AppointmentPage = (props) => {
     const [appointments, setAppointment] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(false);
 
     const fetchAppointments = () => {
         const id = AsyncStorage.getItem('Mytoken').then(
             res => {
 
-                axios.get('my/slots', {headers: {Authorization: res}})
+                axios.get('user/my/slots', {headers: {Authorization: res}})
                 .then(
                     res => {
                         setLoading(false)
@@ -24,32 +26,7 @@ const AppointmentPage = (props) => {
                 )
                 .catch(err => {
                     setLoading(false)
-                    const code = err.response.status;
-                    if (code === 401) {
-                        Alert.alert(
-                            'Error!',
-                            'Expired Token',
-                            [
-                              {text: 'OK', onPress: () => signOut()},
-                            ],
-                            { cancelable: false }
-                          )
-                      
-                    } else {
-                        // showLoaded(true)
-                        Alert.alert(
-                            'Network Error',
-                            'Please Try Again',
-                            [
-                              {text: 'OK', onPress: () => setShowBtn(true)},
-                            ],
-                            { cancelable: false }
-                          )
-                    }
-    
-                      
-                    
-    
+                    setError(true)
                 })
             }
         )
@@ -214,4 +191,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default AppointmentPage
+export default errorHandler(AppointmentPage, axios);

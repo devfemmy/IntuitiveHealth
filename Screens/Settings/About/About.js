@@ -3,11 +3,13 @@ import { View, StyleSheet,Alert, ScrollView,ActivityIndicator, AsyncStorage } fr
 import { WebView } from 'react-native-webview';
 import { IGNORED_TAGS, alterNode, makeTableRenderer } from 'react-native-render-html-table-bridge';
 import HTML from 'react-native-render-html';
-import axios from 'axios';
+import axios from '../../../axios-req';
+import errorHandler from '../../ErrorHandler/errorHandler';
 
 const About = (props) => {
     const [loading, setLoading] = useState(true);
     const [content, setData] = useState('');
+    const [error, setError] = useState(false)
     const html = `${content}`;
     
     
@@ -15,7 +17,7 @@ const About = (props) => {
       const id = AsyncStorage.getItem('Mytoken').then(
           res => {
              console.log('synch', res)
-              axios.get('https://conduit.detechnovate.net/public/api/conduithealth/about', {headers: {Authorization: res}})
+              axios.get('conduithealth/about', {headers: {Authorization: res}})
               .then(
                 
                   res => {
@@ -26,31 +28,8 @@ const About = (props) => {
                   }
               )
               .catch(err => {
-                  const code = err.response.status;
-                  if (code === 401) {
-                      Alert.alert(
-                          'Error!',
-                          'Expired Token',
-                          [
-                            {text: 'OK', onPress: () => signOut()},
-                          ],
-                          { cancelable: false }
-                        )
-                    
-                  } else {
-                    setLoading(false)
-                      Alert.alert(
-                          'Network Error',
-                          'Please Try Again',
-                          [
-                            {text: 'OK', onPress: () => setShowBtn(true)},
-                          ],
-                          { cancelable: false }
-                        )
-                  }
-  
-                    
-                    console.log(err.response.status)
+                setLoading(false)
+                setError(true)
   
               })
           }
@@ -164,4 +143,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default About;
+export default errorHandler(About, axios);

@@ -4,17 +4,20 @@ import DoctorCard from '../../../Components/DoctorCard';
 import MyAppText from '../../../Components/MyAppText';
 import ProfileCard from '../../../Components/ProfileCard';
 import axios from '../../../axios-req'
+import errorHandler from '../../ErrorHandler/errorHandler';
 
 
 
 const DoctorsNote = (props) => {
     const [notes, setNotes] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(false);
+
     useEffect(() => {
         const id = AsyncStorage.getItem('Mytoken').then(
             res => {
 
-                axios.get('notes/show', {headers: {Authorization: res}})
+                axios.get('user/notes/show', {headers: {Authorization: res}})
                 .then(
                     res => {
                         setLoading(false)
@@ -26,27 +29,7 @@ const DoctorsNote = (props) => {
                 )
                 .catch(err => {
                     setLoading(false)
-                    const code = err.response.status;
-                    if (code === 401) {
-                        Alert.alert(
-                            'Error!',
-                            'Expired Token',
-                            [
-                              {text: 'OK', onPress: () => signOut()},
-                            ],
-                            { cancelable: false }
-                          )
-                      
-                    } else {
-                        Alert.alert(
-                            'Network Error',
-                            'Please Try Again',
-                            [
-                              {text: 'OK'},
-                            ],
-                            { cancelable: false }
-                          )
-                    }
+                    setError(true);
     
                       
                     
@@ -65,7 +48,6 @@ const DoctorsNote = (props) => {
           </View>
         );
       }
-      console.log('my notes', notes)
     return (
         <ScrollView style= {styles.container}>
             {notes.length === 0 ? (<MyAppText style= {{textAlign: 'center'}}>No data present</MyAppText>) : null}
@@ -146,4 +128,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default DoctorsNote
+export default errorHandler(DoctorsNote, axios);

@@ -4,7 +4,7 @@ import CallIcon from '../../assets/sliders/images/ccphone1.svg';
 import MyAppText from '../../Components/MyAppText';
 import PhoneIcon from '../../assets/sliders/images/phone1.svg';
 import InnerBtn from '../../Components/InnerBtn';
-import axios from 'axios';
+import axios from '../../axios-req';
 // import ImageIcon from '../../assets/sliders/images/ccphone.png';
 
 const EmergencyVoice = () => {
@@ -16,7 +16,7 @@ const EmergencyVoice = () => {
         const id = AsyncStorage.getItem('Mytoken').then(
             res => {
                 console.log('token', res)
-                axios.get('https://conduit.detechnovate.net/public/api/conduithealth/phone', {headers: {Authorization: res}})
+                axios.get('conduithealth/phone', {headers: {Authorization: res}})
                 .then(
                     res => {
                         // console.log('number', res.data.data[0])

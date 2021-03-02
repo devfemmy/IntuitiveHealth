@@ -5,8 +5,9 @@ import MyBtn from '../Components/MyBtn';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import CustomHeaderButton from '../Components/HeaderButton';
 import InnerBtn from '../Components/InnerBtn';
-import axios from 'axios';
+import axios from '../axios-req';
 import MyAppText from '../Components/MyAppText';
+import errorHandler from './ErrorHandler/errorHandler';
 
 const RegisterUser = (props) => {
  const [firstname, setFirstName] = useState('');
@@ -15,6 +16,7 @@ const RegisterUser = (props) => {
  const [c_password, setConfirmPas] = useState('')
   const [email, setEmail] = useState('');
   const [button, setButton] = useState(false);
+  const [error, setError] = useState(false)
 
   const resetPassword = () => {
     if (email === '' || firstname === '' || last_name === '' 
@@ -31,7 +33,7 @@ const RegisterUser = (props) => {
           c_password: c_password.trim(),
           email: email.trim()
       }
-      axios.post('https://conduit.detechnovate.net/public/api/conduithealth/user/register', data)
+      axios.post('conduithealth/user/register', data)
       .then( res => {
         setButton(false)
           console.log('register', res.data)
@@ -54,32 +56,7 @@ const RegisterUser = (props) => {
         
       }).catch(err => {
           setButton(false);
-          console.log("errors", err.response)
-          const code = err.response.status;
-          if (code === 400) {
-            alert('Incorrect Email')
-          }
-          if (code === 401) {
-              Alert.alert(
-                  'Error!',
-                  'Expired Token',
-                  [
-                    {text: 'OK', onPress: () => signOut()},
-                  ],
-                  { cancelable: false }
-                )
-            
-          } else {
-              setBtn(false)
-              Alert.alert(
-                  'Network Error',
-                  'Please Try Again',
-                  [
-                    {text: 'OK', onPress: () =>  setBtn(false)},
-                  ],
-                  { cancelable: false }
-                )
-          }
+          setError(true)
       })
      
 
@@ -238,4 +215,4 @@ const styles = StyleSheet.create({
     resizeMode: 'contain'
   }
 })
-export default RegisterUser
+export default errorHandler(RegisterUser, axios);

@@ -6,6 +6,7 @@ import MyAppText from '../../Components/MyAppText';
 import VitalInput from '../../Components/VitalInput';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import axios from '../../axios-req';
+import errorHandler from '../ErrorHandler/errorHandler';
 
 const CheckBmi = (props) => {
     const [dob, setDob] = React.useState('java');
@@ -27,7 +28,8 @@ const CheckBmi = (props) => {
     const [colorCode, setColorCode] = useState('white');
     const [borderCode, setBorderCode] = useState('white');
     const [textColor, setTextColor] = useState('white');
-    const [result, setResult] = useState(true)
+    const [result, setResult] = useState(true);
+    const [error, setError] = useState(false)
   
     const styles = StyleSheet.create({
         container: {
@@ -108,7 +110,7 @@ const CheckBmi = (props) => {
       const id = AsyncStorage.getItem('Mytoken').then(
           res => {
              console.log('synch', res)
-              axios.get('details', {headers: {Authorization: res}})
+              axios.get('user/details', {headers: {Authorization: res}})
               .then(
                   res => {
                       console.log("profile-toks", res.data)
@@ -127,31 +129,8 @@ const CheckBmi = (props) => {
                   }
               )
               .catch(err => {
-                  const code = err.response.status;
-                  if (code === 401) {
-                      Alert.alert(
-                          'Error!',
-                          'Expired Token',
-                          [
-                            {text: 'OK', onPress: () => signOut()},
-                          ],
-                          { cancelable: false }
-                        )
-                    
-                  } else {
-                      showLoaded(true)
-                      Alert.alert(
-                          'Network Error',
-                          'Please Try Again',
-                          [
-                            {text: 'OK', onPress: () => setShowBtn(true)},
-                          ],
-                          { cancelable: false }
-                        )
-                  }
-  
-                    
-                    console.log(err.response.status)
+                showLoaded(true);
+                setError(true)
   
               })
           }
@@ -200,7 +179,7 @@ const CheckBmi = (props) => {
                    bmi: bmi
                }
                console.log("data", data)
-               axios.post('bmi/create', data, {headers: {Authorization: res}})
+               axios.post('user/bmi/create', data, {headers: {Authorization: res}})
                .then(
                    res => {  
                       console.log(res)
@@ -210,33 +189,8 @@ const CheckBmi = (props) => {
                    }
                )
                .catch(err => {
-                console.log("error", err.response)
                 setShowBtn(true)
-                   const code = err.response.status;
-                   if (code === 401) {
-                       Alert.alert(
-                           'Error!',
-                           'Expired Token',
-                           [
-                             {text: 'OK', onPress: () => signOut()},
-                           ],
-                           { cancelable: false }
-                         )
-                     
-                   } else {
-                       setShowBtn(true)
-                       Alert.alert(
-                           'Network Error',
-                           'Please Try Again',
-                           [
-                             {text: 'OK', onPress: () => setShowBtn(true)},
-                           ],
-                           { cancelable: false }
-                         )
-                   }
-    
-                     
-               
+                setError(true)
     
                })
            }
@@ -280,4 +234,4 @@ const CheckBmi = (props) => {
 }
 
 
-export default CheckBmi;
+export default errorHandler(CheckBmi, axios);

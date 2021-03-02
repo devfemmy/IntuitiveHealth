@@ -6,7 +6,7 @@ import DoctorCard from '../../../Components/DoctorCard';
 import ProfileInput from '../../../Components/ProfileInput';
 import InnerBtn from '../../../Components/InnerBtn';
 import OverLayContent from '../../../Components/OverlayContent';
-import axios from 'axios';
+import axios from '../../../axios-req';
 import errorHandler from '../../ErrorHandler/errorHandler';
 
 
@@ -72,7 +72,7 @@ const PatientDetails = (props) => {
                         doctor_id:  doctor_id
                       
                     }
-                    axios.post('https://conduit.detechnovate.net/public/api/user/book/slot', data, {headers: {Authorization: res}})
+                    axios.post('user/book/slot', data, {headers: {Authorization: res}})
                     .then(
                         res => {  
                             const message = res.data.message; 
@@ -136,7 +136,7 @@ const PatientDetails = (props) => {
                         intake_id: parseInt(id_slot)
                       
                     }
-                    axios.post('https://conduit.detechnovate.net/public/api/user/book/group/slot', data, {headers: {Authorization: res}})
+                    axios.post('user/book/group/slot', data, {headers: {Authorization: res}})
                     .then(
                         res => {  
                             const message = res.data.message; 

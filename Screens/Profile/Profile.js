@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
-import InnerBtn from '../../Components/InnerBtn';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import MyAppText from '../../Components/MyAppText';
 import UploadIcon from '../../assets/sliders/images/profile1.svg';

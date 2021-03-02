@@ -20,7 +20,7 @@ const Summary = (props) => {
         const id = AsyncStorage.getItem('Mytoken').then(
             res => {
 
-                axios.get('document/list/unassigned', {headers: {Authorization: res}})
+                axios.get('user/document/list/unassigned', {headers: {Authorization: res}})
                 .then(
                     res => {
                         setLoading(false)
@@ -29,32 +29,8 @@ const Summary = (props) => {
                     }
                 )
                 .catch(err => {
-                    setLoading(false)
-                    const code = err.response.status;
-                    if (code === 401) {
-                        Alert.alert(
-                            'Error!',
-                            'Expired Token',
-                            [
-                              {text: 'OK', onPress: () => signOut()},
-                            ],
-                            { cancelable: false }
-                          )
-                      
-                    } else {
-                        // showLoaded(true)
-                        Alert.alert(
-                            'Network Error',
-                            'Please Try Again',
-                            [
-                              {text: 'OK'},
-                            ],
-                            { cancelable: false }
-                          )
-                    }
-    
-                      
-                    
+                    setLoading(false);
+                    setError(true);
     
                 })
             }
@@ -90,7 +66,7 @@ const Summary = (props) => {
             const id = AsyncStorage.getItem('Mytoken').then(
                 res => {
                     const data = selectedItems
-                    axios.post('second/save', {response:data, title: title, comments: comment}, {headers: {Authorization: res}})
+                    axios.post('user/second/save', {response:data, title: title, comments: comment}, {headers: {Authorization: res}})
                     .then(
                         res => {
                             setLoading(false) 
@@ -108,34 +84,8 @@ const Summary = (props) => {
                         }
                     )
                     .catch(err => {
-                        console.log(err.response)
                         setLoading(false);
-                        setError(true)
-                        // const code = err.response.status;
-                        // if (code === 401) {
-                        //     Alert.alert(
-                        //         'Error!',
-                        //         'Expired Token',
-                        //         [
-                        //           {text: 'OK', onPress: () => signOut()},
-                        //         ],
-                        //         { cancelable: false }
-                        //       )
-                          
-                        // } else {
-                        //     // showLoaded(true)
-                        //     Alert.alert(
-                        //         'Error',
-                        //         'Please Try Again',
-                        //         [
-                        //           {text: 'OK'},
-                        //         ],
-                        //         { cancelable: false }
-                        //       )
-                        // }
-        
-                          
-                        
+                        setError(true)                        
         
                     })
                 }

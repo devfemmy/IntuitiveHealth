@@ -2,15 +2,18 @@ import React, {useState, useEffect} from 'react';
 import { View, StyleSheet, ScrollView, ActivityIndicator,AsyncStorage } from 'react-native';
 import MyDoctorsCard from '../../Components/MyDoctorsCard';
 import axios from '../../axios-req';
+import errorHandler from '../ErrorHandler/errorHandler';
 
 const MyDoctors = (props) => {
     const [doctors, setDoctors] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(false);
+    
     useEffect(() => {
         const id = AsyncStorage.getItem('Mytoken').then(
             res => {
 
-                axios.get('my/doctors', {headers: {Authorization: res}})
+                axios.get('user/my/doctors', {headers: {Authorization: res}})
                 .then(
                     res => {
                         setLoading(false)
@@ -21,31 +24,8 @@ const MyDoctors = (props) => {
                     }
                 )
                 .catch(err => {
-                    setLoading(false)
-                    const code = err.response.status;
-                    if (code === 401) {
-                        Alert.alert(
-                            'Error!',
-                            'Expired Token',
-                            [
-                              {text: 'OK', onPress: () => signOut()},
-                            ],
-                            { cancelable: false }
-                          )
-                      
-                    } else {
-                        showLoaded(true)
-                        Alert.alert(
-                            'Network Error',
-                            'Please Try Again',
-                            [
-                              {text: 'OK', onPress: () => setShowBtn(true)},
-                            ],
-                            { cancelable: false }
-                          )
-                    }
-    
-                      
+                    setLoading(false);
+                    setError(true)                      
                     
     
                 })
@@ -91,4 +71,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default MyDoctors
+export default errorHandler(MyDoctors, axios)

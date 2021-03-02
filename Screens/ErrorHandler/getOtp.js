@@ -24,7 +24,7 @@ const GetOtp = (props) => {
     const id = AsyncStorage.getItem('Mytoken').then(
         res => {
 
-            axios.get('send/otp',  {headers: {Authorization: res}})
+            axios.get('user/send/otp',  {headers: {Authorization: res}})
             .then(
                 res => {
                     const otp = res; 

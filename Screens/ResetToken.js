@@ -7,11 +7,14 @@ import MyBtn from '../Components/MyBtn';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import CustomHeaderButton from '../Components/HeaderButton';
 import InnerBtn from '../Components/InnerBtn';
-import axios from 'axios';
+import axios from '../axios-req';
+import errorHandler from './ErrorHandler/errorHandler';
 
 const ResetToken = (props) => {
   const [token, setUsername] = useState('');
   const [button, setButton] = useState(false);
+  const [error, setError] = useState(false);
+
   const confirmToken = () => {
     if (token === '') {
       alert("Please fill in token sent to you")
@@ -20,7 +23,7 @@ const ResetToken = (props) => {
       const data = {
           token: token
       }
-      axios.post('https://conduit.detechnovate.net/public/api/conduithealth/user/verify_token', data)
+      axios.post('conduithealth/user/verify_token', data)
       .then( res => {
         setButton(false)
           console.log('password', res.data)
@@ -45,31 +48,7 @@ const ResetToken = (props) => {
         
       }).catch(err => {
           setButton(false)
-          const code = err.response.status;
-          if (code === 400) {
-            alert('Incorrect Token')
-          }
-          if (code === 401) {
-              Alert.alert(
-                  'Error!',
-                  'Expired Token',
-                  [
-                    {text: 'OK', onPress: () => signOut()},
-                  ],
-                  { cancelable: false }
-                )
-            
-          } else {
-            //   setBtn(false)
-              Alert.alert(
-                  'Network Error',
-                  'Please Try Again',
-                  [
-                    {text: 'OK', onPress: () =>  setButton(false)},
-                  ],
-                  { cancelable: false }
-                )
-          }
+          setError(true)
       })
      
 
@@ -183,4 +162,4 @@ const styles = StyleSheet.create({
     resizeMode: 'contain'
   }
 })
-export default ResetToken
+export default errorHandler(ResetToken, axios);

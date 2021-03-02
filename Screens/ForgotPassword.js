@@ -5,11 +5,13 @@ import MyBtn from '../Components/MyBtn';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import CustomHeaderButton from '../Components/HeaderButton';
 import InnerBtn from '../Components/InnerBtn';
-import axios from 'axios';
+import axios from '../axios-req';
+import errorHandler from './ErrorHandler/errorHandler';
 
 const ForgotPassword = (props) => {
   const [email, setUsername] = useState('');
   const [button, setButton] = useState(false);
+  const [error, setError] = useState(false)
 
   const resetPassword = () => {
     if (email === '') {
@@ -19,7 +21,7 @@ const ForgotPassword = (props) => {
       const data = {
           email: email
       }
-      axios.post('https://conduit.detechnovate.net/public/api/conduithealth/user/forgot_password', data)
+      axios.post('conduithealth/user/forgot_password', data)
       .then( res => {
         setButton(false)
           console.log('password', res.data)
@@ -42,35 +44,9 @@ const ForgotPassword = (props) => {
         
       }).catch(err => {
           setButton(false)
-          const code = err.response.status;
-          if (code === 400) {
-            alert('Incorrect Email')
-          }
-          if (code === 401) {
-              Alert.alert(
-                  'Error!',
-                  'Expired Token',
-                  [
-                    {text: 'OK', onPress: () => signOut()},
-                  ],
-                  { cancelable: false }
-                )
-            
-          } else {
-              setBtn(false)
-              Alert.alert(
-                  'Network Error',
-                  'Please Try Again',
-                  [
-                    {text: 'OK', onPress: () =>  setBtn(false)},
-                  ],
-                  { cancelable: false }
-                )
-          }
+          setError(true)
       })
      
-
-
   }
   }
 
@@ -182,4 +158,4 @@ const styles = StyleSheet.create({
     resizeMode: 'contain'
   }
 })
-export default ForgotPassword
+export default errorHandler(ForgotPassword, axios);

@@ -8,6 +8,7 @@ import BasicIcon from '../assets/sliders/images/basic.svg';
 import PlatinumIcon from '../assets/sliders/images/platinum.svg';
 import SilverIcon from '../assets/sliders/images/silver.svg';
 import GoldIcon from '../assets/sliders/images/gold.svg';
+import errorHandler from './ErrorHandler/errorHandler';
 
 
 
@@ -17,13 +18,14 @@ const PaymentPage = (props) => {
     const [subscription, setSub] = useState('');
     const [expiry_date, setExpiry] = useState('');
     const [color, setColor] = useState('');
+    const [error, setError] = useState(false)
 
     const fetchPaymentPlans = () => {
         setLoading(true)
         const id = AsyncStorage.getItem('Mytoken').then(
             res => {
 
-                axios.get('subscription', {headers: {Authorization: res}})
+                axios.get('user/subscription', {headers: {Authorization: res}})
                 .then(
                     res => {
                         setLoading(false)
@@ -42,31 +44,7 @@ const PaymentPage = (props) => {
                 )
                 .catch(err => {
                     setLoading(false)
-                    const code = err.response.status;
-                    if (code === 401) {
-                        Alert.alert(
-                            'Error!',
-                            'Expired Token',
-                            [
-                              {text: 'OK', onPress: () => null},
-                            ],
-                            { cancelable: false }
-                          )
-                      
-                    } else {
-                        // showLoaded(true)
-                        Alert.alert(
-                            'Network Error',
-                            'Please Try Again',
-                            [
-                              {text: 'OK', onPress: () => setShowBtn(true)},
-                            ],
-                            { cancelable: false }
-                          )
-                    }
-    
-                      
-                    
+                    setError(true);
     
                 })
             }
@@ -225,4 +203,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default PaymentPage
+export default errorHandler(PaymentPage, axios);

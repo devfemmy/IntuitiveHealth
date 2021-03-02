@@ -63,7 +63,7 @@ const DrawerNav = (props) => {
     
         console.log('USER', userToken)
           try {
-            userToken = await AsyncStorage.getItem('userToken');
+            userToken = await AsyncStorage.getItem('Mytoken');
             console.log('what is', userToken)
             // loggedIn = await AsyncStorage.getItem('LoggedIn');
           } catch (e) {
@@ -97,8 +97,8 @@ const DrawerNav = (props) => {
            
           },
           signOut: async (data) => {
-            await AsyncStorage.setItem('LoggedIn', '1');
-            const logout = AsyncStorage.getItem('LoggedIn')
+            await AsyncStorage.removeItem('Mytoken');
+            // const logout = AsyncStorage.getItem('LoggedIn')
           dispatch({ type: 'SIGN_OUT' });
           data.navigation.closeDrawer()
           

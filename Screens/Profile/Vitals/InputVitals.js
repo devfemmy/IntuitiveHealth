@@ -15,10 +15,12 @@ const InputVitals = () => {
     const [denominator, setDenominator] = useState('');
     const [indicator, setIndicator] = useState('');
     const [tempIndicator, setTempIndicator] = useState('');
+    const [respIndicator, setResIndicator] = useState('');
     const [PressureIndicator, setPressureIndicator] = useState('');
     const [color, setColor] = useState('white')
     const [color2, setColor2] = useState('white')
     const [color3, setColor3] = useState('white');
+    const [respColor, setResColor] = useState('white');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
     
@@ -94,6 +96,23 @@ const InputVitals = () => {
       }
       
     }
+    const calculateRes = (value) => {
+      setResprate(value);
+      const integerValue = parseInt(value);
+      if (integerValue >= 12 && integerValue <= 19) {
+        setResIndicator('Normal')
+        setResColor('#58C315')
+      } else if (integerValue < 12) {
+        setResColor('#E6C300');
+        setResIndicator('Low');
+      } else if (integerValue > 19) {
+        setResColor('#D30C0C')
+        setResIndicator('High')
+      } else {
+        setResIndicator(null)
+      }
+
+    }
     const setTempFunc = (value) => {
        setTemp(value)
       const tempRate = parseFloat(value);
@@ -125,7 +144,7 @@ const InputVitals = () => {
                 blood_pressure_num: numerator,
                 blood_pressure_denum: denominator
               }
-              axios.post('vitals/create', data, {headers: {Authorization: res}})
+              axios.post('user/vitals/create', data, {headers: {Authorization: res}})
               .then(
                   res => {
                     setLoading(false)
@@ -191,11 +210,11 @@ const InputVitals = () => {
                 color= {color} 
                 indicator= {indicator} label= "Pulse Rate" />
                 <VitalInput
-                onChangeText= {(value)=> setResprate(value)}
+                onChangeText= {(value)=> calculateRes(value)}
                 keyboardType= "numeric"
-                // color= {color} 
-                // indicator= {indicator} 
-                label= "Respiratory Rate" />
+                color= {respColor} 
+                indicator= {respIndicator} 
+                label= "Respiratory Rate (breath/min)" />
                 <View style= {styles.flexedContainer}>
                 <VitalInput
                 width= "50%"
