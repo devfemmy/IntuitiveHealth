@@ -1,8 +1,6 @@
 import React, {useEffect,useState} from 'react';
 import { View, StyleSheet,Alert, ScrollView,ActivityIndicator,
     AsyncStorage, Text, Dimensions, Image, Linking } from 'react-native';
-import {Collapse,CollapseHeader, CollapseBody, AccordionList} from 'accordion-collapse-react-native';
-import ArrowIcon from '../assets/sliders/images/arrow1.svg'
 import axios from '../axios-req';
 import MyAppText from '../Components/MyAppText';
 import UploadIcon from '../assets/sliders/images/contact.svg';
@@ -19,7 +17,7 @@ const ContactUs = () => {
         const id = AsyncStorage.getItem('Mytoken').then(
             res => {
                 console.log('token', res)
-                axios.get('user/help/no', {headers: {Authorization: res}})
+                axios.get('help/no', {headers: {Authorization: res}})
                 .then(
                     res => {
                         // console.log('number', res.data.data[0])

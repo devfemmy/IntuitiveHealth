@@ -34,14 +34,14 @@ const ViewUploads = (props) => {
                     res => {
                         setLoading(false)
                         const documents = res.data.data;
-                        console.log('documents', documents)
                         setDocuments(documents);
                        
                     }
                 )
                 .catch(err => {
-                    setError(true)
-                    setLoading(false)                    
+
+                    setLoading(false)  
+                    setError(true)                  
     
                 })
             }

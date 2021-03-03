@@ -74,6 +74,7 @@ const AppointmentCard = (props) => {
             <TouchableOpacity onPress= {props.onPress}>
             <View style= {styles.flexContainer}>
                 <Image
+                  defaultSource= {require('../assets/sliders/images/placeh.png')} 
                 style= {{width: 60, height: 60, resizeMode: 'cover', borderRadius: 60}} 
                 source= {{uri: props.image}} />
                 <View style= {styles.textContainer}>

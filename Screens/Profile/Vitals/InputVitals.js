@@ -105,7 +105,7 @@ const InputVitals = () => {
       } else if (integerValue < 12) {
         setResColor('#E6C300');
         setResIndicator('Low');
-      } else if (integerValue > 19) {
+      } else if (integerValue > 18) {
         setResColor('#D30C0C')
         setResIndicator('High')
       } else {

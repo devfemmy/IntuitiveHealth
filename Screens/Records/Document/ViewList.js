@@ -1,11 +1,5 @@
 import React, {useState, useEffect} from 'react';
 import { View, StyleSheet, ScrollView,AsyncStorage,ActivityIndicator, TouchableOpacity, Image } from 'react-native';
-import Keyback from '../../../assets/sliders/images/keyback.svg';
-import MyAppText from '../../../Components/MyAppText';
-import ResumeIcon from '../../../assets/sliders/images/resume.svg';
-import UploadIcon from '../../../assets/sliders/images/upload.svg';
-import MedIcon from '../../../assets/sliders/images/medycon.svg';
-import ProfileCard from '../../../Components/ProfileCard';
 import axios from '../../../axios-req';
 import RNFetchBlob from 'rn-fetch-blob';
 import errorHandler from '../../ErrorHandler/errorHandler';
@@ -15,7 +9,8 @@ const ViewList = (props) => {
     const [loading, setLoading] = useState(true);
     const [uri, setUri] = useState(null);
     const {path} = props.route.params;
-    const [error, setError] = useState(false)
+    // const [error, setError] = useState(false);
+
     let base64Icon = `data:image/png;base64,${uri}`;
 
     useEffect(() => {
@@ -51,8 +46,7 @@ const ViewList = (props) => {
                   // Something went wrong:
                   .catch((errorMessage, statusCode) => {
                     // error handling
-                    console.log('success', res)
-                    setError(true)
+                    // setError(true)
                     
                   })
             }
@@ -137,4 +131,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default errorHandler (ViewList, axios);
+export default ViewList

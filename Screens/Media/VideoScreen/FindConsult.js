@@ -60,7 +60,9 @@ const FindConsult = (props) => {
                             <TouchableOpacity key= {index} onPress= {() => props.navigation.navigate('Practise', {name: specialty.name, id: process_type})}>
                             <View style= {styles.card}>
                                 <View style= {styles.imgCont}>
-                              <Image source= {{uri: specialty.image}} style= {styles.imageStyle} />
+                              <Image 
+                                defaultSource= {require('../../../assets/sliders/images/placeh.png')} 
+                              source= {{uri: specialty.image}} style= {styles.imageStyle} />
                                 </View>
                                 <View style= {styles.textCont}>
                                     <MyAppText style= {styles.boldText}>

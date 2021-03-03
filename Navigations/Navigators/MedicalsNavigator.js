@@ -164,7 +164,7 @@ const MedicalsNavigator = (props) => {
         }}
           />  
           <Stack.Screen name="Medications" component={Medications}
-          options={{ title: 'Medications', headerStyle: {
+          options={{ title: 'Prescriptions', headerStyle: {
               
               backgroundColor: '#51087E',
           

@@ -100,7 +100,7 @@ useEffect(() => {
       const id = AsyncStorage.getItem('Mytoken').then(
         res => {
 
-          axios.post('verify/otp', data,  {headers: {Authorization: res}})
+          axios.post('user/verify/otp', data,  {headers: {Authorization: res}})
           .then( res => {
             setButton(false)
             console.log('password', res.data)

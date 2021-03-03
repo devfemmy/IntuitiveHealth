@@ -26,54 +26,59 @@ const Personal = (props) => {
     const [selected, setSelected] = useState("M");
     const [error, setError] = useState(false)
     
-    
-    useEffect(() => {
+    const fetchProfile = () => {
       const id = AsyncStorage.getItem('Mytoken').then(
-          res => {
-            //  console.log('synch', res)
-              axios.get('user/details', {headers: {Authorization: res}})
-              .then(
-                
-                  res => {
-                      setLoading(false)
-                      const profile = res.data.data;
-                      const lastname = profile.last_name;
-                      const firstname = profile.name;
-                      const email = profile.email;
-                      const occupation = profile.occupation;
-                      const location = profile.location;
-                      const phone = profile.phone;
-                      const genoType = profile.genotype;
-                      const blood_group = profile.blood_group;
-                      const dob = profile.dob;
-                      const realDob = new Date (dob);
-                      const gender = profile.gender;
-                      console.log('set dob', dob)
-                      setChosenDate(realDob)
-                      setFirstname(firstname);
-                      setLastname(lastname);
-                      setEmail(email);
-                      setOccupation(occupation)
-                      setLocation(location);
-                      setPhone(phone);
-                      setSelected(gender);
-                      setBloodGroup(blood_group);
-                      setGenotype(genoType)
-                     
-                  }
-              )
-              .catch(err => {
-                  const code = err.response.status;
-                  setLoading(false)
-                  setError(true)
-  
-              })
-          }
-      )
-      .catch( err => {console.log(err)}) 
+        res => {
+          //  console.log('synch', res)
+            axios.get('user/details', {headers: {Authorization: res}})
+            .then(
+              
+                res => {
+                    setLoading(false)
+                    const profile = res.data.data;
+                    const lastname = profile.last_name;
+                    const firstname = profile.name;
+                    const email = profile.email;
+                    const occupation = profile.occupation;
+                    const location = profile.location;
+                    const phone = profile.phone;
+                    const genoType = profile.genotype;
+                    const blood_group = profile.blood_group;
+                    const dob = profile.dob;
+                    const realDob = new Date (dob);
+                    const gender = profile.gender;
+                    console.log('set dob', dob)
+                    setChosenDate(realDob)
+                    setFirstname(firstname);
+                    setLastname(lastname);
+                    setEmail(email);
+                    setOccupation(occupation)
+                    setLocation(location);
+                    setPhone(phone);
+                    setSelected(gender);
+                    setBloodGroup(blood_group);
+                    setGenotype(genoType)
+                   
+                }
+            )
+            .catch(err => {
+                const code = err.response.status;
+                setLoading(false)
+                setError(true)
+
+            })
+        }
+    )
+    .catch( err => {console.log(err)}) 
+    }
+    useEffect(() => {
+      const unsubscribe = props.navigation.addListener('focus', () => {
+          fetchProfile()
+        });
+
       
-  
-    }, []);
+      return unsubscribe;
+    }, [props.navigation]);
 
     const  editProfile = () => {
       // alert(chosenDate)

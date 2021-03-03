@@ -133,7 +133,9 @@ const HomeScreen = (props) => {
         return (
             <View style={styles.slide}>
                 <TouchableOpacity>
-                    <Image  defaultSource= {require('../assets/sliders/images/placeholder2.png')} style= {styles.imageStyle6} source= {{uri: item.image}} />
+                    <Image  
+                    defaultSource= {require('../assets/sliders/images/placeholder2.png')} 
+                    style= {styles.imageStyle6} source= {{uri: item.image}} />
                 </TouchableOpacity>
             </View>
         );

@@ -17,7 +17,7 @@ const Faq = () => {
         const id = AsyncStorage.getItem('Mytoken').then(
             res => {
                 console.log('token', res)
-                axios.get('user/faqs', {headers: {Authorization: res}})
+                axios.get('faqs', {headers: {Authorization: res}})
                 .then(
                     res => {
                         const faq = res.data.data;

@@ -21,9 +21,12 @@ const MedicalHistory = (props) => {
                             <Arrow width= {30} height= {30} />
                         </ProfileCard>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress= {()=>props.navigation.navigate('Medications')}>
+                    <TouchableOpacity 
+                    onPress= {()=>props.navigation.navigate('Medications')}>
                         <ProfileCard>
-                            <SlotIconText size= {19} icon= {<Icon4 width= {30} height= {30} />} text= "Medications" />
+                            <SlotIconText 
+                            size= {19} icon= {<Icon4 width= {30} height= {30} />} 
+                            text= "Prescriptions" />
                             <Arrow width= {30} height= {30} />
                         </ProfileCard>
                     </TouchableOpacity>
@@ -33,9 +36,10 @@ const MedicalHistory = (props) => {
                             <Arrow width= {30} height= {30} />
                         </ProfileCard>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress= {()=>props.navigation.navigate('ViewUpload')}>
+                    <TouchableOpacity 
+                    onPress= {()=>props.navigation.navigate('ViewUpload')}>
                         <ProfileCard>
-                            <SlotIconText size= {19} icon= {<Icon1 width= {30} height= {30} />} text= "Document" />
+                            <SlotIconText size= {19} icon= {<Icon1 width= {30} height= {30} />} text= "Documents" />
                             <Arrow width= {30} height= {30} />
                         </ProfileCard>
                     </TouchableOpacity>

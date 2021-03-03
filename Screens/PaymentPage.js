@@ -1,9 +1,8 @@
 import React, {useState, useEffect} from 'react';
-import { StyleSheet,ActivityIndicator,ImageBackground, View,Alert,Button,
+import { StyleSheet,ActivityIndicator, View,Alert,Button,
     AsyncStorage, TouchableOpacity, Image } from 'react-native';
 import MyAppText from '../Components/MyAppText';
 import axios from '../axios-req';
-import PaystackWebView from "react-native-paystack-webview";
 import BasicIcon from '../assets/sliders/images/basic.svg';
 import PlatinumIcon from '../assets/sliders/images/platinum.svg';
 import SilverIcon from '../assets/sliders/images/silver.svg';
@@ -14,14 +13,13 @@ import errorHandler from './ErrorHandler/errorHandler';
 
 const PaymentPage = (props) => {
     const [paymentPlans, setPaymentPlans] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [subscription, setSub] = useState('');
     const [expiry_date, setExpiry] = useState('');
     const [color, setColor] = useState('');
     const [error, setError] = useState(false)
 
     const fetchPaymentPlans = () => {
-        setLoading(true)
         const id = AsyncStorage.getItem('Mytoken').then(
             res => {
 
@@ -38,8 +36,7 @@ const PaymentPage = (props) => {
                         setSub(subscription);
                         setColor(color); 
                         setExpiry(stringedDate)
-                        setPaymentPlans(payment_plans);  
-                        console.log('payment_plans', payment_plans)                     
+                        setPaymentPlans(payment_plans);                    
                     }
                 )
                 .catch(err => {

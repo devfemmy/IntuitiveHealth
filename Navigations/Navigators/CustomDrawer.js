@@ -4,17 +4,15 @@ import {
     DrawerItemList,
     DrawerItem
   } from '@react-navigation/drawer';
-//   import {Avatar, Title, Caption, Paragraph,
-//   Drawer, TouchableRipple, Switch} from 'react-native-paper'
 
-import { Text, StyleSheet, View, Image,Platform,AsyncStorage, TouchableOpacity } from 'react-native';
+import {  StyleSheet, View,Platform,AsyncStorage, TouchableOpacity } from 'react-native';
 // import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { AuthContext } from '../DrawerNav';
 import Logo from '../../assets/sliders/images/logo.svg'
 import MyAppText from '../../Components/MyAppText';
 
-  const CustomDrawerContent = (props) => {
+    const CustomDrawerContent = (props) => {
     const { signOut} = React.useContext(AuthContext);
     const [fontColor, setColor] = useState('white');
     const [sub, setSub] = useState('');
@@ -84,11 +82,20 @@ import MyAppText from '../../Components/MyAppText';
                 <View style={{...styles.container, minHeight: 140,alignItems: 'center', justifyContent: 'center'}}>
                 <Logo width= {150} height= {80} />
                 <View>
-                  <TouchableOpacity style= {styles.btnStyle}>
-                    <MyAppText style= {styles.colorText}>
-                      {sub}
-                    </MyAppText>
-                  </TouchableOpacity>
+                  {user == '0' ? 
+               (<TouchableOpacity style= {styles.btnStyle}>
+                <MyAppText style= {styles.colorText}>
+                  {sub}
+                </MyAppText>
+              </TouchableOpacity>) :
+              (<TouchableOpacity 
+              onPress= {() => props.navigation.navigate('ManagePlan')}
+              style= {styles.btnStyle}>
+                <MyAppText style= {styles.colorText}>
+                  {sub}
+                </MyAppText>
+              </TouchableOpacity>)  
+                }
                 </View>
                 {user == '0' ? null : 
                     <MyAppText onPress= {() => props.navigation.navigate('ManagePlan')}>Manage Your Subscriptions</MyAppText>
