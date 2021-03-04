@@ -5,6 +5,7 @@ import { Overlay } from 'react-native-elements';
 
 const ErrorPage = (props) => {
     const [visible, setVisible] = useState(false);
+    const {message} = props.route.params;
 
     const toggleOverlay = () => {
         setVisible(true);
@@ -18,13 +19,13 @@ const ErrorPage = (props) => {
 
     const moveToHome = () => {
         setVisible(false)
-        props.navigation.navigate('Home')
+        props.navigation.goBack();
     }
     
     return (
         <ScrollView style= {styles.container}>
             <Overlay isVisible={visible} onBackdropPress={moveToHome}>
-                <ErrorOverLay />
+                <ErrorOverLay message= {message} />
             </Overlay>
         </ScrollView>
     )

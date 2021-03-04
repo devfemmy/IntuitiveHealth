@@ -35,9 +35,11 @@ const InnerBtn = (props) => {
                 <MyAppText>
                 <MyAppText style= {styles.textStyle}>{props.text}
                 </MyAppText> 
+                {props.show ?
                 <MyAppText style= {styles.iconStyle}>
                 {props.icon}
-                </MyAppText>
+                </MyAppText>: null
+            }
                 </MyAppText>
             </TouchableOpacity>
         </View>

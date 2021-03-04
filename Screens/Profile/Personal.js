@@ -27,6 +27,7 @@ const Personal = (props) => {
     const [error, setError] = useState(false)
     
     const fetchProfile = () => {
+      
       const id = AsyncStorage.getItem('Mytoken').then(
         res => {
           //  console.log('synch', res)
@@ -129,7 +130,6 @@ const Personal = (props) => {
                     }
                 )
                 .catch(err => {
-                  console.log('error', err.response)
                   setShowBtn(true);
                   setError(true)
                 })

@@ -53,7 +53,7 @@ const errorHandler = (WrappedComponent, axios) => {
                     { cancelable: false }
                   )
               
-               } else if (status === 400) {
+               } else if (status === 401) {
                 Alert.alert(
                     "Error",
                     msg,
@@ -63,7 +63,7 @@ const errorHandler = (WrappedComponent, axios) => {
                     { cancelable: false }
                   )
                } else {
-                this.props.navigation.navigate('Error Page')
+                this.props.navigation.navigate('Error Page', {message: msg})
                }
  
             });

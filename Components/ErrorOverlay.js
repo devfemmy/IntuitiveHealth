@@ -8,7 +8,7 @@ const ErrorOverLay = (props) => {
         <View style= {styles.container}>
             <Icon width= {80} height= {100} />
             <MyAppText style= {styles.textSyle}>
-                Network Error
+               {props.message}
             </MyAppText>
             <MyAppText style= {styles.textSyle2}>
                Please Try Again

@@ -176,8 +176,6 @@ const WaitingRoom = (props) => {
     }
     const getToken = (request_id) => {
         // setLoading(true)
-      
-        console.log('GET TOKEN BLOCK', request_id)
             const id = AsyncStorage.getItem('Mytoken').then(
                 res => {
     
@@ -288,8 +286,8 @@ const WaitingRoom = (props) => {
                     <MyAppText style= {styles.textStyle}>Please wait while we find you a doctor</MyAppText>
                 </View>
                 <View style= {styles.lowerContainer}>
-                <MyAppText style= {styles.textStyle2}>Waiting No.</MyAppText>
-                <MyAppText style= {styles.textStyle3}>43567890</MyAppText>
+                <MyAppText style= {styles.textStyle2}>Meeting will start soon.</MyAppText>
+                {/* <MyAppText style= {styles.textStyle3}>43567890</MyAppText> */}
                 </View>
             </ScrollView>
             <View style= {styles.footer}>

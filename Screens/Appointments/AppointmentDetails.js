@@ -292,12 +292,14 @@ const AppointmentDetails = (props) => {
                                 <>
                                 <View style= {styles.callContainer}>
                                     <InnerBtn
+                                    show
                                     onPress= {()=> props.navigation.navigate('Voice')} 
                                     bg= "#880ED4" color= "white" icon= {<PhoneIcon width= {18} height= {18} />} text= "Voice Call" />
                                     </View>
                                 
                                     <View style= {styles.callContainer}>
                                     <InnerBtn
+                                    show
                                     onPress= {fetchSessionToken}  
                                     bg= "#51087E" color= "white" icon= {<ChatIcon width= {18} height= {18} />} text= "Virtual Call" />
                                     </View>

@@ -44,8 +44,8 @@ const GetOtp = (props) => {
                 }
             )
             .catch(err => {
-                setError(true)
                 setLoading(false)
+                setError(true)
                 // console.log("otp error", err.response) 
                 // const code = err.response.status;
                 // if (code === 401) {
@@ -123,31 +123,7 @@ useEffect(() => {
             
           }).catch(err => {
               setButton(false)
-              const code = err.response.status;
-              if (code === 400) {
-                alert('Incorrect Token')
-              }
-              if (code === 401) {
-                  Alert.alert(
-                      'Error!',
-                      'Expired Token',
-                      [
-                        {text: 'OK', onPress: () => signOut()},
-                      ],
-                      { cancelable: false }
-                    )
-                
-              } else {
-                //   setBtn(false)
-                  Alert.alert(
-                      'Network Error',
-                      'Please Try Again',
-                      [
-                        {text: 'OK', onPress: () =>  setButton(false)},
-                      ],
-                      { cancelable: false }
-                    )
-              }
+              setError(true)
           })
         }
     )

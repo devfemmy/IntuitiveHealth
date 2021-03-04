@@ -2,14 +2,11 @@ import React, { useState } from 'react';
 import { View, StyleSheet, ScrollView,Alert, ActivityIndicator, AsyncStorage } from 'react-native';
 import DocumentIcon from '../../../assets/sliders/images/document.svg';
 import DocumentPicker from 'react-native-document-picker';
-import RNFS from 'react-native-fs';
 import RNFetchBlob from 'rn-fetch-blob'
 import MyAppText from '../../../Components/MyAppText';
 import InnerBtn from '../../../Components/InnerBtn';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import axios from '../../../axios-req';
-import ImagePicker from 'react-native-image-picker';
-import { Image } from 'react-native';
 import errorHandler from '../../ErrorHandler/errorHandler';
 
 const UploadDocument = (props) => {
@@ -32,36 +29,7 @@ const UploadDocument = (props) => {
         }
       ).catch(err => console.log(err));
 
-      // Use image picker
-      const options = {
-        title: 'Select Avatar',
-        customButtons: [{ name: 'fb', title: 'Choose Photo from Facebook' }],
-        storageOptions: {
-          skipBackup: true,
-          path: 'images',
-        },
-      };
 
-    const ImagePickerHandler = () => {
-      ImagePicker.showImagePicker(options, (response) => {
-        console.log('Response = ', response);
-      
-        if (response.didCancel) {
-          console.log('User cancelled image picker');
-        } else if (response.error) {
-          console.log('ImagePicker Error: ', response.error);
-        } else if (response.customButton) {
-          console.log('User tapped custom button: ', response.customButton);
-        } else {
-          const source = { uri: response.uri };
-          const data = response.uri;
-          const imageData = response.data;
-          setImageData(imageData)
-          setContent(data)
-          console.log("data", data)
-        }
-      });
-    }
     const documentUpload = async () => {
         try {
             const res = await DocumentPicker.pick({

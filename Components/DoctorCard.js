@@ -6,7 +6,9 @@ const DoctorCard = (props) => {
     return (
         <View>
             <View style= {styles.container}>
-            <Image style= {styles.imageStyle} source= {props.image} />
+            <Image style= {styles.imageStyle} 
+            defaultSource= {require('../assets/sliders/images/placeh.png')} 
+            source= {props.image} />
             <View style= {styles.flexCont}>
                 <MyAppText style= {styles.textColor}>{props.name}</MyAppText>
                 <MyAppText style= {styles.color}>

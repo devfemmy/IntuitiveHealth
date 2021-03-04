@@ -115,7 +115,8 @@ const FilterDocuments = (props) => {
                     onPress= {() => props.navigation.navigate('Upload', {upload_id: true})}
                     style= {{marginVertical: 20, padding: 10,
                         borderBottomColor: '#1F1F1F1F', borderBottomWidth: 1}}>Click here to add new document</MyAppText>
-                    <MultiSelect
+                <View style= {{width: '100%'}}>
+                <MultiSelect
                     // hideTags
                     items={documents}
                     uniqueKey="name"
@@ -138,6 +139,7 @@ const FilterDocuments = (props) => {
                     submitButtonText="Submit"
         />
 
+                </View>
                 </View>
 
         {/* <View>
