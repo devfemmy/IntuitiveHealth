@@ -11,6 +11,7 @@ const WaitingRoom = (props) => {
     const [loading, setLoading] = useState(true);
     const [display_id, setMyId] = useState(0);
     const [error, setError] = useState(false);
+    const {chat_id} = props.route.params;
     
     let interval = null
  
@@ -180,7 +181,7 @@ const WaitingRoom = (props) => {
             const id = AsyncStorage.getItem('Mytoken').then(
                 res => {
     
-                    axios.get(`waiting/token/${request_id}`, {headers: {Authorization: res}})
+                    axios.get(`user/waiting/token/${request_id}`, {headers: {Authorization: res}})
                     .then(
                         res => {
                             setLoading(false)
@@ -191,8 +192,14 @@ const WaitingRoom = (props) => {
                             const token = res.data.data.token;
                             const time_left = res.data.data.time_left;
                             const history_id = res.data.data.history_id;
-                            props.navigation.navigate('Virtual', {key: key, sessionId: session, token: token, 
+                            if (chat_id === 1) {
+                                props.navigation.navigate('Virtual', {key: key, sessionId: session, token: token, 
                                 time_left: time_left, history_id: history_id})
+                            }
+                            else {
+                                props.navigation.navigate('Chat Room', {key: key, sessionId: session, token: token, 
+                                    time_left: time_left, history_id: history_id})
+                            }
                         }
                     )
                     .catch(err => {

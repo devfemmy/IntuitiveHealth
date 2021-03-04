@@ -13,6 +13,7 @@ import EndCallIcon from '../../assets/sliders/images/end_call.svg';
 import axios from 'axios';
 import Ratings from '../../Screens/Appointments/RatingPage';
 import AppointmentPage from '../../Screens/Appointments/MyAppointment';
+import ChatRoom from '../../Screens/Media/VideoScreen/Chat/ChatRoom';
 
 
 
@@ -209,6 +210,22 @@ const EmergencyNavigator = (props) => {
           />
         <Stack.Screen name="Voice" component={VoiceCall}
           options={{ title: 'Audio Consultation', headerStyle: {
+              
+              backgroundColor: '#51087E',
+          
+              
+              
+
+          },
+          headerTitleStyle: {
+            fontFamily: 'HammersmithOne-Regular',
+            fontSize: 20
+          },
+          headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
+        }}
+          />
+        <Stack.Screen name="Chat Room" component={ChatRoom}
+          options={{ title: 'Chat Room', headerStyle: {
               
               backgroundColor: '#51087E',
           

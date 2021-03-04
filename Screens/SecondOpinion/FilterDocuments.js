@@ -7,17 +7,40 @@ import MultiSelect from 'react-native-multiple-select';
 import axios from '../../axios-req';
 import errorHandler from '../ErrorHandler/errorHandler';
 
+const FilterDocuments = (props) => {
 
-const Summary = (props) => {
-
-    const {title, comment,summary_id, selectedItems} = props.route.params;
+    const {title, comment} = props.route.params;
+    const [selectedItems, setSelectedItems] = useState([]);
+    const [documents, setDocuments] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
     
+
+    const fetchDocuments = () => {
+        setLoading(true)
+        const id = AsyncStorage.getItem('Mytoken').then(
+            res => {
+
+                axios.get('user/document/list/unassigned', {headers: {Authorization: res}})
+                .then(
+                    res => {
+                        setLoading(false)
+                        const documents = res.data.data;
+                        setDocuments(documents);                      
+                    }
+                )
+                .catch(err => {
+                    setLoading(false);
+                    setError(true);
+    
+                })
+            }
+        )
+        .catch( err => {console.log(err)}) 
+    }
     useEffect(() => {
         const unsubscribe = props.navigation.addListener('focus', () => {
-            // fetchDocuments();
-            console.log('selected Item', selectedItems)
+            fetchDocuments()
           });
   
         
@@ -31,6 +54,11 @@ const Summary = (props) => {
         );
       }
 
+     
+      const onSelectedItemsChange = selectedItems => {
+        setSelectedItems(selectedItems);
+        console.log('selected Items', selectedItems)
+      };
       const sendSecondOpinion = () => {
           if (title === '' || comment === '') {
               alert('Fields cannot be empty')
@@ -43,6 +71,7 @@ const Summary = (props) => {
                     .then(
                         res => {
                             setLoading(false) 
+                            console.log('documents', res) 
                             const message = res.data.message;
                             Alert.alert(
                                 'Success!',
@@ -66,36 +95,34 @@ const Summary = (props) => {
           }
 
       }
+      moveToNextPage = () => {
+          props.navigation.navigate('Summary', {
+              title: title,
+              comment: comment,
+              selectedItems: selectedItems,
+              summary_id: 1
+          })
+      }
     return (
         <View style= {styles.container}>
             <ScrollView>
-                <View style= {styles.lowerContainer}>
+                {/* <View style= {styles.lowerContainer}>
                     <ProfileInput editable= {false}  value= {title}  label= "Title" />
-                    <ProfileInput editable= {false}  value= {comment} label= "Comment" lines= {5} multiline= {true} />
-                </View>
-                {summary_id === 1 ? 
-            <View style= {{marginHorizontal: 20}}>
-                <MyAppText style= {{...styles.label}}>Selected Documents: </MyAppText>
-                {selectedItems.map(
-                    (item, index) => {
-                        return (
-                            <MyAppText style= {styles.textStyle} key= {index}>
-                                {item}
-                            </MyAppText>
-                        )
-                    }
-                )}
-            </View>   : null 
-            }
-                {/* <View style= {{marginHorizontal: 20}}>
+                    <ProfileInput editable= {false}  value= {comment} label= "Comment" line= {4} multiline= {true} />
+                </View> */}
+                <View style= {{marginHorizontal: 20, marginVertical: 5}}>
+                    <MyAppText 
+                    onPress= {() => props.navigation.navigate('Upload', {upload_id: true})}
+                    style= {{marginVertical: 20, padding: 10,
+                        borderBottomColor: '#1F1F1F1F', borderBottomWidth: 1}}>Click here to add new document</MyAppText>
                     <MultiSelect
                     // hideTags
                     items={documents}
-                    uniqueKey="id"
+                    uniqueKey="name"
                     // ref={(component) => { multiSelect = component }}
                     onSelectedItemsChange={onSelectedItemsChange}
                     selectedItems={selectedItems}
-                    selectText="Select Documents"
+                    selectText="Assign Documents"
                     searchInputPlaceholderText="Search Documents..."
                     onChangeInput={ (text)=> console.log(text)}
                     // altFontFamily="ProximaNova-Light"
@@ -110,14 +137,15 @@ const Summary = (props) => {
                     submitButtonColor="#CCC"
                     submitButtonText="Submit"
         />
-                </View> */}
+
+                </View>
 
         {/* <View>
           {multiSelect.getSelectedItemsExt(selectedItems)}
         </View> */}
             </ScrollView>
             <View style= {styles.footer}>
-            <InnerBtn onPress= {sendSecondOpinion} width= "100%" text= "Finish" color= "white" bg= "#51087E" />
+            <InnerBtn onPress= {moveToNextPage} width= "100%" text= "Next" color= "white" bg= "#51087E" />
             </View>
 
         </View>
@@ -141,11 +169,7 @@ const styles = StyleSheet.create({
         color: '#BBC2CC',
         marginTop: 35,
         marginBottom: 5
-    },
-    textStyle: {
-        color: '#51087E',
-        textAlign: 'left'
     }
 });
 
-export default errorHandler(Summary, axios)
+export default errorHandler(FilterDocuments, axios)

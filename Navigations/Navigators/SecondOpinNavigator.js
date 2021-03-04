@@ -22,6 +22,7 @@ import Summary from '../../Screens/SecondOpinion/Summary';
 import ViewSecondOpinion from '../../Screens/SecondOpinion/ViewSO';
 import Comments from '../../Screens/SecondOpinion/Comments';
 import ViewDeNotes from '../../Screens/SecondOpinion/ViewDNotes';
+import FilterDocuments from '../../Screens/SecondOpinion/FilterDocuments';
 
 
 const Stack = createStackNavigator();
@@ -303,6 +304,22 @@ const SecondOpinionNavigator = (props) => {
           />  
             <Stack.Screen name="Upload" component={UploadDocument}
           options={{ title: 'Document Upload', headerStyle: {
+              
+              backgroundColor: '#51087E',
+          
+              
+              
+
+          },
+          headerTitleStyle: {
+            fontFamily: 'HammersmithOne-Regular',
+            fontSize: 20
+          },
+          headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
+        }}
+          />   
+          <Stack.Screen name="Select Documents" component={FilterDocuments}
+          options={{ title: 'Select Documents', headerStyle: {
               
               backgroundColor: '#51087E',
           

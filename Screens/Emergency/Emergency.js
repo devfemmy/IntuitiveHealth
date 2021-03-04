@@ -17,7 +17,7 @@ const Emergency = (props) => {
                 </MyAppText>
             </View>
             <View style= {styles.lowerContainer}>
-                <TouchableOpacity onPress= {()=> props.navigation.navigate('WaitingRoom')}>
+                <TouchableOpacity onPress= {()=> props.navigation.navigate('WaitingRoom', {chat_id: 1})}>
                     <ProfileCard>
                         <View>
                             <VideoIcon width= {50} height= {50} />
@@ -27,7 +27,17 @@ const Emergency = (props) => {
                         </View>
                     </ProfileCard>
                 </TouchableOpacity>
-                <TouchableOpacity onPress= {()=> props.navigation.navigate('EmergencyVoice')}>
+                {/* <TouchableOpacity onPress= {()=> props.navigation.navigate('WaitingRoom', {chat_id:2})}>
+                    <ProfileCard>
+                        <View>
+                            <VideoIcon width= {50} height= {50} />
+                        </View>
+                        <View style= {styles.textContainer}>
+                        <MyAppText style= {styles.textStyle2}>Enter Chat consultation waiting room</MyAppText>
+                        </View>
+                    </ProfileCard>
+                </TouchableOpacity> */}
+                <TouchableOpacity onPress= {()=> props.navigation.navigate('Voice')}>
                     <ProfileCard>
                         <View>
                             <PhoneIcon width= {50} height= {50} />

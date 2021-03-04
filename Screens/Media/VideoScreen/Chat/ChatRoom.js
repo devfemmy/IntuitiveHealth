@@ -5,9 +5,9 @@ import { OTSession } from 'opentok-react-native';
 export default class ChatRoom extends Component {
   constructor(props) {
     super(props);
-    this.apiKey = '47140794';
-    this.sessionId = '1_MX40NzE0MDc5NH5-MTYxNDI1OTkyMzI0NX5hK1JISUJ4T3FucEJoVDdoR25veXRZUW5-fg';
-    this.token = 'T1==cGFydG5lcl9pZD00NzE0MDc5NCZzaWc9OWM1MzUyMDYzMjdhMWMzYzYyM2ZmZjFjYWE1YjRmYWNjMjBlMDRhMjpzZXNzaW9uX2lkPTFfTVg0ME56RTBNRGM1Tkg1LU1UWXhOREkxT1RreU16STBOWDVoSzFKSVNVSjRUM0Z1Y0VKb1ZEZG9SMjV2ZVhSWlVXNS1mZyZjcmVhdGVfdGltZT0xNjE0MjU5OTU3Jm5vbmNlPTAuNDEwNDM5NzQxMzY1Njc0MiZyb2xlPXB1Ymxpc2hlciZleHBpcmVfdGltZT0xNjE0MjYzNTU2JmluaXRpYWxfbGF5b3V0X2NsYXNzX2xpc3Q9';
+    // this.apiKey = key;
+    // this.sessionId = sessionId;
+    // this.token = token
     this.state = {
       signal: {
         data: '',
@@ -46,13 +46,14 @@ export default class ChatRoom extends Component {
     <Text style={styles.item}>{item.data}</Text>
   );
   render() {
+    const {key, sessionId, token, time_left, history_id} = this.props.route.params;
     return (
       <View style={{ flex: 1 }}>
         <Text style={styles.mainText}> OpenTok React Native Signaling Sample</Text>
         <OTSession 
-          apiKey={this.apiKey}
-          sessionId={this.sessionId}
-          token={this.token}
+          apiKey={key}
+          sessionId={sessionId}
+          token={token}
           signal={this.state.signal}
           eventHandlers={this.sessionEventHandlers}
           ref={(instance) => {

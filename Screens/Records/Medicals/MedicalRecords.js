@@ -28,7 +28,7 @@ const MedicalRecords = (props) => {
                         </View>
                     </View>
             </TouchableOpacity>
-            <TouchableOpacity onPress= {() => props.navigation.navigate('Upload') }>
+            <TouchableOpacity onPress= {() => props.navigation.navigate('Upload', {upload_id: false}) }>
                     <View style= {styles.card}>
                         <View style= {styles.imgCont}>
                         <UploadIcon width= {130} height= {130} />

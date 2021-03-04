@@ -22,7 +22,8 @@ const UploadDocument = (props) => {
     const [loading, setLoading] = useState(false);
     const [content, setContent] = useState('');
     const [imageData, setImageData] = useState('');
-    const [error, setError] = useState(false)
+    const [error, setError] = useState(false);
+    const {upload_id} = props.route.params;
 
 
     const token = AsyncStorage.getItem('Mytoken').then(
@@ -123,15 +124,26 @@ const UploadDocument = (props) => {
             // ...
             setLoading(false)
             const message = resp.message;
-            Alert.alert(
-              'Alert!',
-              message,
-              [
-                {text: 'OK', onPress: () => props.navigation.popToTop()},
-              ],
-              { cancelable: false }
-            )
-            console.log('What is', resp)
+            if (upload_id) {
+              Alert.alert(
+                'Alert!',
+                message,
+                [
+                  {text: 'OK', onPress: () => props.navigation.goBack()},
+                ],
+                { cancelable: false }
+              )
+            } else {
+              Alert.alert(
+                'Alert!',
+                message,
+                [
+                  {text: 'OK', onPress: () => props.navigation.popToTop()},
+                ],
+                { cancelable: false }
+              )
+            }
+           
           }).catch((err) => {
             // ...
             setLoading(false)
