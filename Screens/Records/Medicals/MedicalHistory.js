@@ -1,7 +1,6 @@
-import React from 'react';
-import { View, StyleSheet, ScrollView } from 'react-native';
-import DoctorCard from '../../../Components/DoctorCard';
-import MyAppText from '../../../Components/MyAppText';
+import React, { useEffect, useState } from 'react';
+import { View, StyleSheet, ScrollView, AsyncStorage, ActivityIndicator } from 'react-native';
+import axios from '../../../axios-req';
 import ProfileCard from '../../../Components/ProfileCard';
 import SlotIconText from '../../../Components/SlotIconText';
 import Icon1 from '../../../assets/sliders/images/icon1.svg';
@@ -10,8 +9,51 @@ import Icon3 from '../../../assets/sliders/images/icon3.svg';
 import Icon4 from '../../../assets/sliders/images/icon4.svg';
 import Arrow from '../../../assets/sliders/images/arrow.svg'
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import errorHandler from '../../ErrorHandler/errorHandler';
 
 const MedicalHistory = (props) => {
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(false);
+
+    const confirmOtp = () => {
+        const id = AsyncStorage.getItem('Mytoken').then(
+            res => {
+
+                axios.get('user/otp/confirm', {headers: {Authorization: res}})
+                .then(
+                    res => {
+                        setLoading(false)                       
+                    }
+                )
+                .catch(err => {
+                    setLoading(false)
+                    setError(true);
+    
+                      
+                    
+    
+                })
+            }
+        )
+        .catch( err => {console.log(err)}) 
+    }
+
+    useEffect(() => {
+        const unsubscribe = props.navigation.addListener('focus', () => {
+            confirmOtp()
+          });
+  
+        
+        return unsubscribe;
+      }, [props.navigation]);
+    
+      if (loading) {
+        return (
+          <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+           <ActivityIndicator  size="large" color="#51087E" />
+          </View>
+        );
+      }
     return (
         <ScrollView style= {styles.container}>
             <View  style= {styles.lowerContainer}>
@@ -68,4 +110,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default MedicalHistory
+export default errorHandler(MedicalHistory, axios);
