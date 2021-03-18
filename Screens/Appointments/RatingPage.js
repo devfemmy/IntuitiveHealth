@@ -83,7 +83,7 @@ const Ratings = (props) => {
                     {/* <ProfileInput value= {name} onChangeText= {setName}  label= "Name" /> */}
                     {/* <ProfileInput value= {email} onChangeText= {setEmail}  label= "Email Address" /> */}
                 </View>
-                <MyAppText onPress= {() => props.navigation.navigate('Home')} style= {styles.textStyle2}>Skip Feedback</MyAppText>
+                <MyAppText onPress= {() => props.navigation.popToTop()} style= {styles.textStyle2}>Skip Feedback</MyAppText>
             </ScrollView>
             <View style= {styles.footer}>
             {showBtn ?   <InnerBtn onPress= {submitReview} text= "Submit" color= "white" border= "#51087E" bg= "#51087E" /> : <ActivityIndicator size= "large" color= "#000075"/>}
