@@ -5,6 +5,7 @@ import CountDown from 'react-native-countdown-component';
 import axios from '../../axios-req';
 import EndCallIcon from '../../assets/sliders/images/end_call.svg';
 import errorHandler from '../ErrorHandler/errorHandler';
+import { StackActions } from '@react-navigation/native';
 
 const VirtualCall = (props) =>  {
   const {key, sessionId, token, time_left, history_id} = props.route.params;
@@ -34,7 +35,12 @@ const VirtualCall = (props) =>  {
       }
   )
   .catch( err => {console.log(err)});
-  props.navigation.navigate('Review', {history_id: parseInt(history_id)})
+  props.navigation.dispatch(
+    StackActions.replace('Review', {
+      history_id: parseInt(history_id),
+    })
+  );
+  // props.navigation.navigate('Review', {history_id: parseInt(history_id)})
   }
 
 

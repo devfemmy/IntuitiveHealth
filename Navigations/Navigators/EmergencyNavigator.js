@@ -173,6 +173,7 @@ const EmergencyNavigator = (props) => {
               
 
           },
+          headerLeft: null,
           headerTitleStyle: {
             fontFamily: 'HammersmithOne-Regular',
             fontSize: 20
