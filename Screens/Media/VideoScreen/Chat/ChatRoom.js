@@ -6,7 +6,7 @@ import axios from '../../../../axios-req';
 import EndCallIcon from '../../../../assets/sliders/images/end_call.svg';
 import SendIcon from '../../../../assets/sliders/images/send.svg';
 import { StackActions } from '@react-navigation/native';
-import InnerBtn from '../../../../Components/InnerBtn';
+import MyAppText from '../../../../Components/MyAppText';
 
 
 export default class ChatRoom extends Component {
@@ -48,22 +48,28 @@ export default class ChatRoom extends Component {
       });
     }
   }
-  cancelMyAppointment = (history_id) => {
+  sendLeaveSignal = () => {
+    this.setState({
+      signal: {
+        type: 'Leave',
+        data: 'Left chat',
+      },
+      text: '',
+    });
+  }
+  cancelMyAppointment = (history_id, channel_id) => {
     const id = AsyncStorage.getItem('Mytoken').then(
       res => {
         const data = {
-          history_id: parseInt(history_id)
+          history_id: parseInt(history_id),
+          channel_id: channel_id
         }
           axios.post('user/checkout/history',data, {headers: {Authorization: res}})
           .then(
               res => {
-             
-                console.log(res)
-              
-                  
                  
               }
-          )
+          ) 
           .catch(err => {
            setError(true)
           });
@@ -80,7 +86,7 @@ export default class ChatRoom extends Component {
   }
 
 
-checkoutSession = (history_id) => {
+checkoutSession = (history_id, channel_id) => {
   Alert.alert(
     'Exit Page?',
     'Are you sure you want to leave Room?',
@@ -93,7 +99,32 @@ checkoutSession = (history_id) => {
         // This will continue the action that had triggered the removal of the screen
         onPress: () => {
                 // props.navigation.dispatch(e.data.action)
-                this.cancelMyAppointment(history_id)
+                this.sendLeaveSignal();
+                this.cancelMyAppointment(history_id, channel_id);
+            
+
+        },
+      },
+    ]
+  );
+}
+switchToChat = (history_id, time_left, token, sessionId, key) => {
+  Alert.alert(
+    'Switch Chat?',
+    'Are you sure you want to switch chat?',
+    [
+      { text: "Don't switch", style: 'cancel', onPress: () => {} },
+      {
+        text: 'Switch',
+        style: 'destructive',
+        // If the user confirmed, then we dispatch the action we blocked earlier
+        // This will continue the action that had triggered the removal of the screen
+        onPress: () => {
+                // props.navigation.dispatch(e.data.action)
+                // this.sendLeaveSignal();
+                this.props.navigation.navigate('Virtual', {key: key, sessionId: sessionId, token: token, 
+                  time_left: parseInt(time_left), history_id: parseInt(history_id), channel_id: 1})
+                // this.cancelMyAppointment(history_id);
             
 
         },
@@ -121,13 +152,13 @@ checkoutSession = (history_id) => {
     if (chatMe === 'Me') {
       return (
         <View style= {styles.textContainer}>
-        <Text style={styles.item}>{item.data}</Text>
+        <MyAppText style={styles.item}>{item.data}</MyAppText>
         </View>
       )
     }else {
       return (
         <View style= {styles.textContainer2}>
-        <Text style={styles.item}>{item.data}</Text>
+        <MyAppText style={styles.item}>{item.data}</MyAppText>
         </View>
       )
     }
@@ -135,10 +166,10 @@ checkoutSession = (history_id) => {
   
   };
   render() {
-    const {key, sessionId, token, time_left, history_id} = this.props.route.params;
+    const {key, sessionId, token, time_left, history_id, channel_id} = this.props.route.params;
     return (
       <View style={{ flex: 1, padding: 25, paddingTop: 5}}>
-        <View style= {{marginVertical: 10, alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between'}}>
+        <View style= {{marginVertical: 10,  flexDirection: 'row', justifyContent: 'space-between'}}>
         <CountDown
           until={time_left}
           size={30}
@@ -148,7 +179,10 @@ checkoutSession = (history_id) => {
           timeToShow={['M', 'S']}
           timeLabels={{m: 'min', s: 'sec'}}
         />
-          <TouchableOpacity style= {{marginRight: 10}} onPress= {() => this.checkoutSession(history_id)}>
+          {/* <TouchableOpacity style= {{marginRight: 10}} onPress= {() => this.switchToChat(history_id, time_left, token, sessionId, key)}>
+                <EndCallIcon width= {40} height= {40} />
+          </TouchableOpacity> */}
+          <TouchableOpacity style= {{marginRight: 10}} onPress= {() => this.checkoutSession(history_id, channel_id)}>
                 <EndCallIcon width= {40} height= {40} />
           </TouchableOpacity>
       </View>
@@ -204,16 +238,20 @@ const styles = StyleSheet.create({
   textContainer: {
     backgroundColor: 'white',
     borderWidth: 1,
-    marginVertical: 3,
+    marginVertical: 10,
     borderColor: '#cdcdcd',
-    minHeight: 30
+    minHeight: 30,
+    width: '80%'
+    
   },
   textContainer2: {
     backgroundColor: '#f5e5ff',
-    borderWidth: 1,
-    marginVertical: 3,
+    // borderWidth: 1,
+    marginVertical: 10,
     // borderColor: '',
-    minHeight: 30
+    minHeight: 30,
+    width: '80%',
+    marginLeft: '20%'
   },
   flexContainer: {
     display: 'flex',

@@ -293,7 +293,7 @@ const AppointmentDetails = (props) => {
                                 <View style= {styles.callContainer}>
                                     <InnerBtn
                                     show
-                                    onPress= {()=> props.navigation.navigate('Voice')} 
+                                    onPress= {()=> props.navigation.navigate('Voice', {display_id: null})} 
                                     bg= "#880ED4" color= "white" icon= {<PhoneIcon width= {18} height= {18} />} text= "Voice Call" />
                                     </View>
                                 

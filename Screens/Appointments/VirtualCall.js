@@ -8,7 +8,7 @@ import errorHandler from '../ErrorHandler/errorHandler';
 import { StackActions } from '@react-navigation/native';
 
 const VirtualCall = (props) =>  {
-  const {key, sessionId, token, time_left, history_id} = props.route.params;
+  const {key, sessionId, token, time_left, history_id, channel_id} = props.route.params;
   const [error, setError] = useState(false)
   // const [unique_id, setHistoryId] = useState('');
 
@@ -16,7 +16,8 @@ const VirtualCall = (props) =>  {
     const id = AsyncStorage.getItem('Mytoken').then(
       res => {
         const data = {
-          history_id: parseInt(history_id)
+          history_id: parseInt(history_id),
+          channel_id: channel_id
         }
           axios.post('user/checkout/history',data, {headers: {Authorization: res}})
           .then(

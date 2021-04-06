@@ -17,7 +17,6 @@ const VoiceCall = () => {
     useEffect(() => {
         const id = AsyncStorage.getItem('Mytoken').then(
             res => {
-                console.log('token', res)
                 axios.get('conduithealth/phone', {headers: {Authorization: res}})
                 .then(
                     res => {

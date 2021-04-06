@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import { View, StyleSheet, ScrollView,Alert,AsyncStorage, ActivityIndicator } from 'react-native';
+import { View, StyleSheet, ScrollView,Alert,AsyncStorage, ActivityIndicator, Linking } from 'react-native';
 // import AsyncStorage from '@react-native-community/async-storage';
 import axios from '../../axios-req'
 import InnerBtn from '../../Components/InnerBtn';
+import PhoneIcon from '../../assets/sliders/images/phone1.svg';
 import MyAppText from '../../Components/MyAppText';
 import errorHandler from '../ErrorHandler/errorHandler';
 
@@ -12,19 +13,44 @@ const WaitingRoom = (props) => {
     const [display_id, setMyId] = useState(0);
     const [error, setError] = useState(false);
     const {chat_id} = props.route.params;
-    
+    const [phone, setPhone] = useState('');
+
     let interval = null
  
+    const getPhoneNumber = () => {
+        const id = AsyncStorage.getItem('Mytoken').then(
+            res => {
+                axios.get('conduithealth/phone', {headers: {Authorization: res}})
+                .then(
+                    res => {
+                        // console.log('number', res.data.data[0])
+                        setLoading(false)
+                        const contactNumber = res.data.data.emergency_no;
+                        setPhone(contactNumber);
+                        
+                       
+                    }
+                )
+                .catch(err => {
+                    setLoading(false)
+                    // setError(true)
+    
+                });
 
+            }
+        )
+        .catch( err => {console.log(err)}) 
+    }
     const joinWaitingRoom = () => {
         const id = AsyncStorage.getItem('Mytoken').then(
             res => {
-
-                axios.get('user/waiting/join', {headers: {Authorization: res}})
+                const data = {
+                    channel_id: chat_id
+                }
+                axios.post('user/waiting/join', data, {headers: {Authorization: res}})
                 .then(
                     res => {
                         setLoading(false)
-                        console.log(res.data.data, "waiting room")
                         const appid = res.data.data.id;
                         console.log('join', appid)
                         interval = setInterval(() => getToken(appid), 30000);
@@ -43,13 +69,10 @@ const WaitingRoom = (props) => {
                     }
                 )
                 .catch(err => {
-                    console.log("error", err.response);
-                    const errorData = err.response.data;
-                    // const status = err.response.status;
-                    setLoading(false);
+                    // const errorData = err.response.data;
+                    console.log("error", err.response)
                     const code = err.response.status;
-
-                    
+                    setLoading(false);                    
                     // setInterval(() => getToken(appid), 60000);
                     if (code === 401) {
                         Alert.alert(
@@ -89,7 +112,6 @@ const WaitingRoom = (props) => {
                     else {
                         const message = err.response.data.message;
                         const request_id = parseInt(err.response.data.data.id);
-                        console.log('request_id ID', request_id)
                         interval = setInterval(() => getToken(request_id), 30000);
                         setMyId(request_id)
                         
@@ -192,16 +214,18 @@ const WaitingRoom = (props) => {
                             const history_id = res.data.data.history_id;
                             if (chat_id === 1) {
                                 props.navigation.navigate('Virtual', {key: key, sessionId: session, token: token, 
-                                time_left: time_left, history_id: history_id})
+                                time_left: time_left, history_id: history_id, channel_id: chat_id})
                             }
+                            // else if (chat_id === 3) {
+                            //     props.navigation.navigate('Voice', {history_id: history_id, channel_id: chat_id, display_id: display_id})
+                            // }
                             else {
                                 props.navigation.navigate('Chat Room', {key: key, sessionId: session, token: token, 
-                                    time_left: time_left, history_id: history_id})
+                                    time_left: time_left, history_id: history_id, channel_id: chat_id})
                             }
                         }
                     )
                     .catch(err => {
-                        console.log("error", err.response)
                         setLoading(false)
                         const code = err.response.status;
                         const message = err.response.data.message;
@@ -216,7 +240,7 @@ const WaitingRoom = (props) => {
                               )
                           
                         } else {
-                            console.log("error", err)
+                          
                         }
         
                           
@@ -232,7 +256,14 @@ const WaitingRoom = (props) => {
     useEffect(() => {
     
     const subscribe = props.navigation.addListener('focus', () => {
-        joinWaitingRoom()
+       
+        if (chat_id === 3) {
+            getPhoneNumber();
+            joinWaitingRoom();
+        }else {
+            joinWaitingRoom();
+        }
+      
     //    cancelAppointment()
     });
     const unsubscribe = props.navigation.addListener('blur', () => {
@@ -291,6 +322,14 @@ const WaitingRoom = (props) => {
                 </View>
             </ScrollView>
             <View style= {styles.footer}>
+                {chat_id === 3 ? 
+                    <InnerBtn
+                    onPress={()=>{Linking.openURL(`tel:${phone}`);}}
+                    bg= "white"
+                    color= "#51087E"
+                    text= "Call Now" 
+                    icon= {<PhoneIcon width= {18} height= {18} />} />  :null      
+            }
                 <InnerBtn onPress= {cancelAppointment} text= "Cancel" color= "white" border= "#A020F0" bg= "#A020F0" />
             </View>
         </View>
