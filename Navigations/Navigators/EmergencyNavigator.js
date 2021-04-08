@@ -14,6 +14,7 @@ import axios from 'axios';
 import Ratings from '../../Screens/Appointments/RatingPage';
 import AppointmentPage from '../../Screens/Appointments/MyAppointment';
 import ChatRoom from '../../Screens/Media/VideoScreen/Chat/ChatRoom';
+import TestChat from '../../Screens/Media/VideoScreen/Chat/TestChat';
 
 
 
@@ -227,6 +228,22 @@ const EmergencyNavigator = (props) => {
           />
         <Stack.Screen name="Chat Room" component={ChatRoom}
           options={{ title: 'Chat Room', headerStyle: {
+              
+              backgroundColor: '#51087E',
+          
+              
+              
+
+          },
+          headerTitleStyle: {
+            fontFamily: 'HammersmithOne-Regular',
+            fontSize: 20
+          },
+          headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
+        }}
+          />
+          <Stack.Screen name="Test Chat" component={TestChat}
+          options={{ title: 'Test Chat', headerStyle: {
               
               backgroundColor: '#51087E',
           

@@ -4,6 +4,7 @@ import { OTSession } from 'opentok-react-native';
 import CountDown from 'react-native-countdown-component';
 import axios from '../../../../axios-req';
 import EndCallIcon from '../../../../assets/sliders/images/end_call.svg';
+import SwitchChat from '../../../../assets/sliders/images/switch_camera.svg';
 import SendIcon from '../../../../assets/sliders/images/send.svg';
 import { StackActions } from '@react-navigation/native';
 import MyAppText from '../../../../Components/MyAppText';
@@ -53,6 +54,15 @@ export default class ChatRoom extends Component {
       signal: {
         type: 'Leave',
         data: 'Left chat',
+      },
+      text: '',
+    });
+  }
+  sendVideoSignal = () => {
+    this.setState({
+      signal: {
+        type: 'video',
+        data: '1',
       },
       text: '',
     });
@@ -108,7 +118,61 @@ checkoutSession = (history_id, channel_id) => {
     ]
   );
 }
-switchToChat = (history_id, time_left, token, sessionId, key) => {
+getToken = (request_id) => {
+  // setLoading(true)
+      const id = AsyncStorage.getItem('Mytoken').then(
+          res => {
+
+              axios.get(`user/history/token/${request_id}`, {headers: {Authorization: res}})
+              .then(
+                  res => {
+                      // setLoading(false)
+                      console.log(res.data.data, "token")
+                      // clearInterval(timerId)
+                      const key = res.data.data.api_key;
+                      const session = res.data.data.session_id;
+                      const token = res.data.data.token;
+                      const time_left = res.data.data.time_left;
+                      this.props.navigation.dispatch(
+                        StackActions.replace('Test Chat', {key: key, sessionId: session, token: token, 
+                          time_left: time_left, history_id: 1, channel_id: 2}
+                          )
+                      );
+                      // this.props.navigation.dispatch(
+                      //   StackActions.replace('Home')
+                      // );
+                  }
+              )
+              .catch(err => {
+                  // setLoading(false)
+                  const code = err.response.status;
+                  const message = err.response.data.message;
+                  if (code === 401) {
+                      Alert.alert(
+                          'Error!',
+                          'Expired Token',
+                          [
+                            {text: 'OK', onPress: () => signOut()},
+                          ],
+                          { cancelable: false }
+                        )
+                    
+                  } else {
+                    
+                  }
+  
+                    
+                  
+  
+              })
+          }
+      )
+      .catch( err => {console.log(err)}) 
+  
+
+}
+
+switchToChat = (history_id) => {
   Alert.alert(
     'Switch Chat?',
     'Are you sure you want to switch chat?',
@@ -122,8 +186,10 @@ switchToChat = (history_id, time_left, token, sessionId, key) => {
         onPress: () => {
                 // props.navigation.dispatch(e.data.action)
                 // this.sendLeaveSignal();
-                this.props.navigation.navigate('Virtual', {key: key, sessionId: sessionId, token: token, 
-                  time_left: parseInt(time_left), history_id: parseInt(history_id), channel_id: 1})
+                this.sendVideoSignal()
+                this.getToken(history_id)
+                // Send Signal with type video and data will be 1.
+                // 2. 
                 // this.cancelMyAppointment(history_id);
             
 
@@ -169,7 +235,7 @@ switchToChat = (history_id, time_left, token, sessionId, key) => {
     const {key, sessionId, token, time_left, history_id, channel_id} = this.props.route.params;
     return (
       <View style={{ flex: 1, padding: 25, paddingTop: 5}}>
-        <View style= {{marginVertical: 10,  flexDirection: 'row', justifyContent: 'space-between'}}>
+        <View style= {{marginVertical: 10, paddingBottom: 5,  flexDirection: 'row', justifyContent: 'space-between', borderBottomColor: '#cdcdcd', borderBottomWidth: 1}}>
         <CountDown
           until={time_left}
           size={30}
@@ -179,11 +245,13 @@ switchToChat = (history_id, time_left, token, sessionId, key) => {
           timeToShow={['M', 'S']}
           timeLabels={{m: 'min', s: 'sec'}}
         />
-          {/* <TouchableOpacity style= {{marginRight: 10}} onPress= {() => this.switchToChat(history_id, time_left, token, sessionId, key)}>
+          <TouchableOpacity style= {{marginRight: 10, alignItems: 'center'}} onPress= {() => this.switchToChat(history_id)}>
+                <SwitchChat width= {40} height= {40} />
+                <MyAppText>Switch</MyAppText>
+          </TouchableOpacity>
+          <TouchableOpacity style= {{marginRight: 10, alignItems: 'center'}} onPress= {() => this.checkoutSession(history_id, channel_id)}>
                 <EndCallIcon width= {40} height= {40} />
-          </TouchableOpacity> */}
-          <TouchableOpacity style= {{marginRight: 10}} onPress= {() => this.checkoutSession(history_id, channel_id)}>
-                <EndCallIcon width= {40} height= {40} />
+                <MyAppText>End Chat</MyAppText>
           </TouchableOpacity>
       </View>
         {/* <Text style={styles.mainText}> OpenTok React Native Signaling Sample</Text> */}

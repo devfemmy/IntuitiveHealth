@@ -52,7 +52,7 @@ const WaitingRoom = (props) => {
                     res => {
                         setLoading(false)
                         const appid = res.data.data.id;
-                        console.log('join', appid)
+                        // console.log('join', appid)
                         interval = setInterval(() => getToken(appid), 30000);
                         setMyId(appid)
                         const message = `${res.data.message}!!! You are now in waiting room`
@@ -70,7 +70,7 @@ const WaitingRoom = (props) => {
                 )
                 .catch(err => {
                     // const errorData = err.response.data;
-                    console.log("error", err.response)
+                    // console.log("error", err.response)
                     const code = err.response.status;
                     setLoading(false);                    
                     // setInterval(() => getToken(appid), 60000);
@@ -146,7 +146,7 @@ const WaitingRoom = (props) => {
                 .then(
                     res => {
                         setLoading(false)
-                        console.log(res, "waiting room")
+                        // console.log(res, "waiting room")
                         const message = res.data.message;
                         Alert.alert(
                             'Alert',
@@ -160,7 +160,7 @@ const WaitingRoom = (props) => {
                     }
                 )
                 .catch(err => {
-                    console.log("error", err.response)
+                    // console.log("error", err.response)
                     setLoading(false)
                     const code = err.response.status;
                     const message = err.response.data.message;
@@ -205,7 +205,7 @@ const WaitingRoom = (props) => {
                     .then(
                         res => {
                             setLoading(false)
-                            console.log(res, "token")
+                            // console.log(res.data.data, "waiting room")
                             // clearInterval(timerId)
                             const key = res.data.data.api_key;
                             const session = res.data.data.session_id;
@@ -257,7 +257,7 @@ const WaitingRoom = (props) => {
     
     const subscribe = props.navigation.addListener('focus', () => {
        
-        if (chat_id === 3) {
+        if (chat_id === 2) {
             getPhoneNumber();
             joinWaitingRoom();
         }else {
@@ -309,7 +309,6 @@ const WaitingRoom = (props) => {
           </View>
         );
       }
-    console.log('RENDER', display_id)
     return (
         <View style= {styles.container}>
             <ScrollView>
@@ -317,12 +316,25 @@ const WaitingRoom = (props) => {
                     <MyAppText style= {styles.textStyle}>Please wait while we find you a doctor</MyAppText>
                 </View>
                 <View style= {styles.lowerContainer}>
-                <MyAppText style= {styles.textStyle2}>Meeting will start soon.</MyAppText>
+                {chat_id === 2 ? 
+               <View>
+                    <MyAppText style= {styles.textStyle2}>Click on call now to start voice consultation.</MyAppText>
+               </View> : 
+               <View>
+                {chat_id === 1 ? 
+               <MyAppText style= {styles.textStyle2}>Video Consultation will start soon.</MyAppText>:
+               <MyAppText style= {styles.textStyle2}>Chat Consultation will start soon.</MyAppText> 
+                }
+            </View>
+            }
+
+
+              
                 {/* <MyAppText style= {styles.textStyle3}>43567890</MyAppText> */}
                 </View>
             </ScrollView>
             <View style= {styles.footer}>
-                {chat_id === 3 ? 
+                {chat_id === 2 ? 
                     <InnerBtn
                     onPress={()=>{Linking.openURL(`tel:${phone}`);}}
                     bg= "white"

@@ -3,6 +3,8 @@ import { View, StyleSheet, ScrollView } from 'react-native';
 import EmergencyIcon from '../../assets/sliders/images/emergency1.svg';
 import PhoneIcon from '../../assets/sliders/images/ecall.svg';
 import VideoIcon from '../../assets/sliders/images/evideo.svg';
+import ChatIcon from '../../assets/sliders/images/chat.svg';
+import Arrow from '../../assets/sliders/images/arrow5.svg';
 import MyAppText from '../../Components/MyAppText';
 import ProfileCard from '../../Components/ProfileCard';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -20,30 +22,39 @@ const Emergency = (props) => {
                 <TouchableOpacity onPress= {()=> props.navigation.navigate('WaitingRoom', {chat_id: 1})}>
                     <ProfileCard>
                         <View>
-                            <VideoIcon width= {50} height= {50} />
+                            <VideoIcon width= {30} height= {30} />
                         </View>
                         <View style= {styles.textContainer}>
-                        <MyAppText style= {styles.textStyle2}>Enter Virtual consultation waiting room</MyAppText>
+                        <MyAppText style= {styles.textStyle2}>Video</MyAppText>
                         </View>
-                    </ProfileCard>
-                </TouchableOpacity>
-                <TouchableOpacity onPress= {()=> props.navigation.navigate('WaitingRoom', {chat_id:2})}>
-                    <ProfileCard>
                         <View>
-                            <VideoIcon width= {50} height= {50} />
-                        </View>
-                        <View style= {styles.textContainer}>
-                        <MyAppText style= {styles.textStyle2}>Enter Chat consultation waiting room</MyAppText>
+                            <Arrow width= {30} height= {30} />
                         </View>
                     </ProfileCard>
                 </TouchableOpacity>
                 <TouchableOpacity onPress= {()=> props.navigation.navigate('WaitingRoom', {chat_id:3})}>
                     <ProfileCard>
                         <View>
-                            <PhoneIcon width= {50} height= {50} />
+                            <ChatIcon width= {30} height= {30} />
                         </View>
                         <View style= {styles.textContainer}>
-                        <MyAppText style= {styles.textStyle2}>Voice Consultation</MyAppText>
+                        <MyAppText style= {styles.textStyle2}>Chat</MyAppText>
+                        </View>
+                        <View>
+                            <Arrow width= {30} height= {30} />
+                        </View>
+                    </ProfileCard>
+                </TouchableOpacity>
+                <TouchableOpacity onPress= {()=> props.navigation.navigate('WaitingRoom', {chat_id:2})}>
+                    <ProfileCard>
+                        <View>
+                            <PhoneIcon width= {30} height= {30} />
+                        </View>
+                        <View style= {styles.textContainer}>
+                        <MyAppText style= {styles.textStyle2}>Voice</MyAppText>
+                        </View>
+                        <View>
+                            <Arrow width= {30} height= {30} />
                         </View>
                     </ProfileCard>
                 </TouchableOpacity>
@@ -72,11 +83,12 @@ const styles = StyleSheet.create({
     },
     textStyle2: {
         color: '#51087E',
-        fontSize: 18
+        fontSize: 18,
+        textAlign: 'left'
     },
     textContainer: {
         backgroundColor: 'white',
-        width: '80%'
+        width: '60%'
     }
 });
 
