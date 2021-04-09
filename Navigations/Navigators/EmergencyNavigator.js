@@ -243,7 +243,7 @@ const EmergencyNavigator = (props) => {
         }}
           />
           <Stack.Screen name="Test Chat" component={TestChat}
-          options={{ title: 'Test Chat', headerStyle: {
+          options={{ title: 'Switching Video', headerStyle: {
               
               backgroundColor: '#51087E',
           
@@ -255,6 +255,7 @@ const EmergencyNavigator = (props) => {
             fontFamily: 'HammersmithOne-Regular',
             fontSize: 20
           },
+          headerLeft: null,
           headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
         }}
           />

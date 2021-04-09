@@ -8,6 +8,8 @@ import SwitchChat from '../../../../assets/sliders/images/switch_camera.svg';
 import SendIcon from '../../../../assets/sliders/images/send.svg';
 import { StackActions } from '@react-navigation/native';
 import MyAppText from '../../../../Components/MyAppText';
+import { Overlay } from 'react-native-elements';
+import ChatOverlay from '../../../../Components/ChatOverlay';
 
 
 export default class ChatRoom extends Component {
@@ -23,10 +25,13 @@ export default class ChatRoom extends Component {
       },
       text: '',
       messages: [],
+      visible: false,
+      moveScreen: false
     };
     this.sessionEventHandlers = {
       signal: (event) => {
-        if (event.data) {
+        console.log("event data", event.data)
+        if (event.data  && event.type != 'video') {
           const myConnectionId = this.session.getSessionInfo().connection.connectionId;
           const oldMessages = this.state.messages;
           const messages = event.connectionId === myConnectionId ? [...oldMessages, {data: `Me: ${event.data}`}] : 
@@ -34,6 +39,18 @@ export default class ChatRoom extends Component {
           this.setState({
             messages,
           });
+        } else if (event.type === 'video' && event.data === "2") {
+        //  this.setState({visible: false, moveScreen: true});
+         this.setState({
+          signal: {
+            type: 'video',
+            data: '3',
+          },
+          text: '',
+          visible: false,
+          moveScreen: true
+        });
+         
         }
       },
     };
@@ -65,6 +82,7 @@ export default class ChatRoom extends Component {
         data: '1',
       },
       text: '',
+      visible: true
     });
   }
   cancelMyAppointment = (history_id, channel_id) => {
@@ -171,8 +189,10 @@ getToken = (request_id) => {
   
 
 }
+moveToVideoScreen = (key, sessionId, token, time_left, history_id, channel_id) => {
 
-switchToChat = (history_id) => {
+}
+switchToChat = (key, sessionId, token, time_left, history_id, channel_id) => {
   Alert.alert(
     'Switch Chat?',
     'Are you sure you want to switch chat?',
@@ -187,9 +207,10 @@ switchToChat = (history_id) => {
                 // props.navigation.dispatch(e.data.action)
                 // this.sendLeaveSignal();
                 this.sendVideoSignal()
-                this.getToken(history_id)
+                // this.getToken(history_id)
                 // Send Signal with type video and data will be 1.
                 // 2. 
+                // this.moveToVideoScreen(key, sessionId, token, time_left, history_id, channel_id)
                 // this.cancelMyAppointment(history_id);
             
 
@@ -198,6 +219,9 @@ switchToChat = (history_id) => {
     ]
   );
 }
+ cancelBackdrop = () => {
+   this.setState({visible: false})
+ }
   sendUsReview = (history_id) => {
     const history = parseInt(history_id);
    
@@ -233,6 +257,13 @@ switchToChat = (history_id) => {
   };
   render() {
     const {key, sessionId, token, time_left, history_id, channel_id} = this.props.route.params;
+    if (this.state.moveScreen) {
+      this.props.navigation.dispatch(
+        StackActions.replace('Test Chat', {key: key, sessionId: sessionId, token: token, 
+          time_left: time_left, history_id: history_id, channel_id: channel_id}
+          )
+      );
+    }
     return (
       <View style={{ flex: 1, padding: 25, paddingTop: 5}}>
         <View style= {{marginVertical: 10, paddingBottom: 5,  flexDirection: 'row', justifyContent: 'space-between', borderBottomColor: '#cdcdcd', borderBottomWidth: 1}}>
@@ -245,10 +276,12 @@ switchToChat = (history_id) => {
           timeToShow={['M', 'S']}
           timeLabels={{m: 'min', s: 'sec'}}
         />
-          <TouchableOpacity style= {{marginRight: 10, alignItems: 'center'}} onPress= {() => this.switchToChat(history_id)}>
-                <SwitchChat width= {40} height= {40} />
-                <MyAppText>Switch</MyAppText>
-          </TouchableOpacity>
+
+            <TouchableOpacity style= {{marginRight: 10, alignItems: 'center'}} onPress= {() => this.switchToChat(key, sessionId, token, time_left, history_id, channel_id)}>
+                  <SwitchChat width= {40} height= {40} />
+                  <MyAppText>Switch</MyAppText>
+            </TouchableOpacity>
+        
           <TouchableOpacity style= {{marginRight: 10, alignItems: 'center'}} onPress= {() => this.checkoutSession(history_id, channel_id)}>
                 <EndCallIcon width= {40} height= {40} />
                 <MyAppText>End Chat</MyAppText>
@@ -286,7 +319,11 @@ switchToChat = (history_id) => {
                 <SendIcon width= {40} height= {40} />
           </TouchableOpacity>
         </View>
+        <Overlay isVisible={this.state.visible} onBackdropPress={() => this.cancelBackdrop()}>
+                <ChatOverlay onPress= {() => this.cancelBackdrop()} message= {"Switching to Video"} />
+        </Overlay>
       </View>
+      
     );
   }
 }
