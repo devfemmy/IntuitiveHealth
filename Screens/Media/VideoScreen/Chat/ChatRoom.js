@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { View,AsyncStorage, Button, TextInput, StyleSheet,TouchableOpacity, FlatList,Alert, Text } from 'react-native';
+import { View,AsyncStorage, Button, TextInput, StyleSheet,TouchableOpacity,Dimensions,
+   FlatList,Alert, Text } from 'react-native';
 import { OTSession } from 'opentok-react-native';
 import CountDown from 'react-native-countdown-component';
 import axios from '../../../../axios-req';
@@ -30,12 +31,12 @@ export default class ChatRoom extends Component {
     };
     this.sessionEventHandlers = {
       signal: (event) => {
-        console.log("event data", event.data)
+        console.log("event data", event)
         if (event.data  && event.type != 'video') {
           const myConnectionId = this.session.getSessionInfo().connection.connectionId;
           const oldMessages = this.state.messages;
           const messages = event.connectionId === myConnectionId ? [...oldMessages, {data: `Me: ${event.data}`}] : 
-          [...oldMessages, {data: `Doctor: ${event.data}`}];
+          [...oldMessages, {data: `Doctor ${event.data}: ${event.data}`}];
           this.setState({
             messages,
           });
@@ -136,62 +137,7 @@ checkoutSession = (history_id, channel_id) => {
     ]
   );
 }
-getToken = (request_id) => {
-  // setLoading(true)
-      const id = AsyncStorage.getItem('Mytoken').then(
-          res => {
 
-              axios.get(`user/history/token/${request_id}`, {headers: {Authorization: res}})
-              .then(
-                  res => {
-                      // setLoading(false)
-                      console.log(res.data.data, "token")
-                      // clearInterval(timerId)
-                      const key = res.data.data.api_key;
-                      const session = res.data.data.session_id;
-                      const token = res.data.data.token;
-                      const time_left = res.data.data.time_left;
-                      this.props.navigation.dispatch(
-                        StackActions.replace('Test Chat', {key: key, sessionId: session, token: token, 
-                          time_left: time_left, history_id: 1, channel_id: 2}
-                          )
-                      );
-                      // this.props.navigation.dispatch(
-                      //   StackActions.replace('Home')
-                      // );
-                  }
-              )
-              .catch(err => {
-                  // setLoading(false)
-                  const code = err.response.status;
-                  const message = err.response.data.message;
-                  if (code === 401) {
-                      Alert.alert(
-                          'Error!',
-                          'Expired Token',
-                          [
-                            {text: 'OK', onPress: () => signOut()},
-                          ],
-                          { cancelable: false }
-                        )
-                    
-                  } else {
-                    
-                  }
-  
-                    
-                  
-  
-              })
-          }
-      )
-      .catch( err => {console.log(err)}) 
-  
-
-}
-moveToVideoScreen = (key, sessionId, token, time_left, history_id, channel_id) => {
-
-}
 switchToChat = (key, sessionId, token, time_left, history_id, channel_id) => {
   Alert.alert(
     'Switch Chat?',
@@ -207,7 +153,6 @@ switchToChat = (key, sessionId, token, time_left, history_id, channel_id) => {
                 // props.navigation.dispatch(e.data.action)
                 // this.sendLeaveSignal();
                 this.sendVideoSignal()
-                // this.getToken(history_id)
                 // Send Signal with type video and data will be 1.
                 // 2. 
                 // this.moveToVideoScreen(key, sessionId, token, time_left, history_id, channel_id)
@@ -241,7 +186,7 @@ switchToChat = (key, sessionId, token, time_left, history_id, channel_id) => {
     const chatMe = item.data.slice(0, 2);
     if (chatMe === 'Me') {
       return (
-        <View style= {styles.textContainer}>
+        <View style={styles.textContainer}>
         <MyAppText style={styles.item}>{item.data}</MyAppText>
         </View>
       )
@@ -299,6 +244,9 @@ switchToChat = (key, sessionId, token, time_left, history_id, channel_id) => {
           }}
         />
         <FlatList
+          ref={ref => this.flatList = ref}
+          onContentSizeChange={() => this.flatList.scrollToEnd({animated: true})}
+          onLayout={() => this.flatList.scrollToEnd({animated: true})}
           data={this.state.messages}
           renderItem={this._renderItem}
           keyExtractor={this._keyExtractor}
@@ -332,8 +280,9 @@ const styles = StyleSheet.create({
   item: {
     padding: 10,
     fontSize: 15,
-    height: 44,
-    color: 'black'
+    // height: 44,
+    color: 'black',
+    flex: 1
   },
   mainText: {
     fontSize: 20,

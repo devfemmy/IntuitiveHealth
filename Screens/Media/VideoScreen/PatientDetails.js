@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Overlay } from 'react-native-elements';
+import { Picker, Form } from 'native-base'
 import { View, StyleSheet,AsyncStorage,ActivityIndicator, ScrollView, Text, Alert } from 'react-native';
 import MyAppText from '../../../Components/MyAppText';
 import DoctorCard from '../../../Components/DoctorCard';
@@ -18,6 +19,8 @@ const PatientDetails = (props) => {
     const [email, setEmail] = useState('')
     const [id_slot, setSlot] = useState('');
     const [error, setError] = useState(false);
+    // const [gender, setGender] = useState('');
+    const [selected, setSelected] = useState('');
     
 
     const id = AsyncStorage.getItem('email').then(
@@ -57,141 +60,71 @@ const PatientDetails = (props) => {
     const toggleOverlay = () => {
       setVisible(true);
     };
+    const onValueChange =(value) => {
+        setSelected(value)
+      }
     
     const confirmAppointment = () => {
-        setShowBtn(false)
-        console.log('slot', slots)
-        const doctor_id = slots.doctor_id;
-        const slot_id = slots.id;
-        console.log(doctor_id, typeof(doctor_id))
-        if (group_id === 1) {
-            const id = AsyncStorage.getItem('Mytoken').then(
-                res => {
-                    const data = {
-                        slot_id: slot_id,
-                        doctor_id:  doctor_id
-                      
-                    }
-                    axios.post('user/book/slot', data, {headers: {Authorization: res}})
-                    .then(
-                        res => {  
-                            const message = res.data.message; 
-                           toggleOverlay()
-                            setShowBtn(true)
-                        }
-                    )
-                    .catch(err => {
-//(err.response);
-                        setError(true);
-                        setShowBtn(true)
-                        // const code = err.response.status;
-                        // const message = err.response.message
-                        // if (code === 400) {
-                        //     setShowBtn(true)
-                        //     Alert.alert(
-                        //         message,
-                        //         'Please Try Another',
-                        //         [
-                        //           {text: 'OK', onPress: () => setShowBtn(true)},
-                        //         ],
-                        //         { cancelable: false }
-                        //       )
-                        // }
-                        // else if (code === 401) {
-                        //     Alert.alert(
-                        //         'Error!',
-                        //         'Expired Token',
-                        //         [
-                        //           {text: 'OK', onPress: () => signOut()},
-                        //         ],
-                        //         { cancelable: false }
-                        //       )
-                          
-                        // } else {
-                        //     console.log(err)
-                        //     setShowBtn(true)
-                        //     Alert.alert(
-                        //         'Network Error',
-                        //         'Please Try Again',
-                        //         [
-                        //           {text: 'OK', onPress: () => setShowBtn(true)},
-                        //         ],
-                        //         { cancelable: false }
-                        //       )
-                        // }
-         
-                          
-                    
-         
-                    })
-                }
-            )
-            .catch( err => {console.log(err)})
+        if (selected === '') {
+            alert('Please select channel for appointment')
         }else {
-            const id = AsyncStorage.getItem('Mytoken').then(
-                res => {
-                    const data = {
-                        slot_id: slot_id,
-                        doctor_id:  doctor_id,
-                        intake_id: parseInt(id_slot)
-                      
-                    }
-                    axios.post('user/book/group/slot', data, {headers: {Authorization: res}})
-                    .then(
-                        res => {  
-                            const message = res.data.message; 
-                           toggleOverlay()
-                            setShowBtn(true)
+            setShowBtn(false)
+            const doctor_id = slots.doctor_id;
+            const slot_id = slots.id;
+            if (group_id === 1) {
+                const id = AsyncStorage.getItem('Mytoken').then(
+                    res => {
+                        const data = {
+                            slot_id: slot_id,
+                            doctor_id:  doctor_id,
+                            channel_id: selected
+                          
                         }
-                    )
-                    .catch(err => {
-                        setError(true);
-                        setShowBtn(true)
-                        // console.log(err.response)
-                        // const code = err.response.status;
-                        // const message = err.response.message
-                        // if (code === 400) {
-                        //     setShowBtn(true)
-                        //     Alert.alert(
-                        //         message,
-                        //         'Please Try Another',
-                        //         [
-                        //           {text: 'OK', onPress: () => setShowBtn(true)},
-                        //         ],
-                        //         { cancelable: false }
-                        //       )
-                        // }
-                        // else if (code === 401) {
-                        //     Alert.alert(
-                        //         'Error!',
-                        //         'Expired Token',
-                        //         [
-                        //           {text: 'OK', onPress: () => signOut()},
-                        //         ],
-                        //         { cancelable: false }
-                        //       )
+                        axios.post('user/book/slot', data, {headers: {Authorization: res}})
+                        .then(
+                            res => {  
+                                const message = res.data.message; 
+                               toggleOverlay()
+                                setShowBtn(true)
+                            }
+                        )
+                        .catch(err => {
+    //(err.response);
+                            setError(true);
+                            setShowBtn(true)
+             
+                        })
+                    }
+                )
+                .catch( err => {console.log(err)})
+            }else {
+                const id = AsyncStorage.getItem('Mytoken').then(
+                    res => {
+                        const data = {
+                            slot_id: slot_id,
+                            doctor_id:  doctor_id,
+                            channel_id: selected,
+                            intake_id: parseInt(id_slot)
                           
-                        // } else {
-                        //     console.log(err)
-                        //     setShowBtn(true)
-                        //     Alert.alert(
-                        //         'Network Error',
-                        //         'Please Try Again',
-                        //         [
-                        //           {text: 'OK', onPress: () => setShowBtn(true)},
-                        //         ],
-                        //         { cancelable: false }
-                        //       )
-                        // }
-         
-                          
-                    
-         
-                    })
-                }
-            )
-            .catch( err => {console.log(err)})
+                        }
+                        axios.post('user/book/group/slot', data, {headers: {Authorization: res}})
+                        .then(
+                            res => {  
+                                const message = res.data.message; 
+                               toggleOverlay()
+                                setShowBtn(true)
+                            }
+                        )
+                        .catch(err => {
+                            setError(true);
+                            setShowBtn(true)         
+                        })
+                    }
+                )
+                .catch( err => {console.log(err)})
+            }
         }
+
 
     }
     const moveToHome = () => {
@@ -226,6 +159,25 @@ const PatientDetails = (props) => {
                     <MyAppText style= {styles.noteText}>
                     2. By booking the appointment, you agree to Conduit telehealth’s Terms and conditions.
                   </MyAppText>
+                  <View style = {styles.seperator}>
+                    <Form>
+                        <Picker
+                        mode="dropdown"
+                        // iosIcon={<Icon name="arrow-down" />}
+                        placeholder="Select Channel"
+                        placeholderStyle={{ color: "#bfc6ea" }}
+                        placeholderIconColor="#007aff"
+                        style={{ width: undefined }}
+                        selectedValue={selected}
+                        onValueChange={onValueChange}
+                        >
+                        <Picker.Item label="Select Channel" value="" />
+                        <Picker.Item label="Video" value="1" />
+                        <Picker.Item label="Voice" value="2" />
+                        <Picker.Item label="Chat" value="3" />
+                        </Picker>
+                    </Form>
+                  </View>
 
 
           </View>
@@ -287,10 +239,15 @@ const styles = StyleSheet.create({
         minHeight: 150,
         padding: 15,
         borderBottomColor: '#E6EAF0',
-        borderBottomWidth: 3,
+        borderBottomWidth: 2,
         width: '100%',
         // alignItems: 'flex-start',
         overflow: 'visible',
+    },
+    seperator: {
+        borderTopColor: '#E6EAF0',
+        borderTopWidth: 1,
+        marginTop: 10
     },
     noteText: {
         color: '#9B9B9B',

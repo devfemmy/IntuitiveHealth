@@ -205,7 +205,7 @@ const WaitingRoom = (props) => {
                     .then(
                         res => {
                             setLoading(false)
-                            // console.log(res.data.data, "waiting room")
+                            console.log(res.data.data, "waiting room")
                             // clearInterval(timerId)
                             const key = res.data.data.api_key;
                             const session = res.data.data.session_id;

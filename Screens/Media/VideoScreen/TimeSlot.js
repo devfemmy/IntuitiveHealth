@@ -46,7 +46,6 @@ const TimeSlot = (props) => {
                         setLastName(last_name);
                         setTitle(title);
                         setImage(image);
-                        console.log("slots", slotArray)
                        
                     }
                 )
